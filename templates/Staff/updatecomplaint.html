@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>View Complaint | Staff</title>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    :root {
+        --primary-color: #06bbcc;
+        --primary-dark: #0499a8;
+        --primary-light: #e8f7f9;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #666666;
+        --success-color: #27ae60;
+        --warning-color: #f39c12;
+        --danger-color: #e74c3c;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        color: var(--text-color);
+    }
+
+    .form-container {
+        max-width: 900px;
+        width: 100%;
+        background-color: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.1);
+        overflow: hidden;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    .form-header {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 25px 30px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(6, 187, 204, 0.2);
+    }
+
+    .form-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .form-header p {
+        font-size: 15px;
+        opacity: 0.9;
+        margin: 0;
+    }
+
+    .form-body { padding: 30px; }
+
+    .info-card {
+        background-color: var(--primary-light);
+        border-left: 4px solid var(--primary-color);
+        border-radius: 6px;
+        padding: 15px 20px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .info-card i {
+        color: var(--primary-color);
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    .info-card p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-color);
+        line-height: 1.5;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .form-group { margin-bottom: 25px; }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--primary-dark);
+        font-size: 15px;
+        padding-left: 5px;
+    }
+
+    .form-group .input-wrapper { position: relative; }
+
+    .form-group .input-wrapper i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+        font-size: 16px;
+        z-index: 1;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 14px 14px 14px 45px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        background-color: var(--white);
+        color: var(--text-color);
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    /* readonly look (still matches) */
+    .form-control[readonly] {
+        background: #f8fafc;
+        cursor: not-allowed;
+    }
+
+    .required::after { content: " *"; color: var(--danger-color); }
+
+    .submit-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        padding: 16px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 10px;
+        box-shadow: 0 4px 12px rgba(6, 187, 204, 0.2);
+    }
+
+    .submit-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(6, 187, 204, 0.3);
+    }
+
+    .submit-btn:active { transform: translateY(0); }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background-color: #f8f9fa;
+        color: var(--text-light);
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        padding: 12px 25px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-top: 15px;
+        width: 100%;
+    }
+
+    .back-btn:hover {
+        background-color: #e9ecef;
+        color: var(--text-color);
+        text-decoration: none;
+        border-color: #ced4da;
+    }
+
+    /* description / reply bigger */
+    textarea.form-control {
+        min-height: 120px;
+        resize: vertical;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    /* image grid */
+    .images-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .img-card {
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--white);
+        transition: all 0.2s ease;
+    }
+
+    .img-card:hover {
+        border-color: var(--primary-color);
+        box-shadow: 0 6px 16px rgba(6, 187, 204, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .img-card img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .img-card .cap {
+        padding: 8px 10px;
+        font-size: 12px;
+        color: var(--text-light);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .reply-preview {
+        background: #f8fafc;
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--text-color);
+    }
+
+    /* responsive */
+    @media (max-width: 992px) {
+        .images-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+        .form-row { grid-template-columns: 1fr; gap: 15px; }
+        .form-body { padding: 20px; }
+        .form-header { padding: 20px; }
+        .form-header h2 { font-size: 22px; }
+        .images-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 576px) {
+        body { padding: 10px; }
+        .form-container { border-radius: 8px; }
+        .form-header { padding: 20px 15px; }
+        .form-header h2 { font-size: 18px; }
+        .form-header p { font-size: 14px; }
+        .form-body { padding: 15px; }
+        .form-group { margin-bottom: 20px; }
+        .form-control { padding: 12px 12px 12px 40px; font-size: 14px; }
+        .submit-btn { padding: 14px 20px; font-size: 15px; }
+        .back-btn { padding: 12px 20px; font-size: 14px; }
+        .images-grid { grid-template-columns: 1fr; }
+        .img-card img { height: 180px; }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2><i class="fas fa-triangle-exclamation"></i> View Complaint</h2>
+            <p>Staff module - view details, update status, and reply</p>
+        </div>
+
+        <form action="/updatecomplaint_submit" method="post" class="form-body">
+            <!-- Hidden complaint id (for backend use) -->
+            <input type="hidden" name="complaint_id" value="{{ data.complaint_id }}" />
+
+            <div class="info-card">
+                <i class="fas fa-info-circle"></i>
+                <p>Update the complaint status and staff reply. Student details and complaint content are read-only.</p>
+            </div>
+
+            <!-- Top details -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-user me-1"></i> Student Name</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" class="form-control" value="{{ data.STUDENT.name }}" readonly="readonly" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-id-badge me-1"></i> Complaint ID</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-id-badge"></i>
+                        <input type="text" class="form-control" value="{{ data.id }}" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-book me-1"></i> Course</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-book"></i>
+                        <input type="text" class="form-control" value="{{ data.STUDENT.COURSE.course }}" readonly="readonly" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-layer-group me-1"></i> Semester</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-layer-group"></i>
+                        <input type="text" class="form-control" value="{{ data.STUDENT.semester }}" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-heading me-1"></i> Complaint Title</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-heading"></i>
+                        <input type="text" class="form-control" value="{{ data.title }}" readonly="readonly" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-calendar-day me-1"></i> Date</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-calendar-day"></i>
+                        <input type="text" class="form-control" value="{{ data.date }}" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+
+        <!-- Images -->
+            <div class="form-group">
+                <label><i class="fas fa-images me-1"></i> Images</label>
+                {% if images and images|length > 0 %}
+                <div class="images-grid">
+                    {% for img in images %}
+                    <a class="img-card" href="{{ img.image }}" target="_blank" style="text-decoration:none;">
+                        <img src="/media/{{ img.image }}" alt="Complaint image" />
+                        <div class="cap"><i class="fas fa-up-right-from-square"></i> Open</div>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="reply-preview" style="background: var(--primary-light); border-color: #bfeff4;">
+                    <i class="fas fa-circle-info" style="color:var(--primary-color); margin-right:8px;"></i>
+                    No images uploaded for this complaint.
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+                <label><i class="fas fa-align-left me-1"></i> Description</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-align-left" style="top: 22px; transform:none;"></i>
+                    <textarea class="form-control" readonly="readonly">{{ data.description }}</textarea>
+                </div>
+                <small class="text-muted mt-1 d-block">Student complaint description (read-only)</small>
+            </div>
+
+        <!-- Status -->
+            <div class="form-group">
+                <label for="status" class="required"><i class="fas fa-list-check me-1"></i> Complaint Status</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-list-check"></i>
+                    <select name="status" id="status" class="form-control" required>
+                        <option value="Pending" {% if data.status == 'pending' %}selected="selected"{% endif %}>Pending</option>
+                        <option value="Viewed by Staff" {% if data.status == 'Viewed by Staff' %}selected="selected"{% endif %}>Viewed by Staff</option>
+                        <option value="In Progress" {% if data.status == 'In Progress' %}selected="selected"{% endif %}>In Progress</option>
+                        <option value="resolved" {% if data.status == 'Resolved' %}selected="selected"{% endif %}>Resolved</option>
+
+                    </select>
+                </div>
+                <small class="text-muted mt-1 d-block">Choose the current complaint status</small>
+            </div>
+
+
+            <!-- Staff Reply -->
+            <div class="form-group">
+                <label for="staff_reply" class="required"><i class="fas fa-reply me-1"></i> Staff Reply</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-reply" style="top: 22px; transform:none;"></i>
+                    <textarea name="staff_reply" id="staff_reply" class="form-control" placeholder="Type staff reply here..." required>{{ data.staff_reply }}</textarea>
+                </div>
+                <small class="text-muted mt-1 d-block">This reply will be visible to the student</small>
+            </div>
+
+            <!-- Previous Reply -->
+            <div class="form-group">
+                <label><i class="fas fa-clock-rotate-left me-1"></i> Previous Reply</label>
+
+                {% if data.reply and data.reply|length > 0 %}
+                <div class="reply-preview">
+                    {{ data.reply }}
+                </div>
+                {% else %}
+                <div class="reply-preview" style="background: var(--primary-light); border-color: #bfeff4;">
+                    <i class="fas fa-circle-info" style="color:var(--primary-color); margin-right:8px;"></i>
+                    No previous reply available.
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Update button (single) -->
+            <button type="submit" class="submit-btn" id="button">
+                <i class="fas fa-save"></i> Update Complaint
+            </button>
+
+            <a href="javascript:history.back()" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </form>
+    </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Optional: confirm and show loading state like your fee page
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const status = document.getElementById('status').value;
+        const reply = document.getElementById('staff_reply').value.trim();
+
+        if (!reply) {
+            alert('Please enter the staff reply.');
+            e.preventDefault();
+            return false;
+        }
+
+        const msg = "Confirm update?\n\n• Status: " + status + "\n• Staff Reply: " + (reply.length > 30 ? reply.substring(0,30) + "..." : reply);
+        if (!confirm(msg)) {
+            e.preventDefault();
+            return false;
+        }
+
+        const btn = document.getElementById('button');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+        btn.disabled = true;
+    });
+
+    // Animate form groups (same feel as your page)
+    document.addEventListener('DOMContentLoaded', function() {
+        const formGroups = document.querySelectorAll('.form-group');
+        formGroups.forEach((group, index) => {
+            group.style.animationDelay = `${index * 0.07}s`;
+            group.style.opacity = '0';
+            group.style.animation = 'fadeIn 0.5s ease-out forwards';
+        });
+
+        // focus status
+        const st = document.getElementById('status');
+        if(st) st.focus();
+    });
+</script>
+</body>
+</html>

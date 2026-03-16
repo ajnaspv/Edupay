@@ -1,0 +1,1081 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form action="/addstaff_submit" method="post"><table width="200" border="1">#}
+{#  <tr>#}
+{#    <td>Name:</td>#}
+{#    <td><label for="textfield"></label>#}
+{#      <input type="text" name="textfield" id="textfield" /></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Email:</td>#}
+{#    <td><label for="textfield2"></label>#}
+{#      <input type="text" name="textfield2" id="textfield2" /></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Phone:</td>#}
+{#    <td><label for="textfield3"></label>#}
+{#      <input type="text" name="textfield3" id="textfield3" /></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Post:</td>#}
+{#    <td><label for="textfield4"></label>#}
+{#      <input type="text" name="textfield4" id="textfield4" /></td>#}
+{#  </tr>#}
+{#  <tr align="center">#}
+{#    <td colspan="2"><input type="submit" name="button" id="button" value="ADD" /></td>#}
+{#    </tr>#}
+{#</table>#}
+{##}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Add Staff Member</title>#}
+{#<style>#}
+{#    /* Color Theme */#}
+{#    :root {#}
+{#        --primary-color: #06bbcc;#}
+{#        --primary-dark: #0499a8;#}
+{#        --white: #ffffff;#}
+{#        --light-bg: #f8f9fa;#}
+{#        --border-color: #e0e0e0;#}
+{#        --text-color: #333333;#}
+{#        --text-light: #666666;#}
+{#        --error-color: #e74c3c;#}
+{#        --success-color: #27ae60;#}
+{#    }#}
+{##}
+{#    /* Base Styles */#}
+{#    * {#}
+{#        margin: 0;#}
+{#        padding: 0;#}
+{#        box-sizing: border-box;#}
+{#    }#}
+{##}
+{#    body {#}
+{#        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;#}
+{#        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);#}
+{#        min-height: 100vh;#}
+{#        display: flex;#}
+{#        justify-content: center;#}
+{#        align-items: center;#}
+{#        padding: 20px;#}
+{#        color: var(--text-color);#}
+{#    }#}
+{##}
+{#    /* Form Container */#}
+{#    .form-container {#}
+{#        width: 100%;#}
+{#        max-width: 600px;#}
+{#        background-color: var(--white);#}
+{#        border-radius: 12px;#}
+{#        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.15);#}
+{#        overflow: hidden;#}
+{#        transition: transform 0.3s ease;#}
+{#    }#}
+{##}
+{#    .form-container:hover {#}
+{#        transform: translateY(-5px);#}
+{#    }#}
+{##}
+{#    /* Form Header */#}
+{#    .form-header {#}
+{#        background-color: var(--primary-color);#}
+{#        color: var(--white);#}
+{#        padding: 25px 30px;#}
+{#        text-align: center;#}
+{#    }#}
+{##}
+{#    .form-header h2 {#}
+{#        font-size: 26px;#}
+{#        font-weight: 600;#}
+{#        letter-spacing: 0.5px;#}
+{#        margin: 0;#}
+{#    }#}
+{##}
+{#    .form-header p {#}
+{#        font-size: 14px;#}
+{#        opacity: 0.9;#}
+{#        margin-top: 8px;#}
+{#    }#}
+{##}
+{#    /* Form Body */#}
+{#    .form-body {#}
+{#        padding: 35px 40px;#}
+{#    }#}
+{##}
+{#    /* Form Layout */#}
+{#    .form-grid {#}
+{#        display: grid;#}
+{#        grid-template-columns: 1fr;#}
+{#        gap: 22px;#}
+{#    }#}
+{##}
+{#    /* Form Group */#}
+{#    .form-group {#}
+{#        margin-bottom: 0;#}
+{#    }#}
+{##}
+{#    .form-group label {#}
+{#        display: block;#}
+{#        font-size: 15px;#}
+{#        font-weight: 500;#}
+{#        margin-bottom: 8px;#}
+{#        color: var(--text-color);#}
+{#    }#}
+{##}
+{#    .form-group label .required {#}
+{#        color: var(--error-color);#}
+{#        margin-left: 2px;#}
+{#    }#}
+{##}
+{#    /* Input Field */#}
+{#    .input-field {#}
+{#        width: 100%;#}
+{#        padding: 14px 18px;#}
+{#        font-size: 16px;#}
+{#        border: 2px solid var(--border-color);#}
+{#        border-radius: 8px;#}
+{#        background-color: var(--white);#}
+{#        transition: all 0.3s ease;#}
+{#        color: var(--text-color);#}
+{#    }#}
+{##}
+{#    .input-field:focus {#}
+{#        border-color: var(--primary-color);#}
+{#        outline: none;#}
+{#        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);#}
+{#    }#}
+{##}
+{#    .input-field::placeholder {#}
+{#        color: #aaa;#}
+{#        opacity: 0.8;#}
+{#    }#}
+{##}
+{#    .input-field.error {#}
+{#        border-color: var(--error-color);#}
+{#    }#}
+{##}
+{#    /* Error Message */#}
+{#    .error-message {#}
+{#        color: var(--error-color);#}
+{#        font-size: 13px;#}
+{#        margin-top: 5px;#}
+{#        display: none;#}
+{#    }#}
+{##}
+{#    /* Icon Wrapper */#}
+{#    .input-with-icon {#}
+{#        position: relative;#}
+{#    }#}
+{##}
+{#    .input-icon {#}
+{#        position: absolute;#}
+{#        left: 18px;#}
+{#        top: 50%;#}
+{#        transform: translateY(-50%);#}
+{#        color: var(--text-light);#}
+{#        font-size: 18px;#}
+{#    }#}
+{##}
+{#    .icon-input {#}
+{#        padding-left: 50px;#}
+{#    }#}
+{##}
+{#    /* Submit Button */#}
+{#    .submit-container {#}
+{#        text-align: center;#}
+{#        margin-top: 35px;#}
+{#        padding-top: 25px;#}
+{#        border-top: 1px solid var(--border-color);#}
+{#    }#}
+{##}
+{#    #button {#}
+{#        background-color: var(--primary-color);#}
+{#        color: var(--white);#}
+{#        border: none;#}
+{#        border-radius: 8px;#}
+{#        padding: 16px 50px;#}
+{#        font-size: 16px;#}
+{#        font-weight: 600;#}
+{#        cursor: pointer;#}
+{#        transition: all 0.3s ease;#}
+{#        letter-spacing: 0.5px;#}
+{#        min-width: 160px;#}
+{#        box-shadow: 0 4px 12px rgba(6, 187, 204, 0.3);#}
+{#        text-transform: uppercase;#}
+{#    }#}
+{##}
+{#    #button:hover {#}
+{#        background-color: var(--primary-dark);#}
+{#        transform: translateY(-2px);#}
+{#        box-shadow: 0 6px 15px rgba(6, 187, 204, 0.4);#}
+{#    }#}
+{##}
+{#    #button:active {#}
+{#        transform: translateY(0);#}
+{#    }#}
+{##}
+{#    #button:focus {#}
+{#        outline: none;#}
+{#        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.4);#}
+{#    }#}
+{##}
+{#    #button:disabled {#}
+{#        background-color: #cccccc;#}
+{#        cursor: not-allowed;#}
+{#        transform: none;#}
+{#        box-shadow: none;#}
+{#    }#}
+{##}
+{#    /* Form Row */#}
+{#    .form-row {#}
+{#        display: grid;#}
+{#        grid-template-columns: repeat(2, 1fr);#}
+{#        gap: 20px;#}
+{#    }#}
+{##}
+{#    /* Responsive Design */#}
+{#    @media (max-width: 768px) {#}
+{#        .form-row {#}
+{#            grid-template-columns: 1fr;#}
+{#            gap: 22px;#}
+{#        }#}
+{#    }#}
+{##}
+{#    @media (max-width: 600px) {#}
+{#        .form-container {#}
+{#            max-width: 100%;#}
+{#        }#}
+{##}
+{#        .form-body {#}
+{#            padding: 25px 20px;#}
+{#        }#}
+{##}
+{#        .form-header {#}
+{#            padding: 20px 15px;#}
+{#        }#}
+{##}
+{#        .form-header h2 {#}
+{#            font-size: 22px;#}
+{#        }#}
+{##}
+{#        #button {#}
+{#            width: 100%;#}
+{#            padding: 16px 20px;#}
+{#        }#}
+{#    }#}
+{##}
+{#    @media (max-width: 400px) {#}
+{#        .form-body {#}
+{#            padding: 20px 15px;#}
+{#        }#}
+{#    }#}
+{#</style>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<div class="form-container">#}
+{#    <div class="form-header">#}
+{#        <h2>Add New Staff Member</h2>#}
+{#        <p>Enter the details below to add a new staff member</p>#}
+{#    </div>#}
+{##}
+{#    <div class="form-body">#}
+{#        <form action="/addstaff_submit" method="post" id="staffForm">#}
+{#            <div class="form-grid">#}
+{#                <div class="form-group">#}
+{#                    <label for="textfield">Name: <span class="required">*</span></label>#}
+{#                    <div class="input-with-icon">#}
+{#                        <div class="input-icon">👤</div>#}
+{#                        <input type="text" name="textfield" id="textfield" class="input-field icon-input" placeholder="Enter full name" />#}
+{#                    </div>#}
+{#                    <div class="error-message" id="nameError">Please enter a valid name (minimum 2 characters)</div>#}
+{#                </div>#}
+{##}
+{#                <div class="form-row">#}
+{#                    <div class="form-group">#}
+{#                        <label for="textfield2">Email: <span class="required">*</span></label>#}
+{#                        <div class="input-with-icon">#}
+{#                            <div class="input-icon">✉️</div>#}
+{#                            <input type="text" name="textfield2" id="textfield2" class="input-field icon-input" placeholder="email@example.com" />#}
+{#                        </div>#}
+{#                        <div class="error-message" id="emailError">Please enter a valid email address</div>#}
+{#                    </div>#}
+{##}
+{#                    <div class="form-group">#}
+{#                        <label for="textfield3">Phone: <span class="required">*</span></label>#}
+{#                        <div class="input-with-icon">#}
+{#                            <div class="input-icon">📱</div>#}
+{#                            <input type="text" name="textfield3" id="textfield3" class="input-field icon-input" placeholder="Enter phone number" />#}
+{#                        </div>#}
+{#                        <div class="error-message" id="phoneError">Please enter a valid 10-digit phone number</div>#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#                <div class="form-group">#}
+{#                    <label for="textfield4">Post/Position: <span class="required">*</span></label>#}
+{#                    <div class="input-with-icon">#}
+{#                        <div class="input-icon">💼</div>#}
+{#                        <input type="text" name="textfield4" id="textfield4" class="input-field icon-input" placeholder="Enter position/role" />#}
+{#                    </div>#}
+{#                    <div class="error-message" id="postError">Please enter a valid position (minimum 2 characters)</div>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <div class="submit-container">#}
+{#                <input type="submit" name="button" id="button" value="ADD" />#}
+{#            </div>#}
+{#        </form>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<script>#}
+{#    // Form validation and enhancement#}
+{#    document.addEventListener('DOMContentLoaded', function() {#}
+{#        const form = document.getElementById('staffForm');#}
+{#        const nameInput = document.getElementById('textfield');#}
+{#        const emailInput = document.getElementById('textfield2');#}
+{#        const phoneInput = document.getElementById('textfield3');#}
+{#        const postInput = document.getElementById('textfield4');#}
+{#        const submitButton = document.getElementById('button');#}
+{##}
+{#        // Input validation functions#}
+{#        function validateName() {#}
+{#            const name = nameInput.value.trim();#}
+{#            const nameError = document.getElementById('nameError');#}
+{##}
+{#            if (name.length < 2) {#}
+{#                nameInput.classList.add('error');#}
+{#                nameError.style.display = 'block';#}
+{#                return false;#}
+{#            } else {#}
+{#                nameInput.classList.remove('error');#}
+{#                nameError.style.display = 'none';#}
+{#                return true;#}
+{#            }#}
+{#        }#}
+{##}
+{#        function validateEmail() {#}
+{#            const email = emailInput.value.trim();#}
+{#            const emailError = document.getElementById('emailError');#}
+{#            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;#}
+{##}
+{#            if (!emailRegex.test(email)) {#}
+{#                emailInput.classList.add('error');#}
+{#                emailError.style.display = 'block';#}
+{#                return false;#}
+{#            } else {#}
+{#                emailInput.classList.remove('error');#}
+{#                emailError.style.display = 'none';#}
+{#                return true;#}
+{#            }#}
+{#        }#}
+{##}
+{#        function validatePhone() {#}
+{#            const phone = phoneInput.value.trim();#}
+{#            const phoneError = document.getElementById('phoneError');#}
+{#            const phoneRegex = /^\d{10}$/;#}
+{##}
+{#            if (!phoneRegex.test(phone)) {#}
+{#                phoneInput.classList.add('error');#}
+{#                phoneError.style.display = 'block';#}
+{#                return false;#}
+{#            } else {#}
+{#                phoneInput.classList.remove('error');#}
+{#                phoneError.style.display = 'none';#}
+{#                return true;#}
+{#            }#}
+{#        }#}
+{##}
+{#        function validatePost() {#}
+{#            const post = postInput.value.trim();#}
+{#            const postError = document.getElementById('postError');#}
+{##}
+{#            if (post.length < 2) {#}
+{#                postInput.classList.add('error');#}
+{#                postError.style.display = 'block';#}
+{#                return false;#}
+{#            } else {#}
+{#                postInput.classList.remove('error');#}
+{#                postError.style.display = 'none';#}
+{#                return true;#}
+{#            }#}
+{#        }#}
+{##}
+{#        // Real-time validation#}
+{#        nameInput.addEventListener('blur', validateName);#}
+{#        emailInput.addEventListener('blur', validateEmail);#}
+{#        phoneInput.addEventListener('blur', validatePhone);#}
+{#        postInput.addEventListener('blur', validatePost);#}
+{##}
+{#        // Remove error on input#}
+{#        nameInput.addEventListener('input', function() {#}
+{#            this.classList.remove('error');#}
+{#            document.getElementById('nameError').style.display = 'none';#}
+{#        });#}
+{##}
+{#        emailInput.addEventListener('input', function() {#}
+{#            this.classList.remove('error');#}
+{#            document.getElementById('emailError').style.display = 'none';#}
+{#        });#}
+{##}
+{#        phoneInput.addEventListener('input', function() {#}
+{#            this.classList.remove('error');#}
+{#            document.getElementById('phoneError').style.display = 'none';#}
+{#        });#}
+{##}
+{#        postInput.addEventListener('input', function() {#}
+{#            this.classList.remove('error');#}
+{#            document.getElementById('postError').style.display = 'none';#}
+{#        });#}
+{##}
+{#        // Format phone number#}
+{#        phoneInput.addEventListener('input', function(e) {#}
+{#            // Allow only numbers#}
+{#            this.value = this.value.replace(/\D/g, '');#}
+{##}
+{#            // Limit to 10 digits#}
+{#            if (this.value.length > 10) {#}
+{#                this.value = this.value.slice(0, 10);#}
+{#            }#}
+{#        });#}
+{##}
+{#        // Form submission validation#}
+{#        form.addEventListener('submit', function(e) {#}
+{#            e.preventDefault();#}
+{##}
+{#            const isNameValid = validateName();#}
+{#            const isEmailValid = validateEmail();#}
+{#            const isPhoneValid = validatePhone();#}
+{#            const isPostValid = validatePost();#}
+{##}
+{#            if (isNameValid && isEmailValid && isPhoneValid && isPostValid) {#}
+{#                // Show loading state#}
+{#                submitButton.value = 'ADDING...';#}
+{#                submitButton.disabled = true;#}
+{##}
+{#                // Submit form after a short delay to show loading state#}
+{#                setTimeout(() => {#}
+{#                    form.submit();#}
+{#                }, 500);#}
+{#            } else {#}
+{#                // Scroll to first error#}
+{#                const firstError = document.querySelector('.error');#}
+{#                if (firstError) {#}
+{#                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });#}
+{#                    firstError.focus();#}
+{#                }#}
+{#            }#}
+{#        });#}
+{##}
+{#        // Auto-focus first input#}
+{#        nameInput.focus();#}
+{#    });#}
+{#</script>#}
+{##}
+{#<script>#}
+{#// Prevent going back to this page after form submission#}
+{#if (window.history && window.history.pushState) {#}
+{#    // Add current page to history#}
+{#    window.history.pushState(null, null, window.location.href);#}
+{##}
+{#    // Listen for back/forward navigation#}
+{#    window.onpopstate = function(event) {#}
+{#        // Redirect to /rtohome when back button is pressed#}
+{#        window.location.href = '/home';#}
+{#    };#}
+{#}#}
+{#</script>#}
+{#</body>#}
+{#</html>#}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Add Staff Member</title>
+<style>
+    /* Color Theme */
+    :root {
+        --primary-color: #06bbcc;
+        --primary-dark: #0499a8;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #666666;
+        --error-color: #e74c3c;
+        --success-color: #27ae60;
+    }
+
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        color: var(--text-color);
+    }
+
+    /* Form Container */
+    .form-container {
+        width: 100%;
+        max-width: 600px;
+        background-color: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.15);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .form-container:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Form Header */
+    .form-header {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 25px 30px;
+        text-align: center;
+    }
+
+    .form-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+
+    .form-header p {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-top: 8px;
+    }
+
+    /* Form Body */
+    .form-body {
+        padding: 35px 40px;
+    }
+
+    /* Form Layout */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    /* Form Group */
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: var(--text-color);
+    }
+
+    .form-group label .required {
+        color: var(--error-color);
+        margin-left: 2px;
+    }
+
+    /* Input Field */
+    .input-field {
+        width: 100%;
+        padding: 14px 18px;
+        font-size: 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--white);
+        transition: all 0.3s ease;
+        color: var(--text-color);
+    }
+
+    .input-field:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    .input-field::placeholder {
+        color: #aaa;
+        opacity: 0.8;
+    }
+
+    .input-field.error {
+        border-color: var(--error-color);
+    }
+
+    .input-field.valid {
+        border-color: var(--success-color);
+    }
+
+    /* Error Message */
+    .error-message {
+        color: var(--error-color);
+        font-size: 13px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .error-message.show {
+        display: block;
+    }
+
+    /* Icon Wrapper */
+    .input-with-icon {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-light);
+        font-size: 18px;
+    }
+
+    .icon-input {
+        padding-left: 50px;
+    }
+
+    /* Submit Button */
+    .submit-container {
+        text-align: center;
+        margin-top: 35px;
+        padding-top: 25px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    #button {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        padding: 16px 50px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        letter-spacing: 0.5px;
+        min-width: 160px;
+        box-shadow: 0 4px 12px rgba(6, 187, 204, 0.3);
+        text-transform: uppercase;
+    }
+
+    #button:hover:not(:disabled) {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(6, 187, 204, 0.4);
+    }
+
+    #button:active:not(:disabled) {
+        transform: translateY(0);
+    }
+
+    #button:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.4);
+    }
+
+    #button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+        opacity: 0.6;
+    }
+
+    /* Form Row */
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 22px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .form-container {
+            max-width: 100%;
+        }
+
+        .form-body {
+            padding: 25px 20px;
+        }
+
+        .form-header {
+            padding: 20px 15px;
+        }
+
+        .form-header h2 {
+            font-size: 22px;
+        }
+
+        #button {
+            width: 100%;
+            padding: 16px 20px;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .form-body {
+            padding: 20px 15px;
+        }
+    }
+</style>
+</head>
+
+<body>
+<div class="form-container">
+    <div class="form-header">
+        <h2>Add New Staff Member</h2>
+        <p>Enter the details below to add a new staff member</p>
+    </div>
+
+    <div class="form-body">
+        <form action="/addstaff_submit" method="post" id="staffForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="textfield">Name: <span class="required">*</span></label>
+                    <div class="input-with-icon">
+                        <div class="input-icon">👤</div>
+                        <input type="text" name="textfield" id="textfield" class="input-field icon-input" placeholder="Enter full name" />
+                    </div>
+                    <div class="error-message" id="nameError">Please enter a valid name (minimum 2 characters, letters only)</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="textfield2">Email: <span class="required">*</span></label>
+                        <div class="input-with-icon">
+                            <div class="input-icon">✉️</div>
+                            <input type="text" name="textfield2" id="textfield2" class="input-field icon-input" placeholder="email@example.com" />
+                        </div>
+                        <div class="error-message" id="emailError">Please enter a valid email address</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="textfield3">Phone: <span class="required">*</span></label>
+                        <div class="input-with-icon">
+                            <div class="input-icon">📱</div>
+                            <input type="text" name="textfield3" id="textfield3" class="input-field icon-input" placeholder="Enter phone number" />
+                        </div>
+                        <div class="error-message" id="phoneError">Please enter a valid 10-digit phone number</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit-container">
+                <input type="submit" name="button" id="button" value="ADD" disabled />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Form validation and enhancement
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('staffForm');
+        const nameInput = document.getElementById('textfield');
+        const emailInput = document.getElementById('textfield2');
+        const phoneInput = document.getElementById('textfield3');
+        const submitButton = document.getElementById('button');
+
+        // Track touched fields
+        let nameTouched = false;
+        let emailTouched = false;
+        let phoneTouched = false;
+
+        // Enhanced name validation function
+        function validateName() {
+            const name = nameInput.value.trim();
+            const nameError = document.getElementById('nameError');
+
+            if (!nameTouched && name.length === 0) return true;
+
+            // Check if name is empty
+            if (name.length === 0) {
+                nameInput.classList.add('error');
+                nameInput.classList.remove('valid');
+                nameError.textContent = 'Name is required';
+                nameError.classList.add('show');
+                return false;
+            }
+
+            // Check minimum length
+            if (name.length < 2) {
+                nameInput.classList.add('error');
+                nameInput.classList.remove('valid');
+                nameError.textContent = 'Name must be at least 2 characters';
+                nameError.classList.add('show');
+                return false;
+            }
+
+            // Check for numbers
+            if (/\d/.test(name)) {
+                nameInput.classList.add('error');
+                nameInput.classList.remove('valid');
+                nameError.textContent = 'Name cannot contain numbers';
+                nameError.classList.add('show');
+                return false;
+            }
+
+            // Check for special characters (allow only letters, spaces, dots, hyphens, apostrophes)
+            if (!/^[a-zA-Z\s\.\'-]+$/.test(name)) {
+                nameInput.classList.add('error');
+                nameInput.classList.remove('valid');
+                nameError.textContent = 'Name can only contain letters, spaces, dots, hyphens, and apostrophes';
+                nameError.classList.add('show');
+                return false;
+            }
+
+            // Check if name has at least one letter
+            if (!/[a-zA-Z]/.test(name)) {
+                nameInput.classList.add('error');
+                nameInput.classList.remove('valid');
+                nameError.textContent = 'Name must contain at least one letter';
+                nameError.classList.add('show');
+                return false;
+            }
+
+            // All validations passed
+            nameInput.classList.remove('error');
+            nameInput.classList.add('valid');
+            nameError.classList.remove('show');
+            return true;
+        }
+
+        function validateEmail() {
+            const email = emailInput.value.trim();
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailTouched && email.length === 0) return true;
+
+            if (!email) {
+                emailInput.classList.add('error');
+                emailInput.classList.remove('valid');
+                emailError.textContent = 'Email is required';
+                emailError.classList.add('show');
+                return false;
+            }
+
+            if (!emailRegex.test(email)) {
+                emailInput.classList.add('error');
+                emailInput.classList.remove('valid');
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.classList.add('show');
+                return false;
+            } else {
+                emailInput.classList.remove('error');
+                emailInput.classList.add('valid');
+                emailError.classList.remove('show');
+                return true;
+            }
+        }
+
+        function validatePhone() {
+            let phone = phoneInput.value.replace(/\D/g, '');
+            const phoneError = document.getElementById('phoneError');
+
+            if (!phoneTouched && phone.length === 0) return true;
+
+            if (!phone) {
+                phoneInput.classList.add('error');
+                phoneInput.classList.remove('valid');
+                phoneError.textContent = 'Phone number is required';
+                phoneError.classList.add('show');
+                return false;
+            }
+
+            if (phone.length !== 10) {
+                phoneInput.classList.add('error');
+                phoneInput.classList.remove('valid');
+                phoneError.textContent = 'Please enter a valid 10-digit phone number';
+                phoneError.classList.add('show');
+                return false;
+            } else {
+                phoneInput.classList.remove('error');
+                phoneInput.classList.add('valid');
+                phoneError.classList.remove('show');
+                return true;
+            }
+        }
+
+        // Check if all fields are valid to enable submit button
+        function checkFormValidity() {
+            // Only validate touched fields for visual feedback
+            const isNameValid = nameTouched ? validateName() : (nameInput.value.trim().length > 0);
+            const isEmailValid = emailTouched ? validateEmail() : (emailInput.value.trim().length > 0);
+            const isPhoneValid = phoneTouched ? validatePhone() : (phoneInput.value.trim().length > 0);
+
+            // Check if all fields have content
+            const allFilled = nameInput.value.trim() &&
+                             emailInput.value.trim() &&
+                             phoneInput.value.trim();
+
+            // Validate all fields properly
+            const nameValid = validateNameContent(nameInput.value.trim());
+            const emailValid = validateEmailContent(emailInput.value.trim());
+            const phoneValid = validatePhoneContent(phoneInput.value.replace(/\D/g, ''));
+
+            // Enable button only if all fields are filled AND valid
+            if (allFilled && nameValid && emailValid && phoneValid) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+
+        // Helper functions to check content without showing errors
+        function validateNameContent(name) {
+            if (name.length < 2) return false;
+            if (/\d/.test(name)) return false;
+            if (!/^[a-zA-Z\s\.\'-]+$/.test(name)) return false;
+            if (!/[a-zA-Z]/.test(name)) return false;
+            return true;
+        }
+
+        function validateEmailContent(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function validatePhoneContent(phone) {
+            return phone.length === 10;
+        }
+
+        // Real-time validation on blur
+        nameInput.addEventListener('blur', function() {
+            nameTouched = true;
+            validateName();
+            checkFormValidity();
+        });
+
+        emailInput.addEventListener('blur', function() {
+            emailTouched = true;
+            validateEmail();
+            checkFormValidity();
+        });
+
+        phoneInput.addEventListener('blur', function() {
+            phoneTouched = true;
+            validatePhone();
+            checkFormValidity();
+        });
+
+        // Remove error on input and check validity
+        nameInput.addEventListener('input', function() {
+            this.classList.remove('error');
+            document.getElementById('nameError').classList.remove('show');
+            checkFormValidity();
+        });
+
+        emailInput.addEventListener('input', function() {
+            this.classList.remove('error');
+            document.getElementById('emailError').classList.remove('show');
+            checkFormValidity();
+        });
+
+        phoneInput.addEventListener('input', function(e) {
+            this.classList.remove('error');
+            document.getElementById('phoneError').classList.remove('show');
+
+            // Allow only numbers
+            this.value = this.value.replace(/\D/g, '');
+
+            // Limit to 10 digits
+            if (this.value.length > 10) {
+                this.value = this.value.slice(0, 10);
+            }
+
+            checkFormValidity();
+        });
+
+        // Form submission validation
+        form.addEventListener('submit', function(e) {
+            // Mark all fields as touched
+            nameTouched = true;
+            emailTouched = true;
+            phoneTouched = true;
+
+            // Validate all fields
+            const isNameValid = validateName();
+            const isEmailValid = validateEmail();
+            const isPhoneValid = validatePhone();
+
+            if (isNameValid && isEmailValid && isPhoneValid) {
+                // Show loading state
+                submitButton.value = 'ADDING...';
+                submitButton.disabled = true;
+
+                // Submit form after a short delay to show loading state
+                setTimeout(() => {
+                    form.submit();
+                }, 500);
+            } else {
+                e.preventDefault();
+
+                // Scroll to first error
+                const firstError = document.querySelector('.error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.focus();
+                }
+            }
+        });
+
+        // Auto-focus first input
+        nameInput.focus();
+
+        // Initial check for button state
+        checkFormValidity();
+    });
+</script>
+
+<script>
+// Prevent going back to this page after form submission
+if (window.history && window.history.pushState) {
+    // Add current page to history
+    window.history.pushState(null, null, window.location.href);
+
+    // Listen for back/forward navigation
+    window.onpopstate = function(event) {
+        // Redirect to /home when back button is pressed
+        window.location.href = '/home';
+    };
+}
+</script>
+</body>
+</html>

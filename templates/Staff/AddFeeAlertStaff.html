@@ -1,0 +1,893 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form id="form1" name="form1" method="post" action="/addfeealertstaff_submit">#}
+{#<table width="200" border="1">#}
+{#  <tr>#}
+{#    <td>Course:</td>#}
+{#    <td><label for="select"></label>#}
+{#      <select name="select" id="select">#}
+{#         {% for i in data %}#}
+{#          <option value="{{ i.id }}">{{ i.course }}</option>#}
+{#          {% endfor %}#}
+{#      </select></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Fee:</td>#}
+{#    <td><label for="select"></label>#}
+{#      <select name="select3" id="select3">#}
+{#         {% for i in data2 %}#}
+{#          <option value="{{ i.id }}">{{ i.fee }}</option>#}
+{#          {% endfor %}#}
+{#      </select></td>#}
+{#  </tr>#}
+{##}
+{#  <tr>#}
+{#    <td>Semester:</td>#}
+{#    <td><label for="select2"></label>#}
+{#      <select name="select2" id="select2">#}
+{#        <option value="Semester1">Semester1</option>#}
+{#        <option value="Semester2">Semester2</option>#}
+{#        <option value="Semester3">Semester3</option>#}
+{#        <option value="Semester4">Semester4</option>#}
+{#        <option value="Semester5">Semester5</option>#}
+{#        <option value="Semester6">Semester6</option>#}
+{#      </select></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Note:</td>#}
+{#    <td><label for="textfield"></label>#}
+{#      <input type="text" name="textfield" id="textfield" /></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Fine amount:</td>#}
+{#    <td><label for="textfield2"></label>#}
+{#      <input type="text" name="textfield2" id="textfield2" /></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Todate:</td>#}
+{#    <td><label for="datefield"></label>#}
+{#      <input type="date" name="datefield" id="datefield" /></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Fine date:</td>#}
+{#    <td><label for="datefield2"></label>#}
+{#      <input type="date" name="datefield2" id="datefield2" /></td>#}
+{#  </tr>#}
+{#  <tr align="center">#}
+{#    <td colspan="2"><input type="submit" name="button" id="button" value="ADD" /></td>#}
+{#    </tr>#}
+{#</table>#}
+{##}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Add Fee Alert</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    /* Color Theme */
+    :root {
+        --primary-color: #06bbcc;
+        --primary-dark: #0499a8;
+        --primary-light: #e8f7f9;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #666666;
+        --success-color: #27ae60;
+        --warning-color: #f39c12;
+        --danger-color: #e74c3c;
+        --info-color: #3498db;
+    }
+
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        color: var(--text-color);
+    }
+
+    /* Form Container */
+    .form-container {
+        max-width: 800px;
+        width: 100%;
+        background-color: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.15);
+        overflow: hidden;
+    }
+
+    /* Form Header */
+    .form-header {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 25px 30px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(6, 187, 204, 0.2);
+    }
+
+    .form-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .form-header p {
+        font-size: 15px;
+        opacity: 0.9;
+        margin: 0;
+    }
+
+    /* Form Body */
+    .form-body {
+        padding: 30px;
+    }
+
+    /* Form Grid */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    /* Form Group */
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--primary-dark);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .form-group label i {
+        color: var(--primary-color);
+        font-size: 16px;
+        width: 20px;
+    }
+
+    .form-group label .required {
+        color: var(--danger-color);
+        margin-left: 2px;
+    }
+
+    /* Input Field with Icon */
+    .input-with-icon {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+        font-size: 18px;
+        z-index: 1;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 14px 18px 14px 50px;
+        font-size: 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--white);
+        transition: all 0.3s ease;
+        color: var(--text-color);
+    }
+
+    .form-input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    .form-input::placeholder {
+        color: #aaa;
+        opacity: 0.8;
+    }
+
+    /* Currency Input */
+    .currency-input-wrapper {
+        position: relative;
+    }
+
+    .currency-prefix {
+        position: absolute;
+        left: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: 600;
+        color: var(--primary-color);
+        font-size: 16px;
+        z-index: 2;
+    }
+
+    .currency-input {
+        padding-left: 70px;
+    }
+
+    /* Date Input Styling */
+    .date-input-wrapper {
+        position: relative;
+    }
+
+    .date-input-wrapper .form-input {
+        padding-right: 50px;
+    }
+
+    .date-icon {
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+        font-size: 18px;
+        z-index: 1;
+    }
+
+    /* Select Field Styling */
+    .form-select {
+        width: 100%;
+        padding: 14px 18px 14px 50px;
+        font-size: 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--white);
+        color: var(--text-color);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2306bbcc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 18px center;
+        background-size: 16px;
+    }
+
+    .form-select:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    /* Form Row for Side-by-Side Fields */
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+        width: 100%;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        padding: 16px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 4px 12px rgba(6, 187, 204, 0.2);
+    }
+
+    .submit-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(6, 187, 204, 0.3);
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
+    }
+
+    .submit-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.4);
+    }
+
+    .submit-btn:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* Info Text */
+    .info-text {
+        font-size: 13px;
+        color: var(--text-light);
+        margin-top: 6px;
+        display: block;
+        margin-left: 50px;
+    }
+
+    /* Error Message */
+    .error-message {
+        color: var(--danger-color);
+        font-size: 13px;
+        margin-top: 5px;
+        display: none;
+        margin-left: 50px;
+    }
+
+    /* Warning Card */
+    .warning-card {
+        background-color: rgba(243, 156, 18, 0.1);
+        border-left: 4px solid var(--warning-color);
+        border-radius: 6px;
+        padding: 15px 20px;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .warning-card i {
+        color: var(--warning-color);
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    .warning-card p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-color);
+        line-height: 1.5;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 22px;
+        }
+
+        .form-body {
+            padding: 20px;
+        }
+
+        .form-header {
+            padding: 20px;
+        }
+
+        .form-header h2 {
+            font-size: 22px;
+        }
+
+        .info-text,
+        .error-message {
+            margin-left: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        body {
+            padding: 10px;
+        }
+
+        .form-container {
+            border-radius: 8px;
+        }
+
+        .form-header {
+            padding: 20px 15px;
+        }
+
+        .form-header h2 {
+            font-size: 18px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+        }
+
+        .form-body {
+            padding: 15px;
+        }
+
+        .form-input,
+        .form-select {
+            padding: 12px 15px 12px 45px;
+            font-size: 15px;
+        }
+
+        .input-icon {
+            left: 15px;
+            font-size: 16px;
+        }
+
+        .currency-prefix {
+            left: 45px;
+        }
+
+        .currency-input {
+            padding-left: 60px;
+        }
+
+        .date-icon {
+            right: 15px;
+        }
+
+        .submit-btn {
+            padding: 14px 20px;
+            font-size: 15px;
+        }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-container {
+        animation: fadeIn 0.5s ease-out;
+    }
+</style>
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2><i class="fas fa-bell"></i> Add Fee Alert</h2>
+            <p>Create fee alerts and set deadlines with fine amounts</p>
+        </div>
+
+        <form id="form1" name="form1" method="post" action="/addfeealertstaff_submit" class="form-body">
+            <!-- Warning Card -->
+            <div class="warning-card">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p><strong>Note:</strong> Fee alerts will be sent to students. Make sure all details are accurate before submitting.</p>
+            </div>
+
+            <div class="form-grid">
+                <!-- Course Selection -->
+                <div class="form-group">
+                    <label for="select">
+                        <i class="fas fa-book"></i> Course: <span class="required">*</span>
+                    </label>
+                    <div class="input-with-icon">
+                        <div class="input-icon"><i class="fas fa-book"></i></div>
+                        <select name="select" id="select" class="form-select" required>
+                            <option value="" disabled selected>Select a course</option>
+                            {% for i in data %}
+                            <option value="{{ i.id }}">{{ i.course }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="error-message" id="courseError">Please select a course</div>
+                    <span class="info-text">Select course for fee alert</span>
+                </div>
+
+                <!-- Fee Selection -->
+                <div class="form-group">
+                    <label for="select3">
+                        <i class="fas fa-money-check-alt"></i> Fee Amount: <span class="required">*</span>
+                    </label>
+                    <div class="input-with-icon">
+                        <div class="input-icon"><i class="fas fa-money-check-alt"></i></div>
+                        <select name="select3" id="select3" class="form-select" required>
+                            <option value="" disabled selected>Select fee amount</option>
+                            {% for i in data2 %}
+                            <option value="{{ i.id }}">₹ {{ i.fee }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="error-message" id="feeError">Please select a fee amount</div>
+                    <span class="info-text">Select the applicable fee amount</span>
+                </div>
+
+                <!-- Semester Selection -->
+                <div class="form-group">
+                    <label for="select2">
+                        <i class="fas fa-graduation-cap"></i> Semester: <span class="required">*</span>
+                    </label>
+                    <div class="input-with-icon">
+                        <div class="input-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <select name="select2" id="select2" class="form-select" required>
+                            <option value="" disabled selected>Select semester</option>
+                            <option value="Semester1">Semester 1</option>
+                            <option value="Semester2">Semester 2</option>
+                            <option value="Semester3">Semester 3</option>
+                            <option value="Semester4">Semester 4</option>
+                            <option value="Semester5">Semester 5</option>
+                            <option value="Semester6">Semester 6</option>
+                        </select>
+                    </div>
+                    <div class="error-message" id="semesterError">Please select a semester</div>
+                    <span class="info-text">Choose academic semester</span>
+                </div>
+
+                <!-- Note Field -->
+                <div class="form-group">
+                    <label for="textfield">
+                        <i class="fas fa-sticky-note"></i> Alert Note: <span class="required">*</span>
+                    </label>
+                    <div class="input-with-icon">
+                        <div class="input-icon"><i class="fas fa-sticky-note"></i></div>
+                        <input type="text"
+                               name="textfield"
+                               id="textfield"
+                               class="form-input"
+                               placeholder="Enter alert message/note"
+                               required />
+                    </div>
+                    <div class="error-message" id="noteError">Please enter an alert note</div>
+                    <span class="info-text">Brief message about the fee alert</span>
+                </div>
+
+                <!-- Fine Amount and Deadline Date Row -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="textfield2">
+                            <i class="fas fa-exclamation-circle"></i> Fine Amount: <span class="required">*</span>
+                        </label>
+                        <div class="input-with-icon currency-input-wrapper">
+                            <div class="input-icon"><i class="fas fa-exclamation-circle"></i></div>
+                            <span class="currency-prefix">₹</span>
+                            <input type="number"
+                                   min="0"
+                                   name="textfield2"
+                                   id="textfield2"
+                                   class="form-input currency-input"
+                                   placeholder="Enter fine amount"
+                                   required />
+                        </div>
+                        <div class="error-message" id="fineError">Please enter a valid fine amount</div>
+                        <span class="info-text">Penalty for late payment</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="datefield">
+                            <i class="fas fa-calendar-day"></i> Deadline Date: <span class="required">*</span>
+                        </label>
+                        <div class="input-with-icon date-input-wrapper">
+                            <div class="input-icon"><i class="fas fa-calendar-day"></i></div>
+                            <input type="date"
+                                   name="datefield"
+                                   id="datefield"
+                                   class="form-input"
+                                   required />
+                            <div class="date-icon"><i class="fas fa-calendar-alt"></i></div>
+                        </div>
+                        <div class="error-message" id="deadlineError">Please select a deadline date</div>
+                        <span class="info-text">Last date for fee payment</span>
+                    </div>
+                </div>
+
+                <!-- Fine Start Date -->
+                <div class="form-group">
+                    <label for="datefield2">
+                        <i class="fas fa-calendar-exclamation"></i> Fine Start Date: <span class="required">*</span>
+                    </label>
+                    <div class="input-with-icon date-input-wrapper">
+                        <div class="input-icon"><i class="fas fa-calendar-exclamation"></i></div>
+                        <input type="date"
+                               name="datefield2"
+                               id="datefield2"
+                               class="form-input"
+                               required />
+                        <div class="date-icon"><i class="fas fa-calendar-alt"></i></div>
+                    </div>
+                    <div class="error-message" id="fineDateError">Please select fine start date</div>
+                    <span class="info-text">Date from which fine will be applicable</span>
+                </div>
+
+                <button type="submit" name="button" id="button" class="submit-btn">
+                    <i class="fas fa-plus-circle"></i> CREATE FEE ALERT
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Set minimum date to today for both date fields
+            const today = new Date().toISOString().split('T')[0];
+            $('#datefield').attr('min', today);
+            $('#datefield2').attr('min', today);
+
+            // Form validation
+            $('#form1').on('submit', function(e) {
+                e.preventDefault();
+
+                let isValid = true;
+
+                // Clear previous errors
+                $('.error-message').hide();
+                $('.form-input, .form-select').css('border-color', '');
+
+                // Validate course selection
+                const course = $('#select').val();
+                if (!course) {
+                    $('#courseError').show();
+                    $('#select').css('border-color', 'var(--danger-color)');
+                    isValid = false;
+                }
+
+                // Validate fee selection
+                const fee = $('#select3').val();
+                if (!fee) {
+                    $('#feeError').show();
+                    $('#select3').css('border-color', 'var(--danger-color)');
+                    isValid = false;
+                }
+
+                // Validate semester selection
+                const semester = $('#select2').val();
+                if (!semester) {
+                    $('#semesterError').show();
+                    $('#select2').css('border-color', 'var(--danger-color)');
+                    isValid = false;
+                }
+
+                // Validate note
+                const note = $('#textfield').val().trim();
+                if (!note) {
+                    $('#noteError').show();
+                    $('#textfield').css('border-color', 'var(--danger-color)');
+                    isValid = false;
+                }
+
+                // Validate fine amount
+                const fineAmount = $('#textfield2').val().trim();
+                const amountRegex = /^[0-9]+(\.[0-9]{1,2})?$/;
+                if (!fineAmount || !amountRegex.test(fineAmount) || parseFloat(fineAmount) <= 0) {
+                    $('#fineError').show();
+                    $('#textfield2').css('border-color', 'var(--danger-color)');
+                    isValid = false;
+                }
+
+                // Validate deadline date
+                const deadline = $('#datefield').val();
+                if (!deadline) {
+                    $('#deadlineError').show();
+                    $('#datefield').css('border-color', 'var(--danger-color)');
+                    isValid = false;
+                }
+
+                // Validate fine start date
+                const fineDate = $('#datefield2').val();
+                if (!fineDate) {
+                    $('#fineDateError').show();
+                    $('#datefield2').css('border-color', 'var(--danger-color)');
+                    isValid = false;
+                }
+
+                // Validate date logic (fine date should be after or same as deadline)
+                if (deadline && fineDate && new Date(fineDate) < new Date(deadline)) {
+                    $('#fineDateError').text('Fine start date should be on or after deadline date').show();
+                    $('#datefield2').css('border-color', 'var(--danger-color)');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    // Get selected values for confirmation
+                    const courseName = $('#select option:selected').text();
+                    const feeAmount = $('#select3 option:selected').text();
+                    const fineAmountFormatted = parseFloat(fineAmount).toLocaleString('en-IN');
+
+                    // Calculate days difference
+                    const deadlineDate = new Date(deadline);
+                    const fineStartDate = new Date(fineDate);
+                    const todayDate = new Date();
+                    const daysUntilDeadline = Math.ceil((deadlineDate - todayDate) / (1000 * 60 * 60 * 24));
+
+                    // Confirmation message
+                    const confirmation = confirm(
+                        `Please confirm fee alert details:\n\n` +
+                        `• Course: ${courseName}\n` +
+                        `• Fee Amount: ${feeAmount}\n` +
+                        `• Semester: ${semester}\n` +
+                        `• Note: ${note}\n` +
+                        `• Fine Amount: ₹${fineAmountFormatted}\n` +
+                        `• Deadline: ${deadline} (${daysUntilDeadline} days from today)\n` +
+                        `• Fine Start Date: ${fineDate}\n\n` +
+                        `This alert will be sent to all students in this course.`
+                    );
+
+                    if (confirmation) {
+                        // Show loading state
+                        const submitBtn = $('#button');
+                        submitBtn.html('<i class="fas fa-spinner fa-spin"></i> CREATING ALERT...');
+                        submitBtn.prop('disabled', true);
+
+                        // Submit form after delay
+                        setTimeout(() => {
+                            $(this).off('submit').submit();
+                        }, 500);
+                    }
+                } else {
+                    // Scroll to first error
+                    const firstError = $('.error-message:visible').first();
+                    if (firstError.length) {
+                        $('html, body').animate({
+                            scrollTop: firstError.offset().top - 100
+                        }, 500);
+                    }
+                }
+
+                return false;
+            });
+
+            // Format fine amount as user types
+            $('#textfield2').on('input', function() {
+                let value = $(this).val();
+
+                // Remove all non-digit characters except decimal point
+                value = value.replace(/[^\d.]/g, '');
+
+                // Ensure only one decimal point
+                const parts = value.split('.');
+                if (parts.length > 2) {
+                    value = parts[0] + '.' + parts.slice(1).join('');
+                }
+
+                // Limit decimal places to 2
+                if (parts.length === 2 && parts[1].length > 2) {
+                    value = parts[0] + '.' + parts[1].substring(0, 2);
+                }
+
+                $(this).val(value);
+
+                // Clear error on input
+                if (value) {
+                    $(this).css('border-color', 'var(--success-color)');
+                    $('#fineError').hide();
+                } else {
+                    $(this).css('border-color', '');
+                }
+            });
+
+            // Auto-set fine start date to deadline date + 1 day
+            $('#datefield').on('change', function() {
+                const deadline = $(this).val();
+                if (deadline) {
+                    const deadlineDate = new Date(deadline);
+                    const fineStartDate = new Date(deadlineDate);
+                    fineStartDate.setDate(fineStartDate.getDate() + 1);
+
+                    const fineDateStr = fineStartDate.toISOString().split('T')[0];
+                    $('#datefield2').val(fineDateStr);
+                    $('#datefield2').attr('min', fineDateStr);
+                }
+            });
+
+            // Real-time validation for dropdowns
+            $('.form-select').on('change', function() {
+                if ($(this).val()) {
+                    $(this).css('border-color', 'var(--success-color)');
+                    $(this).siblings('.error-message').hide();
+                } else {
+                    $(this).css('border-color', '');
+                }
+            });
+
+            // Real-time validation for text inputs
+            $('.form-input[type="text"]').on('input', function() {
+                if ($(this).val().trim()) {
+                    $(this).css('border-color', 'var(--success-color)');
+                    $(this).siblings('.error-message').hide();
+                } else {
+                    $(this).css('border-color', '');
+                }
+            });
+
+            // Real-time validation for date inputs
+            $('.form-input[type="date"]').on('change', function() {
+                if ($(this).val()) {
+                    $(this).css('border-color', 'var(--success-color)');
+                    $(this).siblings('.error-message').hide();
+                } else {
+                    $(this).css('border-color', '');
+                }
+            });
+
+            // Focus on first field
+            $('#select').focus();
+
+            // Add visual feedback for valid inputs
+            $('.form-input, .form-select').on('blur', function() {
+                if ($(this).val()) {
+                    $(this).css('border-color', 'var(--success-color)');
+                }
+            });
+
+            // Calculate and display days remaining
+            function updateDateInfo() {
+                const deadline = $('#datefield').val();
+                const fineDate = $('#datefield2').val();
+
+                if (deadline) {
+                    const deadlineDate = new Date(deadline);
+                    const today = new Date();
+                    const daysDiff = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+
+                    $('#datefield').next('.info-text').text(`Last date for fee payment (${daysDiff} days from today)`);
+                }
+
+                if (deadline && fineDate) {
+                    const deadlineDate = new Date(deadline);
+                    const fineStartDate = new Date(fineDate);
+                    const fineDaysDiff = Math.ceil((fineStartDate - deadlineDate) / (1000 * 60 * 60 * 24));
+
+                    $('#datefield2').next('.info-text').text(`Fine applicable ${fineDaysDiff} days after deadline`);
+                }
+            }
+
+            $('#datefield, #datefield2').on('change', updateDateInfo);
+
+            // Initialize date info
+            updateDateInfo();
+        });
+    </script>
+
+<script>
+// Prevent going back to this page after form submission
+if (window.history && window.history.pushState) {
+    // Add current page to history
+    window.history.pushState(null, null, window.location.href);
+
+    // Listen for back/forward navigation
+    window.onpopstate = function(event) {
+        // Redirect to /rtohome when back button is pressed
+        window.location.href = '/StaffHome';
+    };
+}
+</script>
+</body>
+</html>

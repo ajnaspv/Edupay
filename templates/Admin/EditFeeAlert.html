@@ -1,0 +1,800 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form id="form1" name="form1" method="post" action="/editfeealert_submit">#}
+{#<table width="200" border="1">#}
+{#  <tr>#}
+{#    <td>Course:</td>#}
+{#    <td><label for="select"></label>#}
+{#      <select name="select" id="select">#}
+{#           {% for i in data2 %}#}
+{#          <option value="{{ i.id }}">{{ i.course }}</option>#}
+{#          {% endfor %}#}
+{#      </select></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Semester:</td>#}
+{#    <td><label for="select2"></label>#}
+{#      <select name="select2" id="select2">#}
+{#        <option value="Semester1">Semester1</option>#}
+{#        <option value="Semester2">Semester2</option>#}
+{#        <option value="Semester3">Semester3</option>#}
+{#        <option value="Semester4">Semester4</option>#}
+{#        <option value="Semester5">Semester5</option>#}
+{#        <option value="Semester6">Semester6</option>#}
+{#      </select></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Note:</td>#}
+{#    <td><label for="textfield"></label>#}
+{#      <input type="text" name="textfield" id="textfield" value="{{ data.note }}"/></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Fine amount:</td>#}
+{#    <td><label for="textfield2"></label>#}
+{#      <input type="text" name="textfield2" id="textfield2" value="{{ data.fineamount }}"/></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Todate:</td>#}
+{#    <td><label for="datefield"></label>#}
+{#      <input type="date" name="datefield" id="datefield" value="{{ data.todate }}"/></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Fine date:</td>#}
+{#    <td><label for="datefield2"></label>#}
+{#      <input type="date" name="datefield2" id="datefield2" value="{{ data.finedate }}"/></td>#}
+{#  </tr>#}
+{#  <tr align="center">#}
+{#    <td colspan="2"><input type="submit" name="button" id="button" value="Update" /></td>#}
+{#    </tr>#}
+{#</table>#}
+{##}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Edit Fee Alert</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    /* Color Theme */
+    :root {
+        --primary-color: #06bbcc;
+        --primary-dark: #0499a8;
+        --primary-light: #e8f7f9;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #666666;
+        --success-color: #27ae60;
+        --warning-color: #f39c12;
+        --danger-color: #e74c3c;
+    }
+
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        color: var(--text-color);
+    }
+
+    /* Form Container */
+    .form-container {
+        max-width: 900px;
+        width: 100%;
+        background-color: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.1);
+        overflow: hidden;
+    }
+
+    /* Form Header */
+    .form-header {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 25px 30px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(6, 187, 204, 0.2);
+    }
+
+    .form-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .form-header p {
+        font-size: 15px;
+        opacity: 0.9;
+        margin: 0;
+    }
+
+    /* Form Body */
+    .form-body {
+        padding: 30px;
+    }
+
+    /* Form Groups */
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--primary-dark);
+        font-size: 15px;
+        padding-left: 5px;
+    }
+
+    .form-group .input-wrapper {
+        position: relative;
+    }
+
+    .form-group .input-wrapper i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+        font-size: 16px;
+        z-index: 1;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 14px 14px 14px 45px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        background-color: var(--white);
+        color: var(--text-color);
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    /* Select Styling */
+    .form-control select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2306bbcc' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 16px;
+        padding-right: 45px;
+    }
+
+    /* Form Row for 2-column layout */
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        padding: 16px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 10px;
+        box-shadow: 0 4px 12px rgba(6, 187, 204, 0.2);
+    }
+
+    .submit-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(6, 187, 204, 0.3);
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
+    }
+
+    /* Back Button */
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background-color: #f8f9fa;
+        color: var(--text-light);
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        padding: 12px 25px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-top: 15px;
+        width: 100%;
+    }
+
+    .back-btn:hover {
+        background-color: #e9ecef;
+        color: var(--text-color);
+        text-decoration: none;
+        border-color: #ced4da;
+    }
+
+    /* Info Card */
+    .info-card {
+        background-color: var(--primary-light);
+        border-left: 4px solid var(--warning-color);
+        border-radius: 6px;
+        padding: 15px 20px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .info-card i {
+        color: var(--warning-color);
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    .info-card p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-color);
+        line-height: 1.5;
+    }
+
+    /* Required Field Indicator */
+    .required::after {
+        content: " *";
+        color: var(--danger-color);
+    }
+
+    /* Fine Amount Styling */
+    .fine-amount-wrapper {
+        position: relative;
+    }
+
+    .fine-amount-wrapper::before {
+        content: '₹';
+        position: absolute;
+        left: 45px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 16px;
+        z-index: 2;
+    }
+
+    .fine-amount-wrapper .form-control {
+        padding-left: 60px;
+    }
+
+    /* Display amount styling */
+    .amount-display {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--primary-light);
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        color: var(--primary-dark);
+        font-weight: 500;
+        display: none;
+    }
+
+    .fine-amount-wrapper.has-value .amount-display {
+        display: block;
+    }
+
+    .fine-amount-wrapper.has-value .form-control {
+        padding-right: 85px;
+    }
+
+    /* Date Input Styling */
+    .date-input-wrapper .form-control::-webkit-calendar-picker-indicator {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2306bbcc' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z'/%3E%3C/svg%3E");
+        cursor: pointer;
+        padding: 0;
+        margin-right: 10px;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .form-body {
+            padding: 20px;
+        }
+
+        .form-header {
+            padding: 20px;
+        }
+
+        .form-header h2 {
+            font-size: 22px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        body {
+            padding: 10px;
+        }
+
+        .form-container {
+            border-radius: 8px;
+        }
+
+        .form-header {
+            padding: 20px 15px;
+        }
+
+        .form-header h2 {
+            font-size: 18px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+        }
+
+        .form-body {
+            padding: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            padding: 12px 12px 12px 40px;
+            font-size: 14px;
+        }
+
+        .fine-amount-wrapper::before {
+            left: 40px;
+        }
+
+        .fine-amount-wrapper .form-control {
+            padding-left: 50px;
+        }
+
+        .fine-amount-wrapper.has-value .form-control {
+            padding-right: 70px;
+        }
+
+        .amount-display {
+            font-size: 12px;
+            padding: 3px 8px;
+            right: 10px;
+        }
+
+        .submit-btn {
+            padding: 14px 20px;
+            font-size: 15px;
+        }
+
+        .back-btn {
+            padding: 12px 20px;
+            font-size: 14px;
+        }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-container {
+        animation: fadeIn 0.5s ease-out;
+    }
+</style>
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2><i class="fas fa-bell"></i> Edit Fee Alert</h2>
+            <p>Update fee notification and fine details</p>
+        </div>
+
+        <form action="/editfeealert_submit" method="post" class="form-body">
+            <!-- Info Card -->
+            <div class="info-card">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Update the fee alert details including notification message and fine information. These alerts will be sent to students for pending fees.</p>
+            </div>
+
+            <div class="form-row">
+                <!-- Course Field -->
+                <div class="form-group">
+                    <label for="select" class="required">
+                        <i class="fas fa-graduation-cap me-1"></i> Course
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-graduation-cap"></i>
+                    <input type="text" readonly value="{{ data.FEE.COURSE.course }}" class="form-control"/>
+
+
+                    </div>
+                    <small class="text-muted mt-1 d-block">Select the course for fee alert</small>
+                </div>
+
+                <!-- Semester Field -->
+                <div class="form-group">
+                    <label for="select2" class="required">
+                        <i class="fas fa-calendar-alt me-1"></i> Semester
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-calendar-alt"></i>
+                    <input type="text" readonly value="{{ data.FEE.semester }}" class="form-control"/>
+
+                    </div>
+                    <small class="text-muted mt-1 d-block">Select the academic semester</small>
+                </div>
+            </div>
+
+            <!-- Note Field -->
+            <div class="form-group">
+                <label for="textfield" class="required">
+                    <i class="fas fa-sticky-note me-1"></i> Alert Message / Note
+                </label>
+                <div class="input-wrapper">
+                    <i class="fas fa-sticky-note"></i>
+                    <input type="text"
+                           name="textfield"
+                           id="textfield"
+                           class="form-control"
+                           value="{{ data.note }}"
+                           placeholder="Enter alert message or note"
+                           required>
+                </div>
+                <small class="text-muted mt-1 d-block">Enter the notification message for students</small>
+            </div>
+
+            <div class="form-row">
+                <!-- Fine Amount Field -->
+                <div class="form-group">
+                    <label for="textfield2" class="required">
+                        <i class="fas fa-money-bill-wave me-1"></i> Fine Amount
+                    </label>
+                    <div class="input-wrapper fine-amount-wrapper" id="fineAmountWrapper">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <input type="text"
+                               name="textfield2"
+                               id="textfield2"
+                               class="form-control"
+                               value="{{ data.fineamount }}"
+                               placeholder="Enter fine amount"
+                               required
+                               pattern="[0-9]*"
+                               inputmode="numeric">
+                        <span class="amount-display" id="amountDisplay">₹0</span>
+                    </div>
+                    <small class="text-muted mt-1 d-block">Enter only numbers (e.g., 30000 for ₹30,000)</small>
+                </div>
+
+                <!-- Fine Date Field -->
+                <div class="form-group">
+                    <label for="datefield2" class="required">
+                        <i class="fas fa-calendar-times me-1"></i> Fine Date
+                    </label>
+                    <div class="input-wrapper date-input-wrapper">
+                        <i class="fas fa-calendar-times"></i>
+                        <input type="date"
+                               name="datefield2"
+                               id="datefield2"
+                               class="form-control"
+                               value="{{ data.finedate }}"
+                               required>
+                    </div>
+                    <small class="text-muted mt-1 d-block">Date after which fine will be applied</small>
+                </div>
+            </div>
+
+            <!-- To Date Field -->
+            <div class="form-group">
+                <label for="datefield" class="required">
+                    <i class="fas fa-calendar-check me-1"></i> Due Date
+                </label>
+                    <div class="input-wrapper date-input-wrapper">
+                    <i class="fas fa-calendar-check"></i>
+                    <input type="date"
+                           name="datefield"
+                           id="datefield"
+                           class="form-control"
+                           value="{{ data.todate }}"
+                           required>
+                </div>
+                <small class="text-muted mt-1 d-block">Last date for fee payment without fine</small>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" name="button" id="button" class="submit-btn">
+                <i class="fas fa-save"></i> Update Fee Alert
+            </button>
+
+            <!-- Back Button -->
+            <a href="javascript:history.back()" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Fee Alerts List
+            </a>
+
+            <!-- Hidden Fields -->
+            <input type="hidden" name="alert_id" value="{{ data.id }}">
+            <input type="hidden" name="fine_amount_numeric" id="fineAmountNumeric" value="{{ data.fineamount }}">
+        </form>
+    </div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Form validation and amount handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const fineAmountInput = document.getElementById('textfield2');
+            const amountDisplay = document.getElementById('amountDisplay');
+            const fineAmountWrapper = document.getElementById('fineAmountWrapper');
+            const fineAmountNumeric = document.getElementById('fineAmountNumeric');
+
+            // Initialize the amount display
+            function updateAmountDisplay() {
+                const rawValue = fineAmountInput.value.replace(/[^\d]/g, '');
+                const numericValue = rawValue ? parseInt(rawValue) : 0;
+
+                // Update the display with formatted amount
+                if (numericValue > 0) {
+                    amountDisplay.textContent = '₹' + numericValue.toLocaleString('en-IN');
+                    fineAmountWrapper.classList.add('has-value');
+                } else {
+                    amountDisplay.textContent = '₹0';
+                    fineAmountWrapper.classList.remove('has-value');
+                }
+
+                // Update the hidden numeric field
+                fineAmountNumeric.value = numericValue;
+
+                // Also update the main input field (without commas)
+                fineAmountInput.value = rawValue;
+            }
+
+            // Handle fine amount input
+            fineAmountInput.addEventListener('input', function(e) {
+                // Remove any non-numeric characters
+                let value = e.target.value.replace(/[^\d]/g, '');
+
+                // Limit to 10 digits
+                if (value.length > 10) {
+                    value = value.substring(0, 10);
+                }
+
+                // Update the display
+                updateAmountDisplay();
+            });
+
+            // Initialize on page load
+            if (fineAmountInput.value) {
+                // If value contains commas, remove them for proper handling
+                const cleanValue = fineAmountInput.value.replace(/[^\d]/g, '');
+                fineAmountInput.value = cleanValue;
+                updateAmountDisplay();
+            }
+
+            // Set minimum date for date fields to today
+            const today = new Date().toISOString().split('T')[0];
+
+            // Set min date for To Date (can be today or future)
+            const toDateField = document.getElementById('datefield');
+            if (toDateField) {
+                toDateField.min = today;
+            }
+
+            // Set min date for Fine Date (must be after To Date)
+            const fineDateField = document.getElementById('datefield2');
+            if (fineDateField && toDateField && toDateField.value) {
+                fineDateField.min = toDateField.value;
+            }
+
+            // Update Fine Date min when To Date changes
+            if (toDateField && fineDateField) {
+                toDateField.addEventListener('change', function() {
+                    fineDateField.min = this.value;
+                    if (fineDateField.value && new Date(fineDateField.value) <= new Date(this.value)) {
+                        fineDateField.value = '';
+                    }
+                });
+            }
+
+            // Auto-select current values from data if available
+            {% if data.course_id %}
+            const courseSelect = document.getElementById('select');
+            if (courseSelect) {
+                courseSelect.value = "{{ data.course_id }}";
+            }
+            {% endif %}
+
+            {% if data.semester %}
+            const semesterSelect = document.getElementById('select2');
+            if (semesterSelect) {
+                semesterSelect.value = "{{ data.semester }}";
+            }
+            {% endif %}
+        });
+
+        // Form submission validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const note = document.getElementById('textfield').value.trim();
+            const fineAmountInput = document.getElementById('textfield2');
+            const fineAmount = fineAmountInput.value.trim();
+            const fineAmountNumeric = document.getElementById('fineAmountNumeric').value;
+            const toDate = document.getElementById('datefield').value;
+            const fineDate = document.getElementById('datefield2').value;
+            const course = document.getElementById('select').value;
+            const semester = document.getElementById('select2').value;
+
+            let isValid = true;
+
+            // Clear previous error states
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.classList.remove('error');
+            });
+
+            // Validate Note
+            if (!note) {
+                document.getElementById('textfield').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate Fine Amount - use the numeric value from hidden field
+            if (!fineAmountNumeric || isNaN(fineAmountNumeric) || parseFloat(fineAmountNumeric) < 0) {
+                document.getElementById('textfield2').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate To Date
+            if (!toDate) {
+                document.getElementById('datefield').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate Fine Date
+            if (!fineDate) {
+                document.getElementById('datefield2').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate Course
+            if (!course) {
+                document.getElementById('select').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate Semester
+            if (!semester) {
+                document.getElementById('select2').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate date logic: Fine Date should be after To Date
+            if (toDate && fineDate && new Date(fineDate) <= new Date(toDate)) {
+                document.getElementById('datefield2').classList.add('error');
+                isValid = false;
+                alert('Fine Date must be after the Due Date.');
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill in all fields correctly. Fine amount must be a positive number and Fine Date must be after Due Date.');
+                return false;
+            }
+
+            // Format fine amount for confirmation message
+            const formattedFineAmount = parseInt(fineAmountNumeric).toLocaleString('en-IN');
+
+            // Confirm before submitting
+            const courseName = document.getElementById('select').options[document.getElementById('select').selectedIndex].text;
+            const confirmationMessage = `Are you sure you want to update the fee alert for:\n\n` +
+                                      `• Course: ${courseName}\n` +
+                                      `• Semester: ${semester}\n` +
+                                      `• Alert Message: ${note.substring(0, 50)}${note.length > 50 ? '...' : ''}\n` +
+                                      `• Fine Amount: ₹${formattedFineAmount}\n` +
+                                      `• Due Date: ${toDate}\n` +
+                                      `• Fine Date: ${fineDate}\n\n` +
+                                      `This will update the fee alert settings for all students.`;
+
+            if (!confirm(confirmationMessage)) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Show loading state
+            const submitBtn = document.getElementById('button');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+            submitBtn.disabled = true;
+
+            // Update the visible input field with the numeric value before submission
+            fineAmountInput.value = fineAmountNumeric;
+        });
+
+        // Add error style
+        const style = document.createElement('style');
+        style.textContent = `
+            .form-control.error {
+                border-color: var(--danger-color) !important;
+                background-color: rgba(231, 76, 60, 0.05);
+            }
+
+            .form-control.error:focus {
+                box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2) !important;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+
+<script>
+// Prevent going back to this page after form submission
+if (window.history && window.history.pushState) {
+    // Add current page to history
+    window.history.pushState(null, null, window.location.href);
+
+    // Listen for back/forward navigation
+    window.onpopstate = function(event) {
+        // Redirect to /rtohome when back button is pressed
+        window.location.href = '/home';
+    };
+}
+</script>
+</body>
+</html>

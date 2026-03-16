@@ -1,0 +1,768 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Add Fee Alert</title>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    /* Color Theme */
+    :root {
+        --primary-color: #06bbcc;
+        --primary-dark: #0499a8;
+        --primary-light: #e8f7f9;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #666666;
+        --success-color: #27ae60;
+        --error-color: #e74c3c;
+        --warning-color: #f39c12;
+    }
+
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        color: var(--text-color);
+    }
+
+    /* Form Container */
+    .form-container {
+        width: 100%;
+        max-width: 600px;
+        background-color: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.15);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .form-container:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Form Header */
+    .form-header {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 25px 30px;
+        text-align: center;
+    }
+
+    .form-header h2 {
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+
+    .form-header p {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-top: 5px;
+    }
+
+    /* Form Body */
+    .form-body {
+        padding: 30px;
+    }
+
+    /* Form Grid */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    /* Form Group */
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: var(--text-color);
+    }
+
+    .form-group label .required {
+        color: var(--error-color);
+        margin-left: 2px;
+    }
+
+    /* Input Field */
+    .input-field {
+        width: 100%;
+        padding: 14px 18px;
+        font-size: 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--white);
+        transition: all 0.3s ease;
+        color: var(--text-color);
+    }
+
+    .input-field:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    .input-field::placeholder {
+        color: #aaa;
+        opacity: 0.8;
+    }
+
+    /* Textarea Field - UPDATED */
+    .textarea-field {
+        width: 100%;
+        padding: 14px 18px;
+        font-size: 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--white);
+        transition: all 0.3s ease;
+        color: var(--text-color);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .textarea-field:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    .textarea-field::placeholder {
+        color: #aaa;
+        opacity: 0.8;
+    }
+
+    /* Select Field Styling */
+    .select-field {
+        width: 100%;
+        padding: 14px 18px;
+        font-size: 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--white);
+        color: var(--text-color);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2306bbcc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 16px;
+    }
+
+    .select-field:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    .select-field option {
+        padding: 10px;
+        background-color: var(--white);
+        color: var(--text-color);
+    }
+
+    /* Date Field Styling */
+    .date-field {
+        width: 100%;
+        padding: 14px 18px;
+        font-size: 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--white);
+        color: var(--text-color);
+        transition: all 0.3s ease;
+    }
+
+    .date-field:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    /* Currency Prefix */
+    .input-with-prefix {
+        position: relative;
+    }
+
+    .currency-prefix {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: 500;
+        color: var(--text-light);
+    }
+
+    .currency-input {
+        padding-left: 45px;
+    }
+
+    /* Info Text */
+    .info-text {
+        font-size: 13px;
+        color: var(--text-light);
+        margin-top: 6px;
+        display: block;
+    }
+
+    /* Form Row for Side-by-Side Fields */
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    /* Alert Icon */
+    .alert-icon {
+        color: var(--warning-color);
+        margin-right: 8px;
+        font-size: 18px;
+    }
+
+    /* Submit Button */
+    .submit-container {
+        text-align: center;
+        margin-top: 35px;
+        padding-top: 25px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    #button {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        padding: 16px 40px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        letter-spacing: 0.5px;
+        min-width: 160px;
+        box-shadow: 0 4px 12px rgba(6, 187, 204, 0.3);
+    }
+
+    #button:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(6, 187, 204, 0.4);
+    }
+
+    #button:active {
+        transform: translateY(0);
+    }
+
+    #button:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.4);
+    }
+
+    #button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* Character Counter for Textarea */
+    .char-counter {
+        font-size: 12px;
+        color: var(--text-light);
+        text-align: right;
+        margin-top: 5px;
+    }
+
+    .char-counter.near-limit {
+        color: var(--warning-color);
+    }
+
+    .char-counter.over-limit {
+        color: var(--error-color);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .form-container {
+            max-width: 100%;
+        }
+
+        .form-body {
+            padding: 25px 20px;
+        }
+
+        .form-header {
+            padding: 20px 15px;
+        }
+
+        .form-header h2 {
+            font-size: 22px;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 22px;
+        }
+
+        #button {
+            width: 100%;
+            padding: 16px 20px;
+        }
+
+        .textarea-field {
+            min-height: 80px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        body {
+            padding: 15px;
+        }
+
+        .form-body {
+            padding: 20px 15px;
+        }
+
+        .form-header {
+            padding: 20px 15px;
+        }
+
+        .input-field,
+        .textarea-field,
+        .select-field,
+        .date-field {
+            padding: 12px 15px;
+            font-size: 15px;
+        }
+
+        .textarea-field {
+            min-height: 70px;
+        }
+    }
+</style>
+    <script type="text/javascript">
+var xmlHttp;
+            function adds(eid){
+               //alert(eid);
+               var cid = document.getElementById('select').value;
+               var sem = document.getElementById('select2').value;
+              // alert(cid)
+
+
+                if(!cid){
+                    alert("Please choose a course");
+                    return;
+                }
+
+
+                if(!sem){
+                    alert("Please choose a semester");
+                    return;
+                }
+
+                if (typeof XMLHttpRequest != "undefined"){
+                xmlHttp= new XMLHttpRequest();
+                }
+                else if (window.ActiveXObject){
+                    xmlHttp= new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                if (xmlHttp==null){
+                    alert("Browser does not support XMLHTTP Request")
+                    return;
+                }
+                var url="/feeajax/" +eid+"/"+cid
+                xmlHttp.onreadystatechange = stateChange;
+                xmlHttp.open("GET", url, true);
+                xmlHttp.send(null);
+            }
+
+            function stateChange(){
+                if(xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){
+                    document.getElementById("sub").innerHTML=xmlHttp.responseText
+
+                }
+            }
+</script>
+</head>
+
+<body>
+<div class="form-container">
+    <div class="form-header">
+        <h2><i class="fas fa-bell alert-icon"></i> Add Fee Alert</h2>
+        <p>Set up fee payment alerts with fine details</p>
+    </div>
+
+    <div class="form-body">
+        <form id="form1" name="form1" method="post" action="{{ form_action|default:'/addfeealert_submit' }}">
+            <div class="form-grid">
+                <!-- Course Selection -->
+                <div class="form-group">
+                    <label for="select">Course: <span class="required">*</span></label>
+                    <select name="select" id="select" class="select-field" required>
+                        <option value="" disabled selected>Select a course</option>
+                        {% for i in data %}
+                        <option value="{{ i.id }}">{{ i.course }}</option>
+                        {% endfor %}
+                    </select>
+                    <span class="info-text">Choose the course for the fee alert</span>
+                </div>
+
+                <!-- Fee Selection -->
+                <div class="form-group">
+
+                    <label for="select2">Semester: <span class="required">*</span></label>
+
+                <select name="select2" id="select2" class="select-field" required onchange="adds(this.value)">
+                            <option value="" disabled selected>Select semester</option>
+                            <option value="Semester1">Semester 1</option>
+                            <option value="Semester2">Semester 2</option>
+                            <option value="Semester3">Semester 3</option>
+                            <option value="Semester4">Semester 4</option>
+                            <option value="Semester5">Semester 5</option>
+                            <option value="Semester6">Semester 6</option>
+                        </select>
+                    {#                    <select name="select3" id="select3" class="select-field" required>#}
+{#                        <option value="" disabled selected>Select fee amount</option>#}
+{#                        {% for i in data2 %}#}
+{#                        <option value="{{ i.id }}">₹ {{ i.fee }}</option>#}
+{#                        {% endfor %}#}
+{#                    </select>#}
+                    <span class="info-text">Select the applicable fee amount</span>
+                </div>
+
+                <!-- Semester and Date Row -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="select3">Fee Amount: <span class="required">*</span></label>
+
+                        <div id="sub"><select name="select3" id="select3" class="select-field" required>
+                        <option value="" disabled selected>Select fee amount</option>
+{#                        {% for i in data2 %}#}
+{#                        <option value="{{ i.id }}">₹ {{ i.fee }}</option>#}
+{#                        {% endfor %}#}
+                    </select></div>
+
+                        {#                        <select name="select2" id="select2" class="select-field" required>#}
+{#                            <option value="" disabled selected>Select semester</option>#}
+{#                            <option value="Semester1">Semester 1</option>#}
+{#                            <option value="Semester2">Semester 2</option>#}
+{#                            <option value="Semester3">Semester 3</option>#}
+{#                            <option value="Semester4">Semester 4</option>#}
+{#                            <option value="Semester5">Semester 5</option>#}
+{#                            <option value="Semester6">Semester 6</option>#}
+{#                        </select>#}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="datefield">Due Date: <span class="required">*</span></label>
+                        <input type="date" name="datefield" id="datefield" class="date-field" required />
+                        <span class="info-text">Fee payment due date</span>
+                    </div>
+                </div>
+
+                <!-- Note Field - CHANGED TO TEXTAREA -->
+                <div class="form-group">
+                    <label for="textfield">Alert Note/Message: <span class="required">*</span></label>
+                    <textarea name="textfield" id="textfield" class="textarea-field"
+                           placeholder="Enter alert message for students"
+                           required></textarea>
+                    <div class="char-counter" id="charCounter">0/500 characters</div>
+                    <span class="info-text">This message will be shown to students</span>
+                </div>
+
+                <!-- Fine Amount and Fine Date Row -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="textfield2">Fine Amount:</label>
+                        <div class="input-with-prefix">
+                            <span class="currency-prefix">₹</span>
+                            <input type="text" name="textfield2" id="textfield2" class="input-field currency-input"
+                                   placeholder="Enter fine amount"
+                                   pattern="[0-9]+(\.[0-9]{1,2})?"
+                                   title="Enter a valid number (e.g., 500 or 500.00)" />
+                        </div>
+                        <span class="info-text">Late fee fine amount (optional)</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="datefield2">Fine Start Date:</label>
+                        <input type="date" name="datefield2" id="datefield2" class="date-field" />
+                        <span class="info-text">Date after which fine applies</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit-container">
+                <input type="submit" name="button" id="button" value="CREATE ALERT" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Form validation and enhancement
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('form1');
+        const courseSelect = document.getElementById('select');
+        const feeSelect = document.getElementById('select3');
+        const semesterSelect = document.getElementById('select2');
+        const noteTextarea = document.getElementById('textfield'); // Changed from input to textarea
+        const charCounter = document.getElementById('charCounter');
+        const fineAmountInput = document.getElementById('textfield2');
+        const dueDateInput = document.getElementById('datefield');
+        const fineDateInput = document.getElementById('datefield2');
+        const submitButton = document.getElementById('button');
+
+        // Set minimum date for date fields to today
+        const today = new Date().toISOString().split('T')[0];
+        dueDateInput.min = today;
+        fineDateInput.min = today;
+
+        // Set default due date to 30 days from today
+        const defaultDueDate = new Date();
+        defaultDueDate.setDate(defaultDueDate.getDate() + 30);
+        dueDateInput.value = defaultDueDate.toISOString().split('T')[0];
+
+        // Set default fine date to 45 days from today (15 days after due date)
+        const defaultFineDate = new Date();
+        defaultFineDate.setDate(defaultFineDate.getDate() + 45);
+        fineDateInput.value = defaultFineDate.toISOString().split('T')[0];
+
+        // Character counter for textarea
+        const maxChars = 500;
+
+        noteTextarea.addEventListener('input', function() {
+            const currentLength = this.value.length;
+            charCounter.textContent = `${currentLength}/${maxChars} characters`;
+
+            if (currentLength > maxChars * 0.9) {
+                charCounter.classList.add('near-limit');
+                charCounter.classList.remove('over-limit');
+            } else if (currentLength > maxChars) {
+                charCounter.classList.remove('near-limit');
+                charCounter.classList.add('over-limit');
+                // Truncate text if exceeds limit
+                this.value = this.value.substring(0, maxChars);
+                charCounter.textContent = `${maxChars}/${maxChars} characters (truncated)`;
+            } else {
+                charCounter.classList.remove('near-limit', 'over-limit');
+            }
+        });
+
+        // Fine amount validation
+        fineAmountInput.addEventListener('input', function(e) {
+            // Allow only numbers and one decimal point
+            let value = this.value;
+
+            // Remove any commas that might have been typed
+            value = value.replace(/,/g, '');
+
+            // Allow only numbers and one decimal point
+            value = value.replace(/[^0-9.]/g, '');
+
+            // Ensure only one decimal point
+            const decimalCount = (value.match(/\./g) || []).length;
+            if (decimalCount > 1) {
+                // Find last decimal point and remove everything after it
+                const lastIndex = value.lastIndexOf('.');
+                value = value.substring(0, lastIndex) + value.substring(lastIndex + 1).replace(/\./g, '');
+            }
+
+            // Update the input value (without commas)
+            this.value = value;
+        });
+
+        // Keep derived selected fee amount for validation
+        function parseFeeAmountFromOption(optionText){
+            if(!optionText) return NaN;
+            // remove currency symbol and commas
+            const num = optionText.replace(/[^0-9.]/g, '');
+            return parseFloat(num);
+        }
+
+        let selectedFeeAmount = NaN;
+        if (feeSelect && feeSelect.selectedIndex > -1) {
+            selectedFeeAmount = parseFeeAmountFromOption(feeSelect.options[feeSelect.selectedIndex].text);
+        }
+
+        feeSelect.addEventListener('change', function(){
+            const opt = this.options[this.selectedIndex];
+            selectedFeeAmount = parseFeeAmountFromOption(opt ? opt.text : '');
+        });
+
+        // Date validation - fine date should be after due date
+        dueDateInput.addEventListener('change', function() {
+            if (fineDateInput.value && fineDateInput.value < this.value) {
+                fineDateInput.value = this.value;
+                alert('Fine date should be on or after the due date.');
+            }
+        });
+
+        fineDateInput.addEventListener('change', function() {
+            if (dueDateInput.value && this.value < dueDateInput.value) {
+                this.value = dueDateInput.value;
+                alert('Fine date should be on or after the due date.');
+            }
+        });
+
+        // Form submission validation
+        form.addEventListener('submit', function(e) {
+{#            e.preventDefault();#}
+
+            let isValid = true;
+            const errorElements = [];
+
+            // Validate course selection
+            if (!courseSelect.value) {
+                isValid = false;
+                courseSelect.style.borderColor = 'var(--error-color)';
+                errorElements.push(courseSelect);
+            } else {
+                courseSelect.style.borderColor = '';
+            }
+
+            // Validate fee selection
+            if (!feeSelect.value) {
+                isValid = false;
+                feeSelect.style.borderColor = 'var(--error-color)';
+                errorElements.push(feeSelect);
+            } else {
+                feeSelect.style.borderColor = '';
+            }
+
+            // Validate semester selection
+            if (!semesterSelect.value) {
+                isValid = false;
+                semesterSelect.style.borderColor = 'var(--error-color)';
+                errorElements.push(semesterSelect);
+            } else {
+                semesterSelect.style.borderColor = '';
+            }
+
+            // Validate note textarea
+            if (!noteTextarea.value || noteTextarea.value.trim() === '') {
+                isValid = false;
+                noteTextarea.style.borderColor = 'var(--error-color)';
+                errorElements.push(noteTextarea);
+            } else if (noteTextarea.value.length > maxChars) {
+                isValid = false;
+                noteTextarea.style.borderColor = 'var(--error-color)';
+                errorElements.push(noteTextarea);
+                alert(`Note cannot exceed ${maxChars} characters.`);
+            } else {
+                noteTextarea.style.borderColor = '';
+            }
+
+            // Validate due date
+            if (!dueDateInput.value) {
+                isValid = false;
+                dueDateInput.style.borderColor = 'var(--error-color)';
+                errorElements.push(dueDateInput);
+            } else {
+                dueDateInput.style.borderColor = '';
+            }
+
+            // Validate fine amount if provided
+            if (fineAmountInput.value) {
+                const fineValue = fineAmountInput.value.replace(/,/g, '');
+                const fineNum = parseFloat(fineValue);
+                if (isNaN(fineNum) || fineNum <= 0) {
+                    isValid = false;
+                    fineAmountInput.style.borderColor = 'var(--error-color)';
+                    errorElements.push(fineAmountInput);
+                } else {
+                    // Compare against selected fee amount (ensure selectedFeeAmount is parsed)
+                    const feeAmount = selectedFeeAmount;
+                    if (!isNaN(feeAmount) && fineNum >= feeAmount) {
+                        isValid = false;
+                        fineAmountInput.style.borderColor = 'var(--error-color)';
+                        errorElements.push(fineAmountInput);
+                        alert('Fine amount must be less than the selected fee amount.');
+                    } else {
+                        fineAmountInput.style.borderColor = '';
+                    }
+                }
+            }
+
+            if (isValid) {
+                // Clean fine amount value before submission
+                if (fineAmountInput.value) {
+                    const cleanFineValue = fineAmountInput.value.replace(/,/g, '');
+                    fineAmountInput.value = cleanFineValue;
+                }
+
+                // Trim note textarea value
+                noteTextarea.value = noteTextarea.value.trim();
+
+                // Show loading state
+                submitButton.value = 'CREATING...';
+                submitButton.disabled = true;
+
+                // Submit form after a short delay to show loading state
+                setTimeout(() => {
+                    form.submit();
+                }, 500);
+            } else {
+                // Scroll to first error
+                if (errorElements.length > 0) {
+                    errorElements[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    errorElements[0].focus();
+                }
+            }
+        });
+
+        // Clear error state on input
+        const formElements = [courseSelect, feeSelect, semesterSelect, noteTextarea, fineAmountInput, dueDateInput, fineDateInput];
+        formElements.forEach(element => {
+            element.addEventListener('change', function() {
+                this.style.borderColor = '';
+            });
+            element.addEventListener('input', function() {
+                this.style.borderColor = '';
+            });
+        });
+
+        // Focus on first field
+        courseSelect.focus();
+    });
+</script>
+
+<script>
+// Prevent going back to this page after form submission
+if (window.history && window.history.pushState) {
+    // Add current page to history
+    window.history.pushState(null, null, window.location.href);
+
+    // Listen for back/forward navigation
+    window.onpopstate = function(event) {
+        // Redirect to /rtohome when back button is pressed
+        window.location.href = '/home';
+    };
+}
+</script>
+</body>
+</html>

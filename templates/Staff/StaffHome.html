@@ -1,0 +1,783 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body><form action="" method="get"><table width="200" border="1">#}
+{#  <tr>#}
+{#    <td><div align="center"><a href="#">Staff</a></div></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td><div align="center"><a href="/StaffAddfee">Add Fee</a></div></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td><div align="center"><a href="/StaffViewFee">View Fee</a></div></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td><div align="center"><a href="/viewadminfeealert">View Admin Fee Alert</a></div></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td><div align="center"><a href="/addfeealertstaff">Add Staff Fee Alert</a></div></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td><div align="center"><a href="/viewstafffeealert">View Staff Fee Alert</a></div></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td><div align="center"><a href="/viewpayementverfication">Payment Verification</a></div></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td><div align="center"><a href="/viewpendingrequeststaff">View Payment  Pendings Request</a></div></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td><div align="center"><a href="/viewverifiedpayment">View Verified Payments</a></div></td>#}
+{#  </tr>#}
+{#    <tr>#}
+{#    <td><div align="center"><a href="/searchstudent">Search Student</a></div></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td><div align="center"><a href="/staff_change_password">Change Password</a></div></td>#}
+{#  </tr>#}
+{##}
+{#</table>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+{##}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Staff Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    /* Color Theme */
+    :root {
+        --primary-color: #06bbcc;
+        --primary-dark: #0499a8;
+        --primary-light: #e8f7f9;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #666666;
+        --sidebar-bg: #ffffff;
+        --sidebar-width: 280px;
+    }
+
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+        min-height: 100vh;
+        display: flex;
+        color: var(--text-color);
+        overflow-x: hidden;
+    }
+
+    /* Mobile Menu Toggle Button */
+    .mobile-menu-toggle {
+        display: none;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1002;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+
+    .mobile-menu-toggle:hover {
+        background: var(--primary-dark);
+        transform: scale(1.05);
+    }
+
+    /* Sidebar Styles */
+    .staff-sidebar {
+        width: var(--sidebar-width);
+        background-color: var(--sidebar-bg);
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
+        overflow-y: auto;
+        z-index: 1001;
+        transition: transform 0.3s ease;
+    }
+
+    /* Sidebar Header */
+    .sidebar-header {
+        padding: 30px 25px 25px;
+        border-bottom: 1px solid var(--border-color);
+        background-color: var(--primary-color);
+        text-align: center;
+    }
+
+    .staff-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        color: var(--white);
+        text-decoration: none;
+    }
+
+    .staff-logo i {
+        font-size: 28px;
+    }
+
+    .staff-logo h1 {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .staff-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 13px;
+        margin-top: 5px;
+        font-weight: 400;
+    }
+
+    /* Navigation Menu */
+    .staff-nav {
+        padding: 25px 20px;
+    }
+
+    .nav-section {
+        margin-bottom: 30px;
+    }
+
+    .nav-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .section-title {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--primary-color);
+        font-weight: 600;
+        margin-bottom: 15px;
+        padding-left: 10px;
+        border-left: 3px solid var(--primary-color);
+    }
+
+    /* Navigation Links */
+    .nav-links {
+        list-style: none;
+    }
+
+    .nav-links li {
+        margin-bottom: 8px;
+    }
+
+    .nav-links li:last-child {
+        margin-bottom: 0;
+    }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 14px 18px;
+        background-color: var(--white);
+        border-radius: 8px;
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+        gap: 15px;
+    }
+
+    .nav-link i {
+        width: 22px;
+        font-size: 18px;
+        color: var(--primary-color);
+        transition: all 0.3s ease;
+    }
+
+    .nav-link .link-text {
+        flex-grow: 1;
+    }
+
+    .nav-link:hover {
+        background-color: var(--primary-light);
+        border-left-color: var(--primary-color);
+        transform: translateX(5px);
+        color: var(--primary-dark);
+    }
+
+    .nav-link:hover i {
+        color: var(--primary-dark);
+    }
+
+    .nav-link.active {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border-left-color: var(--white);
+    }
+
+    .nav-link.active i {
+        color: var(--white);
+    }
+
+    /* Main Content Area */
+    .main-content {
+        flex: 1;
+        padding: 40px;
+        margin-left: var(--sidebar-width);
+        overflow-y: auto;
+        min-height: 100vh;
+        transition: margin-left 0.3s ease;
+    }
+
+    .content-header {
+        margin-bottom: 40px;
+    }
+
+    .welcome-card {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        border-radius: 12px;
+        padding: 30px;
+        color: var(--white);
+        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.3);
+    }
+
+    .welcome-card h2 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+    .welcome-card p {
+        font-size: 16px;
+        opacity: 0.9;
+        max-width: 600px;
+    }
+
+    /* Dashboard Stats */
+    .dashboard-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        margin-top: 40px;
+    }
+
+    .stat-card {
+        background-color: var(--white);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border-top: 4px solid var(--primary-color);
+        transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stat-card .stat-icon {
+        width: 60px;
+        height: 60px;
+        background-color: var(--primary-light);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .stat-card .stat-icon i {
+        font-size: 28px;
+        color: var(--primary-color);
+    }
+
+    .stat-card .stat-value {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--text-color);
+        line-height: 1;
+        margin-bottom: 8px;
+    }
+
+    .stat-card .stat-label {
+        font-size: 15px;
+        color: var(--text-light);
+        font-weight: 500;
+    }
+
+    /* Table Container */
+    .table-container {
+        background: var(--white);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-top: 30px;
+    }
+
+    .table-container h3 {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--primary-light);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* Footer */
+    .sidebar-footer {
+        padding: 20px 25px;
+        border-top: 1px solid var(--border-color);
+        text-align: center;
+        font-size: 13px;
+        color: var(--text-light);
+        background-color: var(--light-bg);
+    }
+
+    .logout-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 20px;
+        background-color: var(--white);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        margin-top: 15px;
+    }
+
+    .logout-btn:hover {
+        background-color: #f8f9fa;
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+    }
+
+    /* Mobile Overlay */
+    .mobile-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        backdrop-filter: blur(3px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .staff-sidebar {
+            transform: translateX(-100%);
+        }
+
+        .staff-sidebar.mobile-open {
+            transform: translateX(0);
+        }
+
+        .main-content {
+            margin-left: 0;
+            padding: 40px 20px;
+        }
+
+        .mobile-menu-toggle {
+            display: flex;
+        }
+
+        .mobile-overlay.active {
+            display: block;
+        }
+
+        .welcome-card h2 {
+            font-size: 24px;
+        }
+
+        .dashboard-stats {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+    }
+
+    @media (max-width: 768px) {
+        .main-content {
+            padding: 40px 15px;
+        }
+
+        .welcome-card {
+            padding: 25px;
+        }
+
+        .welcome-card h2 {
+            font-size: 22px;
+        }
+
+        .dashboard-stats {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .sidebar-header {
+            padding: 20px 15px;
+        }
+
+        .staff-nav {
+            padding: 20px 15px;
+        }
+
+        .nav-link {
+            padding: 12px 15px;
+            font-size: 14px;
+        }
+
+        .mobile-menu-toggle {
+            width: 45px;
+            height: 45px;
+            font-size: 18px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .staff-logo h1 {
+            font-size: 20px;
+        }
+
+        .main-content {
+            padding: 40px 10px;
+        }
+
+        .welcome-card {
+            padding: 20px;
+        }
+
+        .welcome-card h2 {
+            font-size: 20px;
+        }
+
+        .stat-card {
+            padding: 20px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 28px;
+        }
+    }
+</style>
+</head>
+
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Staff Sidebar -->
+    <div class="staff-sidebar" id="staffSidebar">
+        <div class="sidebar-header">
+            <a href="/StaffHome" class="staff-logo">
+                <i class="fas fa-user-tie"></i>
+                <div>
+                    <h1>Staff Panel</h1>
+                    <div class="staff-subtitle">Fee Management Dashboard</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="staff-nav">
+            <!-- Home Section -->
+            <div class="nav-section">
+                <div class="section-title">Dashboard</div>
+                <ul class="nav-links">
+                    <li>
+                        <a href="StaffHome" class="nav-link active">
+                            <i class="fas fa-home"></i>
+                            <span class="link-text">Staff Home</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Fee Management Section -->
+            <div class="nav-section">
+                <div class="section-title">Fee Management</div>
+                <ul class="nav-links">
+                    <li>
+                        <a href="/StaffAddfee" class="nav-link">
+                            <i class="fas fa-plus-circle"></i>
+                            <span class="link-text">Add Fee</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/StaffViewFee" class="nav-link">
+                            <i class="fas fa-eye"></i>
+                            <span class="link-text">View Fee</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Fee Alerts Section -->
+            <div class="nav-section">
+                <div class="section-title">Fee Alerts</div>
+                <ul class="nav-links">
+                    <li>
+                        <a href="/viewadminfeealert" class="nav-link">
+                            <i class="fas fa-bell"></i>
+                            <span class="link-text">View Admin Fee Alert</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/addfeealertstaff" class="nav-link">
+                            <i class="fas fa-plus-square"></i>
+                            <span class="link-text">Add Staff Fee Alert</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/viewstafffeealert" class="nav-link">
+                            <i class="fas fa-list-alt"></i>
+                            <span class="link-text">View Staff Fee Alert</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Payment Management Section -->
+            <div class="nav-section">
+                <div class="section-title">Payment Management</div>
+                <ul class="nav-links">
+{#                    <li>#}
+{#                        <a href="/viewpayementverfication" class="nav-link">#}
+{#                            <i class="fas fa-check-circle"></i>#}
+{#                            <span class="link-text">Payment Verification</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="/viewpendingrequeststaff" class="nav-link">#}
+{#                            <i class="fas fa-clock"></i>#}
+{#                            <span class="link-text">View Payment Pending Requests</span>#}
+{#                        </a>#}
+{#                    </li>#}
+                    <li>
+                        <a href="/viewverifiedpayment" class="nav-link">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span class="link-text">View Verified Payments</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Complaint Management Section -->
+            <div class="nav-section">
+                <div class="section-title">Complaint Management</div>
+                <ul class="nav-links">
+                    <li>
+                        <a href="/viewcomplaints" class="nav-link">
+                            <i class="fas fa-plus-circle"></i>
+                            <span class="link-text">View Complaint </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Student & Account Section -->
+            <div class="nav-section">
+                <div class="section-title">Student & Account</div>
+                <ul class="nav-links">
+                    <li>
+                        <a href="/searchstudent" class="nav-link">
+                            <i class="fas fa-search"></i>
+                            <span class="link-text">Search Student</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/staff_change_password" class="nav-link">
+                            <i class="fas fa-key"></i>
+                            <span class="link-text">Change Password</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <div>Staff Dashboard v1.0</div>
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="content-header">
+            <div class="welcome-card">
+                <h2>Welcome to Staff Dashboard</h2>
+                <p>Manage student fees, payment verifications, and fee alerts from this centralized control panel.</p>
+            </div>
+        </div>
+
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <div class="stat-value">{{ pending_payments|default:0 }}</div>
+                <div class="stat-label">Pending Payments</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-value">{{ verified_payments|default:0 }}</div>
+                <div class="stat-label">Verified Payments</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="stat-value">{{ active_alerts|default:0 }}</div>
+                <div class="stat-label">Active Alerts</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="stat-value">{{ total_students|default:0 }}</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="table-container">
+            <h3><i class="fas fa-history"></i> Recent Activities</h3>
+            <p>Your recent actions and pending tasks will appear here for quick access.</p>
+            <!-- Recent activities table would go here -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const staffSidebar = document.getElementById('staffSidebar');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const mainContent = document.querySelector('.main-content');
+
+            // Mobile menu toggle functionality
+            function toggleMobileMenu() {
+                staffSidebar.classList.toggle('mobile-open');
+                mobileOverlay.classList.toggle('active');
+                document.body.style.overflow = staffSidebar.classList.contains('mobile-open') ? 'hidden' : '';
+
+                // Update button icon
+                const icon = mobileMenuToggle.querySelector('i');
+                if (staffSidebar.classList.contains('mobile-open')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+
+            mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+            mobileOverlay.addEventListener('click', toggleMobileMenu);
+
+            // Close menu when clicking on a link (for mobile)
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 1024) {
+                        staffSidebar.classList.remove('mobile-open');
+                        mobileOverlay.classList.remove('active');
+                        document.body.style.overflow = '';
+
+                        // Reset button icon
+                        const icon = mobileMenuToggle.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            });
+
+            // Add active state to current page link
+            const currentPath = window.location.pathname;
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Set Staff Home as active if on root or hash
+            if (currentPath === '/' || currentPath === '' || window.location.hash === '#') {
+                const homeLink = document.querySelector('a[href="#"]');
+                if (homeLink) {
+                    homeLink.classList.add('active');
+                }
+            }
+
+            // Handle window resize
+            function handleResize() {
+                if (window.innerWidth > 1024) {
+                    staffSidebar.classList.remove('mobile-open');
+                    mobileOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+
+                    // Reset button icon
+                    const icon = mobileMenuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+
+            window.addEventListener('resize', handleResize);
+
+            // Keyboard shortcut for closing menu (ESC key)
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    staffSidebar.classList.remove('mobile-open');
+                    mobileOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+
+                    // Reset button icon
+                    const icon = mobileMenuToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

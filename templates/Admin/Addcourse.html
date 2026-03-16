@@ -1,0 +1,543 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form action="/addcourse_submit" method="post">#}
+{#<table width="200" border="1">#}
+{#  <tr>#}
+{#    <td>Department:</td>#}
+{#    <td><label for="select"></label>#}
+{#      <select name="select" id="select">#}
+{#        <option value="Computer">Computer</option>#}
+{#        <option value="Commerce">Commerce</option>#}
+{#        <option value="English">English</option>#}
+{#        <option value="Economics">Economics</option>#}
+{#        <option value="Social Work">Social Work</option>#}
+{##}
+{#      </select></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Course:</td>#}
+{#    <td><label for="textfield"></label>#}
+{#      <input type="text" name="textfield" id="textfield" /></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Details:</td>#}
+{#    <td><label for="textarea"></label>#}
+{#      <textarea name="textarea" id="textarea" cols="45" rows="5"></textarea></td>#}
+{#  </tr>#}
+{#  <tr align="center">#}
+{#    <td colspan="2"><input type="submit" name="button" id="button" value="Add" /></td>#}
+{#    </tr>#}
+{#</table>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+{##}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Add New Course</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    /* Color Theme */
+    :root {
+        --primary-color: #06bbcc;
+        --primary-dark: #0499a8;
+        --primary-light: #e8f7f9;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #666666;
+        --success-color: #27ae60;
+        --warning-color: #f39c12;
+        --danger-color: #e74c3c;
+    }
+
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        color: var(--text-color);
+    }
+
+    /* Form Container */
+    .form-container {
+        background-color: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.1);
+        padding: 40px;
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+    }
+
+    /* Form Header - EXACTLY like reference */
+    .form-header {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 25px 30px;
+        text-align: center;
+        margin: -40px -40px 30px -40px;
+        border-radius: 12px 12px 0 0;
+        box-shadow: 0 5px 15px rgba(6, 187, 204, 0.2);
+    }
+
+    .form-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .form-header p {
+        font-size: 15px;
+        opacity: 0.9;
+        margin: 0;
+    }
+
+    /* Form Styles */
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text-color);
+        font-size: 15px;
+    }
+
+    .form-label i {
+        color: var(--primary-color);
+        margin-right: 8px;
+        width: 20px;
+        text-align: center;
+    }
+
+    .form-input,
+    .form-select {
+        width: 100%;
+        padding: 14px 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        background-color: var(--white);
+        color: var(--text-color);
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    .form-input::placeholder {
+        color: var(--text-light);
+        opacity: 0.7;
+    }
+
+    /* Textarea specific styling */
+    textarea.form-input {
+        min-height: 150px;
+        resize: vertical;
+        padding-top: 16px;
+        line-height: 1.5;
+        font-family: inherit;
+    }
+
+    /* Submit Button - Like reference */
+    .submit-btn {
+        width: 100%;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        padding: 16px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 4px 12px rgba(6, 187, 204, 0.2);
+    }
+
+    .submit-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(6, 187, 204, 0.3);
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
+    }
+
+    /* Form Footer - Like reference */
+    .form-footer {
+        text-align: center;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+        color: var(--text-light);
+        font-size: 14px;
+    }
+
+    /* Required field indicator */
+    .required {
+        color: var(--danger-color);
+        margin-left: 3px;
+    }
+
+    /* Error/Success Messages */
+    .alert {
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        font-size: 15px;
+        display: none;
+    }
+
+    .alert-success {
+        background-color: rgba(39, 174, 96, 0.1);
+        color: var(--success-color);
+        border: 1px solid rgba(39, 174, 96, 0.2);
+    }
+
+    .alert-error {
+        background-color: rgba(231, 76, 60, 0.1);
+        color: var(--danger-color);
+        border: 1px solid rgba(231, 76, 60, 0.2);
+    }
+
+    /* Character counter */
+    .char-counter {
+        font-size: 12px;
+        color: var(--text-light);
+        text-align: right;
+        margin-top: 5px;
+    }
+
+    .char-counter.warning {
+        color: var(--warning-color);
+    }
+
+    .char-counter.danger {
+        color: var(--danger-color);
+        font-weight: bold;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .form-container {
+            padding: 30px 25px;
+        }
+
+        .form-header {
+            margin: -30px -25px 30px -25px;
+            padding: 20px;
+        }
+
+        .form-header h2 {
+            font-size: 24px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        body {
+            padding: 15px;
+            align-items: flex-start;
+            min-height: auto;
+        }
+
+        .form-container {
+            padding: 25px 20px;
+            margin: 10px auto;
+        }
+
+        .form-header {
+            margin: -25px -20px 25px -20px;
+            padding: 20px 15px;
+        }
+
+        .form-header h2 {
+            font-size: 22px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+        }
+
+        .form-input,
+        .form-select {
+            padding: 12px 14px;
+        }
+
+        textarea.form-input {
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            padding: 14px;
+            font-size: 15px;
+        }
+    }
+
+    /* Animation for form elements */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-group {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    /* Staggered animation delay for form groups */
+    .form-group:nth-child(1) { animation-delay: 0.1s; }
+    .form-group:nth-child(2) { animation-delay: 0.2s; }
+    .form-group:nth-child(3) { animation-delay: 0.3s; }
+    .submit-btn { animation-delay: 0.5s; }
+</style>
+</head>
+
+<body>
+    <div class="form-container">
+        <!-- Form Header - EXACTLY like reference -->
+        <div class="form-header">
+            <h2><i class="fas fa-book-medical"></i> Add New Course</h2>
+            <p>Enter course details to add them to the system</p>
+        </div>
+
+        <!-- Error/Success Messages (hidden by default) -->
+        <div class="alert alert-success" id="successMessage">
+            <i class="fas fa-check-circle"></i> Course added successfully!
+        </div>
+
+        <div class="alert alert-error" id="errorMessage">
+            <i class="fas fa-exclamation-circle"></i> Please fill in all required fields.
+        </div>
+
+        <form action="/addcourse_submit" method="post">
+            <!-- Department Field -->
+            <div class="form-group">
+                <label class="form-label" for="select">
+                    <i class="fas fa-building"></i> Department<span class="required">*</span>
+                </label>
+                <select name="select" id="select" class="form-select" required>
+                    <option value="" disabled selected>Select department</option>
+                    <option value="Computer">Computer</option>
+                    <option value="Commerce">Commerce</option>
+                    <option value="English">English</option>
+                    <option value="Economics">Economics</option>
+                    <option value="Social Work">Social Work</option>
+                </select>
+            </div>
+
+            <!-- Course Name Field -->
+            <div class="form-group">
+                <label class="form-label" for="textfield">
+                    <i class="fas fa-book-open"></i> Course Name<span class="required">*</span>
+                </label>
+                <input type="text"
+                       name="textfield"
+                       id="textfield"
+                       class="form-input"
+                       placeholder="Enter course name"
+                       required>
+            </div>
+
+            <!-- Course Details Field -->
+            <div class="form-group">
+                <label class="form-label" for="textarea">
+                    <i class="fas fa-align-left"></i> Course Details<span class="required">*</span>
+                </label>
+                <textarea name="textarea"
+                          id="textarea"
+                          class="form-input"
+                          placeholder="Enter course description, objectives, syllabus, and requirements"
+                          required></textarea>
+                <div class="char-counter" id="charCounter">0/1000 characters</div>
+            </div>
+
+            <button type="submit" name="button" id="button" class="submit-btn">
+                <i class="fas fa-plus-circle"></i> Add Course
+            </button>
+        </form>
+
+        <div class="form-footer">
+            <p><i class="fas fa-info-circle"></i> All fields marked with <span class="required">*</span> are required</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Character counter for textarea
+            function updateCharCounter() {
+                const length = $('#textarea').val().length;
+                const charCounter = $('#charCounter');
+                charCounter.text(`${length}/1000 characters`);
+
+                if (length > 900) {
+                    charCounter.removeClass('danger').addClass('warning');
+                } else if (length > 1000) {
+                    charCounter.removeClass('warning').addClass('danger');
+                } else {
+                    charCounter.removeClass('warning danger');
+                }
+            }
+
+            $('#textarea').on('input', updateCharCounter);
+
+            // Initialize character counter
+            updateCharCounter();
+
+            // Form validation
+            $('form').on('submit', function(e) {
+                let isValid = true;
+
+                // Check required fields
+                $('input[required], select[required], textarea[required]').each(function() {
+                    if (!$(this).val().trim()) {
+                        isValid = false;
+                        $(this).css('border-color', 'var(--danger-color)');
+                        $(this).closest('.form-group').find('.form-label').css('color', 'var(--danger-color)');
+                    } else {
+                        $(this).css('border-color', 'var(--border-color)');
+                        $(this).closest('.form-group').find('.form-label').css('color', 'var(--text-color)');
+                    }
+                });
+
+                // Course name validation
+                const courseName = $('#textfield').val();
+                if (courseName && courseName.length < 3) {
+                    isValid = false;
+                    $('#textfield').css('border-color', 'var(--danger-color)');
+                    $('#errorMessage').text('Course name must be at least 3 characters.').show();
+                }
+
+                // Course details validation
+                const courseDetails = $('#textarea').val();
+                if (courseDetails && courseDetails.length < 20) {
+                    isValid = false;
+                    $('#textarea').css('border-color', 'var(--danger-color)');
+                    $('#errorMessage').text('Course details must be at least 20 characters.').show();
+                }
+
+                // Character limit validation
+                if (courseDetails && courseDetails.length > 1000) {
+                    isValid = false;
+                    $('#textarea').css('border-color', 'var(--danger-color)');
+                    $('#errorMessage').text('Course details must not exceed 1000 characters.').show();
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                    $('#errorMessage').slideDown();
+                    setTimeout(function() {
+                        $('#errorMessage').slideUp();
+                    }, 5000);
+                }
+
+                return isValid;
+            });
+
+            // Real-time validation for required fields
+            $('input[required], select[required], textarea[required]').on('blur', function() {
+                const value = $(this).val().trim();
+
+                if (value) {
+                    $(this).css('border-color', 'var(--success-color)');
+                    $(this).closest('.form-group').find('.form-label').css('color', 'var(--text-color)');
+
+                    // Special validation for textarea
+                    if ($(this).is('#textarea')) {
+                        if (value.length < 20) {
+                            $(this).css('border-color', 'var(--warning-color)');
+                        } else if (value.length > 1000) {
+                            $(this).css('border-color', 'var(--danger-color)');
+                        }
+                    }
+
+                    // Special validation for course name
+                    if ($(this).is('#textfield')) {
+                        if (value.length < 3) {
+                            $(this).css('border-color', 'var(--warning-color)');
+                        }
+                    }
+                } else {
+                    $(this).css('border-color', 'var(--danger-color)');
+                    $(this).closest('.form-group').find('.form-label').css('color', 'var(--danger-color)');
+                }
+            });
+
+            // Show success message if URL parameter indicates success
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success') === 'true') {
+                $('#successMessage').slideDown();
+                setTimeout(function() {
+                    $('#successMessage').slideUp();
+                }, 5000);
+            }
+
+            // Focus on first field
+            $('#textfield').focus();
+        });
+    </script>
+
+<script>
+// Prevent going back to this page after form submission
+if (window.history && window.history.pushState) {
+    // Add current page to history
+    window.history.pushState(null, null, window.location.href);
+
+    // Listen for back/forward navigation
+    window.onpopstate = function(event) {
+        // Redirect to /rtohome when back button is pressed
+        window.location.href = '/home';
+    };
+}
+</script>
+</body>
+</html>

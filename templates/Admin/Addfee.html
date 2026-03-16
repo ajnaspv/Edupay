@@ -1,0 +1,1080 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"#}
+{#"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{##}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Add Fee</title>#}
+{##}
+{#<style>#}
+{#  .row { display: flex; margin-bottom: 10px; }#}
+{#  .col-lg-2 { margin-right: 10px; }#}
+{#</style>#}
+{#</head>#}
+{##}
+{#<body>#}
+{##}
+{#<form id="form1" name="form1" method="post" action="/addfee_submit">#}
+{##}
+{#  <!-- Course -->#}
+{#  <div class="row">#}
+{#    <div class="col-lg-2">#}
+{#      Course#}
+{#      <select name="select3" id="select3">#}
+{#        {% for i in data %}#}
+{#        <option value="{{ i.id }}">{{ i.course }}</option>#}
+{#        {% endfor %}#}
+{#      </select>#}
+{#    </div>#}
+{##}
+{#    <!-- Semester -->#}
+{#    <div class="col-lg-2">#}
+{#      Semester#}
+{#      <select name="select" id="select">#}
+{#        <option value="Semester1">Semester1</option>#}
+{#        <option value="Semester2">Semester2</option>#}
+{#        <option value="Semester3">Semester3</option>#}
+{#        <option value="Semester4">Semester4</option>#}
+{#        <option value="Semester5">Semester5</option>#}
+{#        <option value="Semester6">Semester6</option>#}
+{#      </select>#}
+{#    </div>#}
+{##}
+{#    <!-- Batch -->#}
+{#    <div class="col-lg-2">#}
+{#      Batch#}
+{#      <select name="select2" id="select2">#}
+{#        <option value="2025">2025</option>#}
+{#      </select>#}
+{#    </div>#}
+{#  </div>#}
+{##}
+{#  <!-- First Row -->#}
+{#  <div class="row" id="readroot">#}
+{#    <div class="col-lg-2">#}
+{#      <input type="text" name="title" placeholder="Title" required>#}
+{#    </div>#}
+{##}
+{#    <div class="col-lg-2">#}
+{#      <input type="number" name="fee" placeholder="Fee" class="fee" required onkeyup="calculateTotal()">#}
+{#    </div>#}
+{#  </div>#}
+{#    <div id="writeroot"></div>#}
+{#    <div class="col-lg-2">#}
+{#      <button type="button" class="moreFields">Add Row</button>#}
+{#    </div>#}
+{#  <!-- New rows appear here -->#}
+{##}
+{##}
+{#  <!-- Total -->#}
+{#  <div class="row">#}
+{#    <div class="col-lg-2">#}
+{#      <strong>Total Amount</strong>#}
+{#      <input type="text" id="totalAmount" name="textfield" readonly>#}
+{#    </div>#}
+{#  </div>#}
+{##}
+{#  <br>#}
+{#  <input type="submit" value="ADD">#}
+{##}
+{#</form>#}
+{##}
+{#<script>#}
+{#let counter = 0;#}
+{##}
+{#window.onload = function () {#}
+{#  attachEvents();#}
+{#};#}
+{##}
+{#function attachEvents() {#}
+{#  let buttons = document.getElementsByClassName('moreFields');#}
+{#  for (let i = 0; i < buttons.length; i++) {#}
+{#    buttons[i].onclick = addRow;#}
+{#  }#}
+{#}#}
+{##}
+{#function addRow() {#}
+{#  counter++;#}
+{##}
+{#  let clone = document.getElementById('readroot').cloneNode(true);#}
+{#  clone.removeAttribute('id');#}
+{##}
+{#  let inputs = clone.getElementsByTagName('input');#}
+{#  for (let i = 0; i < inputs.length; i++) {#}
+{#    if (inputs[i].type !== "button") {#}
+{#      inputs[i].value = "";#}
+{#    }#}
+{#  }#}
+{##}
+{#  document.getElementById('writeroot').appendChild(clone);#}
+{#  attachEvents();#}
+{#}#}
+{##}
+{#function calculateTotal() {#}
+{#  let total = 0;#}
+{#  let fees = document.getElementsByClassName('fee');#}
+{##}
+{#  for (let i = 0; i < fees.length; i++) {#}
+{#    let val = parseFloat(fees[i].value);#}
+{#    if (!isNaN(val)) {#}
+{#      total += val;#}
+{#    }#}
+{#  }#}
+{##}
+{#  document.getElementById('totalAmount').value = total;#}
+{#}#}
+{#</script>#}
+{##}
+{#</body>#}
+{#</html>#}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Add Fee Structure</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    /* Color Theme */
+    :root {
+        --primary-color: #06bbcc;
+        --primary-dark: #0499a8;
+        --primary-light: #e8f7f9;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #666666;
+        --success-color: #27ae60;
+        --warning-color: #f39c12;
+        --danger-color: #e74c3c;
+        --gray-light: #f5f7fa;
+    }
+
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: var(--text-color);
+    }
+
+    /* Form Container */
+    .form-container {
+        max-width: 1000px;
+        width: 100%;
+        background-color: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.15);
+        overflow: hidden;
+        margin: 0 auto;
+    }
+
+    /* Form Header */
+    .form-header {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 25px 30px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(6, 187, 204, 0.2);
+    }
+
+    .form-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .form-header p {
+        font-size: 15px;
+        opacity: 0.9;
+        margin: 0;
+    }
+
+    /* Form Body */
+    .form-body {
+        padding: 30px;
+    }
+
+    /* Form Grid */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    /* Form Group */
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--primary-dark);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .form-group label i {
+        color: var(--primary-color);
+        font-size: 16px;
+        width: 20px;
+    }
+
+    .form-group label .required {
+        color: var(--danger-color);
+        margin-left: 2px;
+    }
+
+    /* Input Field with Icon */
+    .input-with-icon {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+        font-size: 18px;
+        z-index: 1;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 14px 18px 14px 50px;
+        font-size: 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--white);
+        transition: all 0.3s ease;
+        color: var(--text-color);
+    }
+
+    .form-input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    .form-input::placeholder {
+        color: #aaa;
+        opacity: 0.8;
+    }
+
+    /* Currency Input */
+    .currency-input-wrapper {
+        position: relative;
+    }
+
+    .currency-prefix {
+        position: absolute;
+        left: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-weight: 600;
+        color: var(--primary-color);
+        font-size: 16px;
+        z-index: 2;
+    }
+
+    .currency-input {
+        padding-left: 70px;
+    }
+
+    /* Select Field Styling */
+    .form-select {
+        width: 100%;
+        padding: 14px 18px 14px 50px;
+        font-size: 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--white);
+        color: var(--text-color);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2306bbcc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 18px center;
+        background-size: 16px;
+    }
+
+    .form-select:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    /* Form Row for Side-by-Side Fields */
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    /* Fee Components Section */
+    .fee-components-section {
+        background-color: var(--light-bg);
+        border-radius: 10px;
+        padding: 25px;
+        margin: 25px 0;
+        border-left: 4px solid var(--primary-color);
+    }
+
+    .section-title {
+        color: var(--primary-dark);
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .section-title i {
+        color: var(--primary-color);
+    }
+
+    /* Fee Row */
+    .fee-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        gap: 15px;
+        align-items: end;
+        margin-bottom: 15px;
+        padding: 15px;
+        background-color: var(--white);
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+    }
+
+    .fee-row:hover {
+        border-color: var(--primary-color);
+        box-shadow: 0 3px 10px rgba(6, 187, 204, 0.1);
+    }
+
+    .fee-row-title {
+        font-weight: 600;
+        color: var(--text-color);
+        margin-bottom: 5px;
+        display: block;
+        font-size: 14px;
+    }
+
+    .remove-row-btn {
+        background-color: var(--danger-color);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+    }
+
+    .remove-row-btn:hover {
+        background-color: #c0392b;
+        transform: scale(1.05);
+    }
+
+    /* Add Row Button */
+    .add-row-btn {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        padding: 12px 25px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .add-row-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(6, 187, 204, 0.3);
+    }
+
+    /* Total Section */
+    .total-section {
+        background-color: var(--primary-light);
+        border-radius: 10px;
+        padding: 25px;
+        margin-top: 25px;
+        border: 2px solid var(--primary-color);
+    }
+
+    .total-display {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .total-label {
+        color: var(--primary-dark);
+        font-size: 18px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .total-amount {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
+    .total-amount .currency {
+        font-size: 20px;
+        margin-right: 5px;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+        width: 100%;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        padding: 16px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 4px 12px rgba(6, 187, 204, 0.2);
+    }
+
+    .submit-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(6, 187, 204, 0.3);
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
+    }
+
+    .submit-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.4);
+    }
+
+    .submit-btn:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* Info Text */
+    .info-text {
+        font-size: 13px;
+        color: var(--text-light);
+        margin-top: 6px;
+        display: block;
+        margin-left: 50px;
+    }
+
+    /* Error Message */
+    .error-message {
+        color: var(--danger-color);
+        font-size: 13px;
+        margin-top: 5px;
+        display: none;
+        margin-left: 50px;
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-container {
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 22px;
+        }
+
+        .fee-row {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .remove-row-btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .form-body {
+            padding: 20px;
+        }
+
+        .form-header {
+            padding: 20px;
+        }
+
+        .form-header h2 {
+            font-size: 22px;
+        }
+
+        .info-text,
+        .error-message {
+            margin-left: 0;
+        }
+
+        .total-display {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        body {
+            padding: 10px;
+        }
+
+        .form-container {
+            border-radius: 8px;
+        }
+
+        .form-header {
+            padding: 20px 15px;
+        }
+
+        .form-header h2 {
+            font-size: 18px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+        }
+
+        .form-body {
+            padding: 15px;
+        }
+
+        .form-input,
+        .form-select {
+            padding: 12px 15px 12px 45px;
+            font-size: 15px;
+        }
+
+        .input-icon {
+            left: 15px;
+            font-size: 16px;
+        }
+
+        .currency-prefix {
+            left: 45px;
+        }
+
+        .currency-input {
+            padding-left: 60px;
+        }
+
+        .submit-btn {
+            padding: 14px 20px;
+            font-size: 15px;
+        }
+
+        .total-amount {
+            font-size: 24px;
+        }
+    }
+</style>
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2><i class="fas fa-money-check-alt"></i> Add Fee Structure</h2>
+            <p>Create new fee structure with multiple components</p>
+        </div>
+
+        <form id="form1" name="form1" method="post" action="{{ form_action|default:'/addfee_submit' }}" class="form-body">
+            <div class="form-grid">
+                <!-- Course, Semester, Batch Row -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="select3">
+                            <i class="fas fa-book"></i> Course: <span class="required">*</span>
+                        </label>
+                        <div class="input-with-icon">
+                            <div class="input-icon"><i class="fas fa-book"></i></div>
+                            <select name="select3" id="select3" class="form-select" required>
+                                <option value="" disabled selected>Select a course</option>
+                                {% for i in data %}
+                                <option value="{{ i.id }}">{{ i.course }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="error-message" id="courseError">Please select a course</div>
+                        <span class="info-text">Select the course for fee structure</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="select">
+                            <i class="fas fa-graduation-cap"></i> Semester: <span class="required">*</span>
+                        </label>
+                        <div class="input-with-icon">
+                            <div class="input-icon"><i class="fas fa-graduation-cap"></i></div>
+                            <select name="select" id="select" class="form-select" required>
+                                <option value="" disabled selected>Select semester</option>
+                                <option value="Semester1">Semester 1</option>
+                                <option value="Semester2">Semester 2</option>
+                                <option value="Semester3">Semester 3</option>
+                                <option value="Semester4">Semester 4</option>
+                                <option value="Semester5">Semester 5</option>
+                                <option value="Semester6">Semester 6</option>
+                            </select>
+                        </div>
+                        <div class="error-message" id="semesterError">Please select a semester</div>
+                        <span class="info-text">Choose academic semester</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="select2">
+                            <i class="fas fa-calendar-alt"></i> Batch: <span class="required">*</span>
+                        </label>
+                        <div class="input-with-icon">
+                            <div class="input-icon"><i class="fas fa-calendar-alt"></i></div>
+                            <select name="select2"  class="form-select" required>
+                                {% for foo in data2 %}
+                                        <option>{{ foo }}</option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+                        <div class="error-message" id="batchError">Please select a batch</div>
+                        <span class="info-text">Select academic batch year</span>
+                    </div>
+                </div>
+
+                <!-- Fee Components Section -->
+                <div class="fee-components-section">
+                    <div class="section-title">
+                        <i class="fas fa-list"></i> Fee Components
+                    </div>
+
+                    <!-- First Fee Row (Template) -->
+                    <div class="fee-row" id="readroot">
+                        <div class="form-group">
+                            <span class="fee-row-title">Fee Title: <span class="required">*</span></span>
+                            <div class="input-with-icon">
+                                <div class="input-icon"><i class="fas fa-tag"></i></div>
+                                <input type="text"
+                                       name="title"
+                                       placeholder="e.g., Tuition Fee, Library Fee, etc."
+                                       class="form-input fee-title"
+                                       required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="fee-row-title">Amount: <span class="required">*</span></span>
+                            <div class="input-with-icon currency-input-wrapper">
+                                <div class="input-icon"><i class="fas fa-money-bill-wave"></i></div>
+                                <span class="currency-prefix">₹</span>
+                                <input type="number"
+                                       name="fee"
+                                       placeholder="0.00"
+                                       class="form-input currency-input fee-amount"
+                                       required
+                                       min="0"
+                                       step="0.01"
+                                       oninput="calculateTotal()">
+                            </div>
+                        </div>
+
+                        <button type="button" class="remove-row-btn" onclick="removeRow(this)" style="display: none;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+
+                    <!-- Dynamic rows will appear here -->
+                    <div id="writeroot"></div>
+
+                    <!-- Add More Rows Button -->
+                    <button type="button" class="add-row-btn" onclick="addRow()">
+                        <i class="fas fa-plus-circle"></i> Add Another Component
+                    </button>
+                </div>
+
+                <!-- Total Amount Section -->
+                <div class="total-section">
+                    <div class="total-display">
+                        <div class="total-label">
+                            <i class="fas fa-calculator"></i> Total Amount
+                        </div>
+                        <div class="total-amount">
+                            <span class="currency">₹</span>
+                            <span id="totalAmount">0.00</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="totalAmountInput" name="textfield" value="0">
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-check-circle"></i> CREATE FEE STRUCTURE
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let rowCounter = 0;
+
+        $(document).ready(function () {
+            // Initialize first row
+            updateFirstRow();
+
+            // Auto-generate more batch options
+            const currentYear = new Date().getFullYear();
+            const batchSelect = $('#select2');
+            batchSelect.html('');
+
+            // Add current year and next 3 years
+{#            for (let i = 0; i < 4; i++) {#}
+{#                const year = currentYear + i;#}
+{#                batchSelect.append(`<option value="${year}" ${year === 2025 ? 'selected' : ''}>${year}</option>`);#}
+{#            }#}
+
+            // Form validation
+            $('#form1').on('submit', function(e) {
+{#                e.preventDefault();#}
+
+                let isValid = true;
+                let hasFeeComponents = false;
+
+                // Clear previous errors
+                $('.error-message').hide();
+                $('.form-input, .form-select').css('border-color', '');
+
+                // Validate course selection
+                const course = $('#select3').val();
+                if (!course) {
+                    $('#courseError').show();
+                    $('#select3').css('border-color', 'var(--danger-color)');
+                    isValid = false;
+                }
+
+                // Validate semester selection
+                const semester = $('#select').val();
+                if (!semester) {
+                    $('#semesterError').show();
+                    $('#select').css('border-color', 'var(--danger-color)');
+                    isValid = false;
+                }
+
+                // Validate batch selection
+{#                const batch = $('#select2').val();#}
+{#                if (!batch) {#}
+{#                    $('#batchError').show();#}
+{#                    $('#select2').css('border-color', 'var(--danger-color)');#}
+{#                    isValid = false;#}
+{#                }#}
+
+                // Validate fee components
+                const feeRows = $('.fee-row');
+                feeRows.each(function(index) {
+                    const title = $(this).find('.fee-title').val().trim();
+                    const amount = $(this).find('.fee-amount').val().trim();
+
+                    if (!title || !amount || parseFloat(amount) <= 0) {
+                        isValid = false;
+                        if (!title) {
+                            $(this).find('.fee-title').css('border-color', 'var(--danger-color)');
+                        }
+                        if (!amount || parseFloat(amount) <= 0) {
+                            $(this).find('.fee-amount').css('border-color', 'var(--danger-color)');
+                        }
+                    } else {
+                        hasFeeComponents = true;
+                    }
+                });
+
+                if (!hasFeeComponents) {
+                    alert('Please add at least one fee component with valid amount');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    // Get total amount
+                    const totalAmount = parseFloat($('#totalAmount').text().replace(/,/g, ''));
+
+                    // Get selected course name
+                    const courseName = $('#select3 option:selected').text();
+
+                    // Confirm before submitting
+                    const confirmation = confirm(
+                        `Are you sure you want to create this fee structure?\n\n` +
+                        `• Course: ${courseName}\n` +
+                        `• Semester: ${semester}\n` +
+                        `• Batch: ${batch}\n` +
+                        `• Total Fee Amount: ₹${totalAmount.toLocaleString('en-IN')}\n` +
+                        `• Number of Components: ${feeRows.length}\n\n` +
+                        `This will create a new fee structure in the system.`
+                    );
+
+                    if (confirmation) {
+                        // Show loading state
+                        const submitBtn = $('.submit-btn');
+                        const originalText = submitBtn.html();
+                        submitBtn.html('<i class="fas fa-spinner fa-spin"></i> CREATING...');
+                        submitBtn.prop('disabled', true);
+
+                        // Submit form after delay
+                        setTimeout(() => {
+                            $(this).off('submit').submit();
+                        }, 500);
+                    }
+                } else {
+                    // Scroll to first error
+                    const firstError = $('.form-input[style*="border-color"]').first();
+                    if (firstError.length) {
+                        $('html, body').animate({
+                            scrollTop: firstError.offset().top - 100
+                        }, 500);
+                    }
+                }
+
+                return false;
+            });
+
+            // Real-time validation for inputs
+            $('.form-input').on('input', function() {
+                if ($(this).val().trim()) {
+                    $(this).css('border-color', 'var(--success-color)');
+                } else {
+                    $(this).css('border-color', '');
+                }
+            });
+
+            $('.form-select').on('change', function() {
+                if ($(this).val()) {
+                    $(this).css('border-color', 'var(--success-color)');
+                    $(this).siblings('.error-message').hide();
+                } else {
+                    $(this).css('border-color', '');
+                }
+            });
+
+            // Format fee amounts as user types
+            $('.fee-amount').on('input', function() {
+                let value = $(this).val();
+
+                // Remove any non-numeric characters except decimal point
+                value = value.replace(/[^\d.]/g, '');
+
+                // Ensure only one decimal point
+                const parts = value.split('.');
+                if (parts.length > 2) {
+                    value = parts[0] + '.' + parts.slice(1).join('');
+                }
+
+                // Limit to 2 decimal places
+                if (parts.length === 2 && parts[1].length > 2) {
+                    value = parts[0] + '.' + parts[1].substring(0, 2);
+                }
+
+                $(this).val(value);
+                calculateTotal();
+            });
+
+            // Calculate initial total
+            calculateTotal();
+        });
+
+        function updateFirstRow() {
+            const firstRow = $('#readroot');
+            const removeBtn = firstRow.find('.remove-row-btn');
+
+            // Only show remove button if there are multiple rows
+            const feeRows = $('.fee-row');
+            if (feeRows.length > 1) {
+                removeBtn.show();
+            } else {
+                removeBtn.hide();
+            }
+        }
+
+        function addRow() {
+            rowCounter++;
+
+            // Clone the template row
+            const template = $('#readroot');
+            const clone = template.clone(true, true);
+
+            // Remove the ID and clear values
+            clone.removeAttr('id');
+            clone.find('.fee-title').val('');
+            clone.find('.fee-amount').val('');
+            clone.find('.remove-row-btn').show();
+
+            // Add animation
+            clone.css('opacity', '0');
+
+            // Append to writeroot
+            $('#writeroot').append(clone);
+
+            // Animate the new row
+            clone.animate({ opacity: 1 }, 300);
+
+            // Add input event listeners to new row
+            clone.find('.fee-title').on('input', function() {
+                if ($(this).val().trim()) {
+                    $(this).css('border-color', 'var(--success-color)');
+                } else {
+                    $(this).css('border-color', '');
+                }
+            });
+
+            clone.find('.fee-amount').on('input', function() {
+                let value = $(this).val();
+                value = value.replace(/[^\d.]/g, '');
+                const parts = value.split('.');
+                if (parts.length > 2) {
+                    value = parts[0] + '.' + parts.slice(1).join('');
+                }
+                if (parts.length === 2 && parts[1].length > 2) {
+                    value = parts[0] + '.' + parts[1].substring(0, 2);
+                }
+                $(this).val(value);
+                calculateTotal();
+
+                if (value && parseFloat(value) > 0) {
+                    $(this).css('border-color', 'var(--success-color)');
+                } else {
+                    $(this).css('border-color', '');
+                }
+            });
+
+            // Update first row remove button
+            updateFirstRow();
+
+            // Focus on new title field
+            clone.find('.fee-title').focus();
+        }
+
+        function removeRow(button) {
+            const row = $(button).closest('.fee-row');
+
+            // Animate removal
+            row.animate({ opacity: 0, height: 0, padding: 0, margin: 0 }, 300, function() {
+                $(this).remove();
+                calculateTotal();
+                updateFirstRow();
+            });
+        }
+
+        function calculateTotal() {
+            let total = 0;
+
+            // Sum all fee amounts
+            $('.fee-amount').each(function() {
+                const value = parseFloat($(this).val());
+                if (!isNaN(value) && value >= 0) {
+                    total += value;
+                }
+            });
+
+            // Update display
+            $('#totalAmount').text(total.toLocaleString('en-IN', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }));
+
+            // Update hidden input
+            $('#totalAmountInput').val(total.toFixed(2));
+
+            // Update total section color based on amount
+            const totalDisplay = $('.total-amount');
+            if (total > 0) {
+                totalDisplay.css('color', 'var(--success-color)');
+            } else {
+                totalDisplay.css('color', 'var(--primary-color)');
+            }
+        }
+    </script>
+
+<script>
+// Prevent going back to this page after form submission
+if (window.history && window.history.pushState) {
+    // Add current page to history
+    window.history.pushState(null, null, window.location.href);
+
+    // Listen for back/forward navigation
+    window.onpopstate = function(event) {
+        // Redirect to /rtohome when back button is pressed
+        window.location.href = '/home';
+    };
+}
+</script><script>
+// Prevent going back to this page after form submission
+if (window.history && window.history.pushState) {
+    // Add current page to history
+    window.history.pushState(null, null, window.location.href);
+
+    // Listen for back/forward navigation
+    window.onpopstate = function(event) {
+        // Redirect to /rtohome when back button is pressed
+        window.location.href = '/home';
+    };
+}
+</script>
+</body>
+</html>

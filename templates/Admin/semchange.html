@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<form action="/changesem_submit" method="post">
+<table width="200" border="1">
+    <tr>
+    <td>Batch:</td>
+    <td><label for="select"></label>
+      <select name="select" id="select">
+        {% for foo in data2 %}
+            <option>{{ foo }}</option>
+        {% endfor %}
+
+
+      </select></td>
+  </tr>
+
+  <tr>
+    <td>Course:</td>
+    <td><label for="select1"></label>
+      <select name="select1" id="select1">
+        {% for i in data %}#}
+          <option value="{{ i.id }}">{{ i.course }}</option>
+          {% endfor %}
+
+
+      </select></td>
+  </tr>
+  <tr>
+    <td>CurrentSemester:</td>
+    <td><label for="select2"></label>
+      <select name="select2" id="select">
+        <option value="Semester0">Semester0</option>
+        <option value="Semester1">Semester1</option>
+        <option value="Semester2">Semester2</option>
+        <option value="Semester3">Semester3</option>
+        <option value="Semester4">Semester4</option>
+        <option value="Semester5">Semester5</option>
+        <option value="Semester6">Semester6</option>
+        <option value="Semester7">Semester7</option>
+        <option value="Semester8">Semester8</option>
+
+
+      </select></td>
+  </tr>
+    <tr>
+    <td>Change Semester into:</td>
+    <td><label for="select3"></label>
+      <select name="select3" id="select">
+        <option value="Semester0">Semester0</option>
+        <option value="Semester1">Semester1</option>
+        <option value="Semester2">Semester2</option>
+        <option value="Semester3">Semester3</option>
+        <option value="Semester4">Semester4</option>
+        <option value="Semester5">Semester5</option>
+        <option value="Semester6">Semester6</option>
+        <option value="Semester7">Semester7</option>
+        <option value="Semester8">Semester8</option>
+
+
+      </select></td>
+  </tr>
+
+  <tr align="center">
+    <td colspan="2"><input type="submit" name="button" id="button" value="Change Semester" /></td>
+    </tr>
+</table>
+</form>
+
+<script>
+// Prevent going back to this page after form submission
+if (window.history && window.history.pushState) {
+    // Add current page to history
+    window.history.pushState(null, null, window.location.href);
+
+    // Listen for back/forward navigation
+    window.onpopstate = function(event) {
+        // Redirect to /rtohome when back button is pressed
+        window.location.href = '/home';
+    };
+}
+</script>
+</body>
+</html>

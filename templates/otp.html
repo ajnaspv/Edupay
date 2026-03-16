@@ -1,0 +1,585 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="utf-8">#}
+{#    <title>Verify OTP - Parking Manager</title>#}
+{#    <meta content="width=device-width, initial-scale=1.0" name="viewport">#}
+{##}
+{#    <link rel="preconnect" href="https://fonts.googleapis.com">#}
+{#    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">#}
+{#    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">#}
+{#    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">#}
+{##}
+{#<style>#}
+{#    :root { --teal: #20c997; --teal-dark: #1ba87e; --teal-light: #e8f8f5; --teal-glow: rgba(32, 201, 151, 0.3); }#}
+{##}
+{#    body {#}
+{#        font-family: 'Space Grotesk', sans-serif;#}
+{#        min-height: 100vh;#}
+{#        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);#}
+{#        display: flex; align-items: center;#}
+{#    }#}
+{##}
+{#    .otp-container { border-radius: 25px; background: white; padding-bottom: 20px;#}
+{#        border: 2px solid var(--teal-light);#}
+{#        box-shadow: 0 20px 60px rgba(0,0,0,0.1);#}
+{#    }#}
+{##}
+{#    .otp-header { background: linear-gradient(135deg, var(--teal), var(--teal-dark));#}
+{#        padding: 3rem 2rem; text-align: center; }#}
+{##}
+{#    .otp-header h2 { color: white; font-weight: 700; }#}
+{##}
+{#    .otp-wrapper { display: flex; justify-content: center; gap: 15px; margin-bottom: 1.5rem; }#}
+{##}
+{#    .otp-input {#}
+{#        width: 60px; height: 60px; font-size: 1.8rem; font-weight: 700; border-radius: 15px;#}
+{#        border: 2px solid #d9e2e7; text-align: center; transition: .25s;#}
+{#        box-shadow: 0 6px 20px rgba(0,0,0,0.05);#}
+{#    }#}
+{##}
+{#    .otp-input:focus { border-color: var(--teal);#}
+{#        transform: translateY(-3px) scale(1.05);#}
+{#        box-shadow: 0 8px 25px var(--teal-glow); outline: none;#}
+{#    }#}
+{##}
+{#    .otp-input.filled { background: var(--teal-light); border-color: var(--teal-dark); }#}
+{##}
+{#    .btn-verify {#}
+{#        background: linear-gradient(135deg, var(--teal), var(--teal-dark));#}
+{#        width: 100%; padding: 15px; color:white; border-radius: 15px; font-weight: 600;#}
+{#        box-shadow: 0 10px 30px var(--teal-glow);#}
+{#    }#}
+{##}
+{#    .timer { text-align:center; font-weight:700; color:#dc3545; margin-top:7px; }#}
+{#</style>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<div class="container">#}
+{#    <div class="row justify-content-center">#}
+{#        <div class="col-md-6 col-lg-5">#}
+{#            <div class="otp-container">#}
+{##}
+{#                <div class="otp-header">#}
+{#                    <h2>Verify OTP</h2>#}
+{#                    <p class="text-white">Enter the code sent to your email</p>#}
+{#                </div>#}
+{##}
+{#                <form method="post" action="/otpbuttonclick" class="p-4">#}
+{#                    {% csrf_token %}#}
+{##}
+{#                    <div class="otp-wrapper">#}
+{#                        <input class="otp-input" maxlength="1" id="otp1">#}
+{#                        <input class="otp-input" maxlength="1" id="otp2">#}
+{#                        <input class="otp-input" maxlength="1" id="otp3">#}
+{#                        <input class="otp-input" maxlength="1" id="otp4">#}
+{#                    </div>#}
+{##}
+{#                    <input type="hidden" name="textfield" id="otpFinal">#}
+{##}
+{#                    <button type="submit" class="btn-verify">Verify Code</button>#}
+{##}
+{#                    <div class="text-center mt-3">#}
+{#                        <a href="/forgotpassword">Resend OTP</a>#}
+{#                        <div class="timer" id="timer">02:00</div>#}
+{#                    </div>#}
+{#                </form>#}
+{##}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<script>#}
+{#const inputs = document.querySelectorAll(".otp-input");#}
+{##}
+{#inputs.forEach((input, index) => {#}
+{#    input.addEventListener("keyup", (e) => {#}
+{#        if (e.key >= "0" && e.key <= "9") {#}
+{#            input.classList.add("filled");#}
+{#            if (index < inputs.length - 1) inputs[index + 1].focus();#}
+{#        } else if (e.key === "Backspace") {#}
+{#            input.classList.remove("filled");#}
+{#            if (index > 0) inputs[index - 1].focus();#}
+{#        }#}
+{#        collectOTP();#}
+{#    });#}
+{#});#}
+{##}
+{#function collectOTP() {#}
+{#    let value = "";#}
+{#    inputs.forEach(input => value += input.value);#}
+{#    document.getElementById("otpFinal").value = value;#}
+{#}#}
+{##}
+{#// Timer with redirect#}
+{#let timeLeft = 120;  // 2 minutes#}
+{#const timerDisplay = document.getElementById("timer");#}
+{##}
+{#const countdown = setInterval(() => {#}
+{#    let m = String(Math.floor(timeLeft / 60)).padStart(2, "0");#}
+{#    let s = String(timeLeft % 60).padStart(2, "0");#}
+{#    timerDisplay.textContent = `${m}:${s}`;#}
+{#    timeLeft--;#}
+{##}
+{#    if (timeLeft < 0) {#}
+{#        clearInterval(countdown);#}
+{#        window.location.href = "/forgotpassword";#}
+{#    }#}
+{#}, 1000);#}
+{#</script>#}
+{##}
+{#</body>#}
+{#</html>#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Verify OTP - Parking Manager</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --teal: #06bbcc;
+            --teal-dark: #0598a8;
+            --teal-light: #e1f5f8;
+            --teal-glow: rgba(6, 187, 204, 0.25);
+            --danger: #dc3545;
+            --white: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-600: #6c757d;
+            --gray-800: #2c3e50;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #eef9fc 0%, #ffffff 100%);
+            display: flex;
+            align-items: center;
+            color: var(--gray-800);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            width: 100%;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+            justify-content: center;
+        }
+
+        .col-md-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding: 0 15px;
+        }
+
+        .col-lg-5 {
+            flex: 0 0 41.666667%;
+            max-width: 41.666667%;
+        }
+
+        /* OTP Container */
+        .otp-container {
+            border-radius: 25px;
+            background: var(--white);
+            border: 2px solid var(--teal-light);
+            box-shadow: 0 20px 60px rgba(6, 187, 204, 0.15);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .otp-header {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .otp-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            animation: rotate 15s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .otp-header h2 {
+            color: var(--white);
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .otp-header p {
+            color: rgba(255,255,255,0.9);
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Form */
+        .otp-form {
+            padding: 2rem;
+        }
+
+        /* OTP Wrapper */
+        .otp-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* OTP Input */
+        .otp-input {
+            width: 70px;
+            height: 70px;
+            font-size: 2rem;
+            font-weight: 700;
+            border-radius: 15px;
+            border: 2px solid var(--gray-200);
+            text-align: center;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+            background: var(--white);
+            color: var(--gray-800);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .otp-input:focus {
+            border-color: var(--teal);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px var(--teal-glow);
+            outline: none;
+            background: var(--white);
+        }
+
+        .otp-input.filled {
+            background: var(--teal-light);
+            border-color: var(--teal);
+            color: var(--teal-dark);
+        }
+
+        /* Verify Button */
+        .btn-verify {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            width: 100%;
+            padding: 15px;
+            color: var(--white);
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px var(--teal-glow);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .btn-verify:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px var(--teal-glow);
+        }
+
+        .btn-verify:active {
+            transform: translateY(0);
+        }
+
+        .btn-verify:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Resend Link */
+        .text-center {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .resend-link {
+            color: var(--teal);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resend-link:hover {
+            color: var(--teal-dark);
+            text-decoration: underline;
+        }
+
+        .resend-link i {
+            font-size: 0.9rem;
+        }
+
+        /* Timer */
+        .timer {
+            text-align: center;
+            font-weight: 700;
+            color: var(--danger);
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            background: #fff8f8;
+            border-radius: 10px;
+            border: 1px solid rgba(220,53,69,0.2);
+        }
+
+        /* Hidden Input */
+        #otpFinal {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .col-md-6 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .col-lg-5 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .otp-wrapper {
+                gap: 10px;
+            }
+
+            .otp-input {
+                width: 55px;
+                height: 55px;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .otp-header {
+                padding: 2rem 1rem;
+            }
+
+            .otp-form {
+                padding: 1.5rem;
+            }
+
+            .otp-input {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-5">
+            <div class="otp-container">
+                <!-- Header -->
+                <div class="otp-header">
+                    <h2>Verify OTP</h2>
+                    <p>Enter the 6-digit code sent to your email</p>
+                </div>
+
+                <!-- Form -->
+                <form method="post" action="/otpbuttonclick" class="otp-form">
+                    <!-- CSRF Token (commented for static display, uncomment in Django) -->
+                    <!-- {% csrf_token %} -->
+
+                    <!-- OTP Inputs -->
+                    <div class="otp-wrapper">
+                        <input class="otp-input" type="text" maxlength="1" id="otp1" inputmode="numeric" pattern="[0-9]*">
+                        <input class="otp-input" type="text" maxlength="1" id="otp2" inputmode="numeric" pattern="[0-9]*">
+                        <input class="otp-input" type="text" maxlength="1" id="otp3" inputmode="numeric" pattern="[0-9]*">
+                        <input class="otp-input" type="text" maxlength="1" id="otp4" inputmode="numeric" pattern="[0-9]*">
+                    </div>
+
+                    <!-- Hidden field for combined OTP (keeping exact name) -->
+                    <input type="hidden" name="textfield" id="otpFinal">
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-verify" id="verifyBtn">
+                        <i class="fas fa-check-circle me-2"></i>Verify Code
+                    </button>
+
+                    <!-- Resend & Timer -->
+                    <div class="text-center">
+                        <a href="/forgotpassword" class="resend-link">
+                            <i class="fas fa-redo-alt"></i>
+                            Resend OTP
+                        </a>
+                        <div class="timer" id="timer">02:00</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Get all OTP inputs
+    const inputs = document.querySelectorAll(".otp-input");
+    const verifyBtn = document.getElementById('verifyBtn');
+    const otpFinal = document.getElementById('otpFinal');
+
+    // Restrict to numbers only
+    inputs.forEach(input => {
+        input.addEventListener('keypress', (e) => {
+            const char = String.fromCharCode(e.which);
+            if (!/[0-9]/.test(char)) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    // Handle OTP input navigation
+    inputs.forEach((input, index) => {
+        input.addEventListener("keyup", (e) => {
+            // Handle number input
+            if (e.key >= "0" && e.key <= "9") {
+                input.classList.add("filled");
+                if (index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            }
+            // Handle backspace
+            else if (e.key === "Backspace") {
+                input.classList.remove("filled");
+                if (index > 0) {
+                    inputs[index - 1].focus();
+                }
+            }
+
+            // Collect all OTP values
+            collectOTP();
+
+            // Auto-enable/disable verify button based on OTP completion
+            updateVerifyButton();
+        });
+
+        // Handle paste event
+        input.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const pastedData = e.clipboardData.getData('text');
+            const numbers = pastedData.replace(/[^0-9]/g, '').split('');
+
+            numbers.forEach((num, i) => {
+                if (i < inputs.length) {
+                    inputs[i].value = num;
+                    inputs[i].classList.add('filled');
+                }
+            });
+
+            // Focus on next empty input or last input
+            const nextEmpty = Array.from(inputs).find(inp => !inp.value);
+            if (nextEmpty) {
+                nextEmpty.focus();
+            } else {
+                inputs[inputs.length - 1].focus();
+            }
+
+            collectOTP();
+            updateVerifyButton();
+        });
+    });
+
+    // Collect all OTP values into hidden field
+    function collectOTP() {
+        let value = "";
+        inputs.forEach(input => value += input.value);
+        otpFinal.value = value;
+    }
+
+    // Enable/disable verify button based on OTP completion
+    function updateVerifyButton() {
+        const allFilled = Array.from(inputs).every(input => input.value.length === 1);
+        if (allFilled) {
+            verifyBtn.disabled = false;
+            verifyBtn.style.opacity = '1';
+        } else {
+            verifyBtn.disabled = true;
+            verifyBtn.style.opacity = '0.6';
+        }
+    }
+
+    // Initial button state
+    updateVerifyButton();
+
+    // Timer with redirect (keeping your original timer logic)
+    let timeLeft = 120;  // 2 minutes in seconds
+    const timerDisplay = document.getElementById("timer");
+
+    function updateTimer() {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        timerDisplay.textContent = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
+
+    const countdown = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+
+        if (timeLeft < 0) {
+            clearInterval(countdown);
+            window.location.href = "/forgotpassword";
+        }
+    }, 1000);
+
+    // Form submit handler
+    document.querySelector('form').addEventListener('submit', function(e) {
+        collectOTP();
+
+        // Validate OTP is complete
+        if (otpFinal.value.length !== 4) {
+            e.preventDefault();
+            alert('Please enter the complete 4-digit OTP');
+            return;
+        }
+
+        // Visual feedback
+        verifyBtn.disabled = true;
+        verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Verifying...';
+    });
+</script>
+
+</body>
+</html>

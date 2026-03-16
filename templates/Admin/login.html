@@ -1,0 +1,289 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form id="form1" name="form1" method="post" action="/login_submit">#}
+{#  <p><table width="380" border="1">#}
+{#  <tr>#}
+{#    <td>Username :</td>#}
+{#    <td><label for="textfield"></label>#}
+{#      <input type="text" name="textfield" id="textfield" /></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Password :</td>#}
+{#    <td><label for="textfield2"></label>#}
+{#      <input type="text" name="textfield2" id="textfield2" /></td>#}
+{#  </tr>#}
+{#  <tr align="center">#}
+{#    <td colspan="2"><a href="/forgotpassword">Forgot Password</a></td>#}
+{#    </tr>#}
+{#  <tr align="center">#}
+{#    <td height="23" colspan="2"><input type="submit" name="button" id="button" value="login" /></td>#}
+{#    </tr>#}
+{#</table>#}
+{#&nbsp;</p>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>EduPay Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<style type="text/css">
+:root{
+  --primary:#06bbcc;
+  --primary-dark:#0499a8;
+  --light:#e8f7f9;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --border:#dfe6e9;
+  --white:#ffffff;
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  font-family:'Poppins', Arial, sans-serif;
+  background: linear-gradient(135deg, var(--light), #ffffff);
+  min-height:100vh;
+}
+
+/* Center layout */
+.page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+
+.wrap{
+  width:100%;
+  max-width:900px;
+  background:#fff;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 18px 50px rgba(0,0,0,0.12);
+  display:flex;
+}
+
+/* Left panel */
+.brand{
+  width:45%;
+  background: linear-gradient(145deg, var(--primary), #0fd3c7);
+  color:#fff;
+  padding:40px;
+}
+
+.brand h1{
+  margin:0 0 10px;
+}
+
+.brand p{
+  font-size:14px;
+  opacity:0.95;
+}
+
+/* Right panel */
+.panel{
+  width:55%;
+  padding:40px;
+}
+
+.panel h2{
+  margin:0 0 6px;
+}
+
+.panel p{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:20px;
+}
+
+/* Table form styling */
+table{
+  width:100%;
+  border:0 !important;
+}
+
+table tr td{
+  border:0 !important;
+  padding:0;
+}
+
+.label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  margin-bottom:6px;
+}
+
+input[type="text"],
+input[type="password"]{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  font-size:14px;
+  outline:none;
+  transition:0.2s;
+}
+
+input:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(6,187,204,0.15);
+}
+
+/* Forgot link */
+.rowline{
+  display:flex;
+  justify-content:flex-end;
+  margin:10px 0 15px;
+}
+
+.rowline a{
+  font-size:13px;
+  color:var(--primary-dark);
+  text-decoration:none;
+  font-weight:600;
+}
+
+.rowline a:hover{
+  text-decoration:underline;
+}
+
+/* Login button */
+input[type="submit"]{
+  width:100%;
+  padding:12px;
+  border:0;
+  border-radius:10px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+input[type="submit"]:hover{
+  background:var(--primary-dark);
+}
+
+/* Responsive */
+@media (max-width:768px){
+  .wrap{
+    flex-direction:column;
+  }
+  .brand, .panel{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="page">
+  <div class="wrap">
+
+    <!-- Left branding panel -->
+    <div class="brand">
+      <h1>EduPay</h1>
+      <p>Smart College Payment System.<br/>
+      Secure, fast, and easy fee management.</p>
+    </div>
+
+    <!-- Right login panel -->
+    <div class="panel">
+      <h2>Welcome Back</h2>
+      <p>Login to continue to EduPay dashboard</p>
+
+      <!-- Form unchanged -->
+      <form id="form1" name="form1" method="post" action="/login_submit">
+        <table width="380" border="1">
+
+          <tr>
+            <td>
+              <span class="label">Username</span>
+              <label for="textfield"></label>
+              <input type="text" name="textfield" id="textfield"
+                     placeholder="Enter your username" required/>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding-top:12px;">
+              <span class="label">Password</span>
+              <label for="textfield2"></label>
+
+              <div style="position:relative;">
+                <input type="password" name="textfield2" id="textfield2"
+                       placeholder="Enter your password"
+                       style="padding-right:40px;" required/>
+
+                <span onclick="togglePassword()"
+                      style="position:absolute; right:12px; top:50%;
+                             transform:translateY(-50%);
+                             cursor:pointer; font-size:14px;">
+                  👁
+                </span>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <div class="rowline">
+                <a href="/forgotpassword">Forgot Password?</a>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <input type="submit" name="button" id="button" value="login" />
+            </td>
+          </tr>
+
+        </table>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function togglePassword() {
+  var pass = document.getElementById("textfield2");
+  if (pass.type === "password") {
+    pass.type = "text";
+  } else {
+    pass.type = "password";
+  }
+}
+</script>
+<script>
+// Prevent going back to this page after form submission
+if (window.history && window.history.pushState) {
+    // Add current page to history
+    window.history.pushState(null, null, window.location.href);
+
+    // Listen for back/forward navigation
+    window.onpopstate = function(event) {
+        // Redirect to /rtohome when back button is pressed
+        window.location.href = '/';
+    };
+}
+</script>
+</body>
+</html>

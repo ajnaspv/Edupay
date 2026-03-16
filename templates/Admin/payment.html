@@ -1,0 +1,1080 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Payment Management with Reports</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- DataTables CSS -->
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Date Range Picker -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    /* Color Theme - Exactly same as Fee Management */
+    :root {
+        --primary-color: #06bbcc;
+        --primary-dark: #0499a8;
+        --primary-light: #e8f7f9;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #666666;
+        --success-color: #27ae60;
+        --warning-color: #f39c12;
+        --danger-color: #e74c3c;
+    }
+
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: var(--text-color);
+    }
+
+    /* Container */
+    .container {
+        max-width: 1400px;
+        background-color: var(--white);
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.1);
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+
+    /* Page Header */
+    .page-header {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border-radius: 10px;
+        padding: 25px 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(6, 187, 204, 0.2);
+        position: relative;
+    }
+
+    .page-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .page-header p {
+        font-size: 15px;
+        opacity: 0.9;
+        margin: 0;
+    }
+
+    /* Report Panel */
+    .report-panel {
+        background: var(--white);
+        border-radius: 10px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        border: 1px solid var(--border-color);
+    }
+
+    .report-panel h4 {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+        border-bottom: 2px solid var(--primary-light);
+        padding-bottom: 10px;
+    }
+
+    .report-panel h4 i {
+        font-size: 24px;
+    }
+
+    .filter-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .filter-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filter-item label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--text-color);
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .filter-item label i {
+        color: var(--primary-color);
+    }
+
+    .filter-item select, .filter-item input {
+        padding: 10px 12px;
+        border: 2px solid var(--border-color);
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        background-color: var(--white);
+    }
+
+    .filter-item select:focus, .filter-item input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    .report-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    .btn-report {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+    }
+
+    .btn-generate {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: var(--white);
+    }
+
+    .btn-generate:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(6, 187, 204, 0.3);
+        color: var(--white);
+    }
+
+    .btn-pdf {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: var(--white);
+    }
+
+    .btn-pdf:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+        color: var(--white);
+    }
+
+    .btn-excel {
+        background: linear-gradient(135deg, #28a745, #218838);
+        color: var(--white);
+    }
+
+    .btn-excel:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        color: var(--white);
+    }
+
+    /* Summary Cards */
+    .summary-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .summary-card {
+        background: linear-gradient(135deg, var(--primary-light), var(--white));
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        border: 1px solid var(--border-color);
+        transition: transform 0.3s ease;
+    }
+
+    .summary-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(6, 187, 204, 0.2);
+    }
+
+    .summary-card .card-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--primary-color);
+        color: var(--white);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        font-size: 24px;
+    }
+
+    .summary-card .card-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--primary-dark);
+        margin-bottom: 5px;
+    }
+
+    .summary-card .card-label {
+        font-size: 14px;
+        color: var(--text-light);
+        font-weight: 500;
+    }
+
+    /* Custom DataTable Styles */
+    #registrationTable_wrapper {
+        padding: 0;
+    }
+
+    #registrationTable thead th {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        font-weight: 600;
+        padding: 16px 12px;
+        font-size: 15px;
+        text-align: center;
+    }
+
+    #registrationTable tbody td {
+        padding: 14px 12px;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--border-color);
+        text-align: center;
+    }
+
+    #registrationTable tbody tr {
+        transition: all 0.2s ease;
+    }
+
+    #registrationTable tbody tr:hover {
+        background-color: var(--primary-light);
+    }
+
+    /* Amount Styling */
+    .amount {
+        font-weight: 600;
+        color: var(--primary-dark);
+        font-size: 16px;
+    }
+
+    .amount::before {
+        content: '₹ ';
+        font-weight: 500;
+    }
+
+    /* Fine Amount Styling */
+    .fine-amount {
+        font-weight: 500;
+        color: var(--warning-color);
+        font-size: 15px;
+    }
+
+    .fine-amount::before {
+        content: '₹ ';
+        font-weight: 500;
+    }
+
+    /* Status Badge */
+    .status-badge {
+        display: inline-block;
+        padding: 6px 16px;
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: capitalize;
+        min-width: 90px;
+    }
+
+    .status-badge.paid {
+        background-color: rgba(39, 174, 96, 0.15);
+        color: var(--success-color);
+        border: 1px solid rgba(39, 174, 96, 0.3);
+    }
+
+    .status-badge.pending {
+        background-color: rgba(243, 156, 18, 0.15);
+        color: var(--warning-color);
+        border: 1px solid rgba(243, 156, 18, 0.3);
+    }
+
+    .status-badge.failed {
+        background-color: rgba(231, 76, 60, 0.15);
+        color: var(--danger-color);
+        border: 1px solid rgba(231, 76, 60, 0.3);
+    }
+
+    /* DataTable Custom Controls */
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        margin-top: 15px;
+        text-align: left;
+    }
+
+    .dataTables_wrapper .dataTables_length label,
+    .dataTables_wrapper .dataTables_filter label {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100%;
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .dataTables_wrapper .dataTables_length select,
+    .dataTables_wrapper .dataTables_filter input {
+        border: 2px solid var(--border-color);
+        border-radius: 6px;
+        padding: 10px 12px;
+        transition: all 0.3s ease;
+        flex-grow: 1;
+        min-width: 120px;
+        font-size: 14px;
+    }
+
+    .dataTables_wrapper .dataTables_length select:focus,
+    .dataTables_wrapper .dataTables_filter input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate {
+        color: var(--text-color);
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 20px;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        border: 1px solid var(--border-color) !important;
+        border-radius: 6px !important;
+        padding: 8px 12px !important;
+        margin: 2px !important;
+        color: var(--text-color) !important;
+        transition: all 0.3s ease !important;
+        font-size: 12px !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background-color: var(--primary-color) !important;
+        color: var(--white) !important;
+        border-color: var(--primary-color) !important;
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text-light);
+    }
+
+    .empty-state i {
+        font-size: 48px;
+        color: var(--border-color);
+        margin-bottom: 15px;
+        opacity: 0.5;
+    }
+
+    .empty-state h4 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: var(--text-color);
+    }
+
+    /* MOBILE VIEW FIXES */
+    @media (max-width: 768px) {
+        .dataTables_wrapper .dataTables_length label,
+        .dataTables_wrapper .dataTables_filter label {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .dataTables_wrapper .dataTables_length select,
+        .dataTables_wrapper .dataTables_filter input {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .dataTables_wrapper .row {
+            margin: 0;
+        }
+
+        .dataTables_wrapper .col-sm-12 {
+            padding: 0;
+            margin-bottom: 15px;
+        }
+
+        .filter-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .report-actions {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 576px) {
+        body {
+            padding: 10px;
+        }
+
+        .container {
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .page-header h2 {
+            font-size: 18px;
+        }
+
+        .page-header p {
+            font-size: 14px;
+        }
+
+        /* Fix mobile table layout */
+        #registrationTable {
+            border: 0;
+        }
+
+        #registrationTable thead {
+            display: none;
+        }
+
+        #registrationTable tbody tr {
+            display: block;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+        }
+
+        #registrationTable tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 10px;
+            text-align: right;
+            position: relative;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        #registrationTable tbody td:last-child {
+            border-bottom: none;
+        }
+
+        #registrationTable tbody td:before {
+            content: attr(data-label);
+            position: relative;
+            left: 0;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-align: left;
+            flex: 1;
+            padding-right: 10px;
+        }
+
+        /* Fix DataTable controls on mobile */
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter {
+            margin-bottom: 10px;
+        }
+
+        .dataTables_wrapper .dataTables_length label,
+        .dataTables_wrapper .dataTables_filter label {
+            font-size: 13px;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 100% !important;
+            font-size: 13px;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            justify-content: center;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 6px 10px !important;
+            font-size: 11px !important;
+            margin: 2px !important;
+        }
+
+        .summary-cards {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .report-panel {
+            padding: 15px;
+        }
+    }
+</style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h2><i class="fas fa-credit-card"></i> Payment Management</h2>
+      <p>View, track, and generate reports for all student payments</p>
+    </div>
+
+    <!-- Report Generation Panel -->
+    <div class="report-panel">
+      <h4><i class="fas fa-file-alt"></i> Generate Payment Report</h4>
+
+      <!-- Summary Cards -->
+      <div class="summary-cards" id="summaryCards">
+        <div class="summary-card">
+          <div class="card-icon"><i class="fas fa-rupee-sign"></i></div>
+          <div class="card-value" id="totalCollected">₹0</div>
+          <div class="card-label">Total Collected</div>
+        </div>
+        <div class="summary-card">
+          <div class="card-icon"><i class="fas fa-clock"></i></div>
+          <div class="card-value" id="pendingAmount">₹0</div>
+          <div class="card-label">Pending Amount</div>
+        </div>
+        <div class="summary-card">
+          <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
+          <div class="card-value" id="totalFine">₹0</div>
+          <div class="card-label">Total Fine</div>
+        </div>
+        <div class="summary-card">
+          <div class="card-icon"><i class="fas fa-users"></i></div>
+          <div class="card-value" id="totalStudents">0</div>
+          <div class="card-label">Total Students</div>
+        </div>
+{#        <div class="summary-card">#}
+{#          <div class="card-icon"><i class="fas fa-check-circle"></i></div>#}
+{#          <div class="card-value" id="paidCount">0</div>#}
+{#          <div class="card-label">Paid</div>#}
+{#        </div>#}
+      </div>
+
+      <div class="filter-grid">
+        <div class="filter-item">
+          <label><i class="fas fa-graduation-cap"></i> Course</label>
+          <select id="courseFilter" class="form-select">
+            <option value="">All Courses</option>
+            {% for course in courses %}
+            <option value="{{ course.id }}">{{ course.course }} - {{ course.department }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <label><i class="fas fa-layer-group"></i> Batch</label>
+          <select id="batchFilter" class="form-select">
+            <option value="">All Batches</option>
+            {% for batch in batches %}
+            <option value="{{ batch }}">{{ batch }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <label><i class="fas fa-calendar-alt"></i> Semester</label>
+          <select id="semesterFilter" class="form-select">
+            <option value="">All Semesters</option>
+            {% for sem in semesters %}
+            <option value="{{ sem }}">Semester {{ sem }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <label><i class="fas fa-calendar"></i> Date Range</label>
+          <input type="text" id="dateRange" class="form-control" placeholder="Select date range"/>
+        </div>
+
+        <div class="filter-item">
+          <label><i class="fas fa-flag"></i> Payment Status</label>
+          <select id="statusFilter" class="form-select">
+            <option value="">All Status</option>
+            <option value="paid">Paid</option>
+            <option value="pending">Pending</option>
+            <option value="failed">Failed</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="report-actions">
+        <button class="btn-report btn-generate" onclick="applyFilters()">
+          <i class="fas fa-filter"></i> Apply Filters
+        </button>
+        <button class="btn-report btn-pdf" onclick="generatePDF()">
+          <i class="fas fa-file-pdf"></i> Generate PDF Report
+        </button>
+        <button class="btn-report btn-excel" onclick="exportToExcel()">
+          <i class="fas fa-file-excel"></i> Export to Excel
+        </button>
+      </div>
+    </div>
+
+    {% if data %}
+    <table id="registrationTable" class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Student Name</th>
+          <th>Course</th>
+          <th>Batch</th>
+          <th>Semester</th>
+          <th>Fee</th>
+          <th>Fine</th>
+          <th>Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for i in data %}
+          <tr>
+            <td data-label="#">{{ forloop.counter }}</td>
+            <td data-label="Student Name">{{ i.STUDENT.name }}</td>
+            <td data-label="Course">{{ i.STUDENT.COURSE.course }}</td>
+            <td data-label="Batch">{{ i.STUDENT.batch }}</td>
+            <td data-label="Semester">{{ i.STUDENT.semester }}</td>
+            <td data-label="Fee" class="amount">{{ i.totalamount }}</td>
+            <td data-label="Fine" class="fine-amount">{{ i.fineamount }}</td>
+            <td data-label="Date">{{ i.date }}</td>
+            <td data-label="Status">
+              {% if i.status|lower == 'paid' or i.status|lower == 'success' or i.status|lower == 'completed' %}
+                <span class="status-badge paid">{{ i.status }}</span>
+              {% elif i.status|lower == 'pending' or i.status|lower == 'due' %}
+                <span class="status-badge pending">{{ i.status }}</span>
+              {% elif i.status|lower == 'failed' or i.status|lower == 'cancelled' %}
+                <span class="status-badge failed">{{ i.status }}</span>
+              {% else %}
+                <span class="status-badge pending">{{ i.status }}</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+      <i class="fas fa-credit-card"></i>
+      <h4>No Payments Found</h4>
+      <p>There are no payment records to display at the moment.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Hidden data for reports -->
+  <div id="paymentData" style="display: none;">{{ payment_json|safe }}</div>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <script>
+    var table;
+    var allPayments = [];
+
+    $(document).ready(function () {
+      // Initialize DataTable
+      table = $('#registrationTable').DataTable({
+        "language": {
+          "search": "Search payments:",
+          "lengthMenu": "Show _MENU_ entries",
+          "info": "Showing _START_ to _END_ of _TOTAL_ payments",
+          "paginate": {
+            "first": "First",
+            "last": "Last",
+            "next": "Next",
+            "previous": "Previous"
+          }
+        },
+        "pageLength": 10,
+        "responsive": true,
+        "order": [[0, 'asc']],
+        "dom": '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+        "drawCallback": function(settings) {
+          // Fix for mobile view after DataTable redraw
+          if ($(window).width() <= 576) {
+            $('table tr').each(function() {
+              $(this).find('td').each(function(index) {
+                var header = $('#registrationTable thead th').eq(index).text();
+                $(this).attr('data-label', header);
+              });
+            });
+          }
+        }
+      });
+
+      // Initialize date range picker
+      $('#dateRange').daterangepicker({
+        opens: 'left',
+        autoUpdateInput: false,
+        locale: {
+          cancelLabel: 'Clear',
+          format: 'YYYY-MM-DD'
+        }
+      });
+
+      $('#dateRange').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+      });
+
+      $('#dateRange').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+      });
+
+      // Format amounts with Indian numbering system
+      $('.amount, .fine-amount').each(function() {
+        formatAmount($(this));
+      });
+
+      // Parse all payment data
+      parsePaymentData();
+
+      // Calculate initial summary
+      calculateSummary();
+
+      // Window resize handler to fix mobile layout
+      $(window).on('resize', function() {
+        if ($(window).width() <= 576) {
+          $('table tr').each(function() {
+            $(this).find('td').each(function(index) {
+              var header = $('#registrationTable thead th').eq(index).text();
+              $(this).attr('data-label', header);
+            });
+          });
+        }
+      });
+
+      // Initial mobile layout setup
+      if ($(window).width() <= 576) {
+        $('table tr').each(function() {
+          $(this).find('td').each(function(index) {
+            var header = $('#registrationTable thead th').eq(index).text();
+            $(this).attr('data-label', header);
+          });
+        });
+      }
+    });
+
+    function parsePaymentData() {
+      // Parse payment data from the table
+      $('#registrationTable tbody tr').each(function() {
+        var row = $(this);
+        var payment = {
+            student: row.find('td:eq(1)').text(),
+            course: row.find('td:eq(2)').text(),
+            batch: row.find('td:eq(3)').text(),
+            semester: row.find('td:eq(4)').text(),
+            fee: parseFloat(row.find('td:eq(5)').text().replace(/[^0-9.-]+/g, '')) || 0,
+            fine: parseFloat(row.find('td:eq(6)').text().replace(/[^0-9.-]+/g, '')) || 0,
+            date: row.find('td:eq(7)').text(),
+            status: row.find('td:eq(8) .status-badge').text().toLowerCase().trim()
+        };
+        allPayments.push(payment);
+      });
+    }
+
+    function calculateSummary() {
+      var totalCollected = 0;
+      var pendingAmount = 0;
+      var totalFine = 0;
+      var paidCount = 0;
+      var students = new Set();
+
+      allPayments.forEach(function(payment) {
+        students.add(payment.student);
+        totalFine += payment.fine;
+
+        if (payment.status.includes('paid') || payment.status.includes('success')) {
+            totalCollected += payment.fee;
+            paidCount++;
+        } else if (payment.status.includes('pending')) {
+            pendingAmount += payment.fee;
+        }
+      });
+
+      $('#totalCollected').text('₹' + totalCollected.toLocaleString('en-IN'));
+      $('#pendingAmount').text('₹' + pendingAmount.toLocaleString('en-IN'));
+      $('#totalFine').text('₹' + totalFine.toLocaleString('en-IN'));
+      $('#totalStudents').text(students.size);
+      $('#paidCount').text(paidCount);
+    }
+
+    function applyFilters() {
+      var course = $('#courseFilter').val();
+      var batch = $('#batchFilter').val();
+      var semester = $('#semesterFilter').val();
+      var dateRange = $('#dateRange').val();
+      var status = $('#statusFilter').val();
+
+      // Clear current search
+      table.search('').columns().search('').draw();
+
+      // Apply filters based on visible columns
+      if (course) {
+        table.column(2).search(course).draw();
+      }
+      if (batch) {
+        table.column(3).search(batch).draw();
+      }
+      if (semester) {
+        table.column(4).search(semester).draw();
+      }
+      if (status) {
+        table.column(8).search(status, true, false).draw();
+      }
+
+      // Note: Date filtering would require backend support
+      // This is handled on the server side
+    }
+
+    function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      var doc = new jsPDF('landscape');
+
+      // Add title
+      doc.setFontSize(18);
+      doc.setTextColor(6, 187, 204);
+      doc.text('Payment Report', 20, 20);
+
+      // Add report generation date
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.text('Generated on: ' + new Date().toLocaleString(), 20, 30);
+
+      // Add filters info
+      var filters = [];
+      if ($('#courseFilter').val()) filters.push('Course: ' + $('#courseFilter option:selected').text());
+      if ($('#batchFilter').val()) filters.push('Batch: ' + $('#batchFilter').val());
+      if ($('#semesterFilter').val()) filters.push('Semester: ' + $('#semesterFilter').val());
+      if ($('#dateRange').val()) filters.push('Date: ' + $('#dateRange').val());
+      if ($('#statusFilter').val()) filters.push('Status: ' + $('#statusFilter').val());
+
+      if (filters.length > 0) {
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text('Filters: ' + filters.join(' | '), 20, 37);
+      }
+
+      // Add summary
+      doc.setFontSize(12);
+      doc.setTextColor(0);
+      doc.text('Summary', 20, 50);
+
+      doc.setFontSize(10);
+      doc.text('Total Collected: ' + $('#totalCollected').text(), 20, 60);
+      doc.text('Pending Amount: ' + $('#pendingAmount').text(), 20, 67);
+      doc.text('Total Fine: ' + $('#totalFine').text(), 20, 74);
+{#      doc.text('Paid Students: ' + $('#paidCount').text(), 20, 81);#}
+      doc.text('Total Students: ' + $('#totalStudents').text(), 20, 88);
+
+      // Prepare table data
+      var tableData = [];
+      $('#registrationTable tbody tr:visible').each(function() {
+        var row = [];
+        $(this).find('td').each(function() {
+          var text = $(this).text().trim();
+          // Clean up amount formatting
+          if ($(this).hasClass('amount') || $(this).hasClass('fine-amount')) {
+            text = text.replace('₹ ', '');
+          }
+          row.push(text);
+        });
+        tableData.push(row);
+      });
+
+      // Add table
+      doc.autoTable({
+        startY: 100,
+        head: [['#', 'Student', 'Course', 'Batch', 'Sem', 'Fee', 'Fine', 'Date', 'Status']],
+        body: tableData,
+        theme: 'striped',
+        headStyles: {
+          fillColor: [6, 187, 204],
+          textColor: [255, 255, 255],
+          fontSize: 8
+        },
+        styles: {
+          fontSize: 7,
+          cellPadding: 2
+        },
+        columnStyles: {
+          0: { cellWidth: 8 },
+          1: { cellWidth: 35 },
+          2: { cellWidth: 30 },
+          3: { cellWidth: 15 },
+          4: { cellWidth: 15 },
+          5: { cellWidth: 20 },
+          6: { cellWidth: 20 },
+          7: { cellWidth: 25 },
+          8: { cellWidth: 20 }
+        }
+      });
+
+      // Save PDF
+      doc.save('payment_report_' + new Date().toISOString().slice(0,10) + '.pdf');
+    }
+
+    function exportToExcel() {
+      // Create workbook
+      var wb = XLSX.utils.book_new();
+
+      // Summary sheet
+      var summaryData = [
+        ['Payment Report Summary'],
+        ['Generated on:', new Date().toLocaleString()],
+        [''],
+        ['Metric', 'Value'],
+        ['Total Collected', $('#totalCollected').text()],
+        ['Pending Amount', $('#pendingAmount').text()],
+        ['Total Fine', $('#totalFine').text()],
+{#        ['Paid Students', $('#paidCount').text()],#}
+        ['Total Students', $('#totalStudents').text()]
+      ];
+
+      // Add filters info
+      var filters = [];
+      if ($('#courseFilter').val()) filters.push(['Course', $('#courseFilter option:selected').text()]);
+      if ($('#batchFilter').val()) filters.push(['Batch', $('#batchFilter').val()]);
+      if ($('#semesterFilter').val()) filters.push(['Semester', $('#semesterFilter').val()]);
+      if ($('#dateRange').val()) filters.push(['Date Range', $('#dateRange').val()]);
+      if ($('#statusFilter').val()) filters.push(['Status', $('#statusFilter').val()]);
+
+      if (filters.length > 0) {
+        summaryData.push(['']);
+        summaryData.push(['Applied Filters:']);
+        filters.forEach(function(filter) {
+          summaryData.push(filter);
+        });
+      }
+
+      var wsSummary = XLSX.utils.aoa_to_sheet(summaryData);
+      XLSX.utils.book_append_sheet(wb, wsSummary, 'Summary');
+
+      // Payments sheet
+      var paymentsData = [];
+
+      // Add headers
+      var headers = [];
+      $('#registrationTable thead th').each(function() {
+        headers.push($(this).text());
+      });
+      paymentsData.push(headers);
+
+      // Add visible rows data
+      $('#registrationTable tbody tr:visible').each(function() {
+        var row = [];
+        $(this).find('td').each(function() {
+          var text = $(this).text().trim();
+          // Remove ₹ symbol for numeric columns
+          if ($(this).hasClass('amount') || $(this).hasClass('fine-amount')) {
+            text = text.replace('₹ ', '');
+          }
+          // Clean status badge text
+          if ($(this).find('.status-badge').length > 0) {
+            text = $(this).find('.status-badge').text().trim();
+          }
+          row.push(text);
+        });
+        paymentsData.push(row);
+      });
+
+      var wsPayments = XLSX.utils.aoa_to_sheet(paymentsData);
+
+      // Adjust column widths
+      var colWidths = [];
+      for (var i = 0; i < headers.length; i++) {
+        colWidths.push({ wch: 15 });
+      }
+      wsPayments['!cols'] = colWidths;
+
+      XLSX.utils.book_append_sheet(wb, wsPayments, 'Payments');
+
+      // Save file
+      XLSX.writeFile(wb, 'payment_report_' + new Date().toISOString().slice(0,10) + '.xlsx');
+    }
+
+    function formatAmount(element) {
+      var amountText = element.text();
+      var amount = parseFloat(amountText);
+      if (!isNaN(amount)) {
+        var formattedAmount = amount.toLocaleString('en-IN');
+        element.text(formattedAmount);
+      }
+    }
+  </script>
+
+  <script>
+    // Prevent going back to this page after form submission
+    if (window.history && window.history.pushState) {
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function(event) {
+            window.location.href = '/home';
+        };
+    }
+  </script>
+</body>
+</html>

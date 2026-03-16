@@ -1,0 +1,970 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#     <!-- Bootstrap CSS -->#}
+{#  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">#}
+{#  <!-- DataTables CSS -->#}
+{#  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">#}
+{##}
+{#</head>#}
+{##}
+{#<body><div class="container mt-5">#}
+{#    <h2 class="mb-4">View Verfied Payment Staff</h2>#}
+{#    <table id="registrationTable" class="table table-striped table-bordered">#}
+{#      <thead>#}
+{#        <tr>#}
+{#          <th>#</th>#}
+{#          <th>Name</th>#}
+{##}
+{#          <th>Email</th>#}
+{#          <th>Phone</th>#}
+{#          <th>Course</th>#}
+{#          <th>Semester</th>#}
+{#          <th>Date</th>#}
+{#          <th>Paid Amount</th>#}
+{##}
+{##}
+{##}
+{##}
+{##}
+{#        </tr>#}
+{#      </thead>#}
+{#      <tbody>#}
+{#        <!-- Sample Data Row -->#}
+{#        {% for i in data %}#}
+{#        <tr>#}
+{#          <td>{{ forloop.counter }}</td>#}
+{#          <td>{{ i.STUDENT.name }}</td>#}
+{#          <td>{{ i.STUDENT.email }}</td>#}
+{#          <td>{{ i.STUDENT.phone }}</td>#}
+{#          <td>{{ i.STUDENT.COURSE.course }}</td>#}
+{#          <td>{{ i.STUDENT.semester }}</td>#}
+{##}
+{#          <td>{{ i.date }}</td>#}
+{#          <td>{{ i.totalamount }}</td>#}
+{#        </tr>#}
+{#        {% endfor %}#}
+{##}
+{#        <!-- Add more rows dynamically from backend -->#}
+{#      </tbody>#}
+{#    </table>#}
+{#  </div>#}
+{##}
+{#  <!-- Scripts -->#}
+{#  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>#}
+{#  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>#}
+{#  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>#}
+{#  <script>#}
+{#    $(document).ready(function () {#}
+{#      $('#registrationTable').DataTable();#}
+{#    });#}
+{#  </script>#}
+{#</body>#}
+{#</html>#}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Verified Payment Staff</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- DataTables CSS -->
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    /* Color Theme - EXACT same as Payment Management page */
+    :root {
+        --primary-color: #06bbcc;
+        --primary-dark: #0499a8;
+        --primary-light: #e8f7f9;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #666666;
+        --success-color: #27ae60;
+        --warning-color: #f39c12;
+        --danger-color: #e74c3c;
+    }
+
+    /* Base Styles - EXACT same */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: var(--text-color);
+    }
+
+    /* Container - EXACT same */
+    .container {
+        max-width: 1400px;
+        background-color: var(--white);
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.1);
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+
+    /* Page Header - EXACT same */
+    .page-header {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border-radius: 10px;
+        padding: 25px 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(6, 187, 204, 0.2);
+    }
+
+    .page-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .page-header p {
+        font-size: 15px;
+        opacity: 0.9;
+        margin: 0;
+    }
+
+    /* Stats Cards - EXACT same */
+    .stats-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        background: var(--white);
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        border-top: 4px solid var(--primary-color);
+        transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stat-card .stat-value {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--primary-color);
+        line-height: 1;
+        margin-bottom: 8px;
+    }
+
+    .stat-card .stat-label {
+        font-size: 14px;
+        color: var(--text-light);
+        font-weight: 500;
+    }
+
+    /* Custom DataTable Styles - EXACT same */
+    #registrationTable_wrapper {
+        padding: 0;
+    }
+
+    #registrationTable thead th {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        font-weight: 600;
+        padding: 16px 12px;
+        font-size: 15px;
+        text-align: center;
+    }
+
+    #registrationTable tbody td {
+        padding: 14px 12px;
+        vertical-align: middle;
+        border-bottom: 1px solid var(--border-color);
+        text-align: left;
+    }
+
+    #registrationTable tbody tr {
+        transition: all 0.2s ease;
+    }
+
+    #registrationTable tbody tr:hover {
+        background-color: var(--primary-light);
+    }
+
+    /* Name Styling - same as Payment page (without verified badge) */
+    .staff-name {
+        font-weight: 600;
+        color: var(--primary-dark);
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .staff-name i {
+        color: var(--primary-color);
+        flex-shrink: 0;
+    }
+
+    /* Email Styling */
+    .staff-email {
+        color: var(--text-color);
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .staff-email i {
+        color: var(--primary-color);
+        flex-shrink: 0;
+    }
+
+    /* Phone Styling */
+    .staff-phone {
+        color: var(--text-color);
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .staff-phone i {
+        color: var(--primary-color);
+        flex-shrink: 0;
+    }
+
+    /* Course Badge - same as Payment page */
+    .course-badge {
+        font-weight: 500;
+        color: var(--primary-dark);
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background-color: var(--primary-light);
+        padding: 4px 12px;
+        border-radius: 20px;
+        white-space: nowrap;
+        min-width: 120px;
+        text-align: center;
+    }
+
+    .course-badge i {
+        color: var(--primary-color);
+        flex-shrink: 0;
+    }
+
+    /* Semester Badge - FIXED for Semester1, Semester2, etc. */
+    .semester-badge {
+        font-weight: 500;
+        color: var(--primary-dark);
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background-color: rgba(6, 187, 204, 0.08);
+        padding: 4px 12px;
+        border-radius: 20px;
+        white-space: nowrap;
+        min-width: 100px;
+        text-align: center;
+        margin: 0 auto;
+        text-transform: capitalize;
+    }
+
+    .semester-badge i {
+        color: var(--primary-color);
+        flex-shrink: 0;
+        font-size: 14px;
+    }
+
+    /* Date Styling - same as Payment page */
+    .payment-date {
+        color: var(--text-light);
+        font-size: 14px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background-color: var(--primary-light);
+        padding: 4px 12px;
+        border-radius: 20px;
+        white-space: nowrap;
+        min-width: 110px;
+        text-align: center;
+    }
+
+    .payment-date i {
+        color: var(--primary-color);
+        font-size: 13px;
+        flex-shrink: 0;
+    }
+
+    /* Amount Styling - EXACT same as Payment page */
+    .amount {
+        font-weight: 600;
+        color: var(--primary-dark);
+        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background-color: rgba(6, 187, 204, 0.08);
+        padding: 4px 12px;
+        border-radius: 20px;
+        white-space: nowrap;
+        min-width: 100px;
+        text-align: center;
+    }
+
+    .amount i {
+        color: var(--primary-color);
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    .amount .currency {
+        font-weight: 500;
+        color: var(--primary-color);
+        margin-right: 2px;
+    }
+
+    /* Center align for specific columns */
+    #registrationTable td:nth-child(5),
+    #registrationTable td:nth-child(6),
+    #registrationTable td:nth-child(7),
+    #registrationTable td:nth-child(8) {
+        text-align: center !important;
+    }
+
+    /* Keep left align for text columns */
+    #registrationTable td:nth-child(2),
+    #registrationTable td:nth-child(3),
+    #registrationTable td:nth-child(4) {
+        text-align: left !important;
+    }
+
+    /* Center the header for specific columns */
+    #registrationTable th:nth-child(5),
+    #registrationTable th:nth-child(6),
+    #registrationTable th:nth-child(7),
+    #registrationTable th:nth-child(8) {
+        text-align: center !important;
+    }
+
+    /* Table column widths */
+    #registrationTable td:nth-child(2) {
+        min-width: 200px;
+    }
+
+    #registrationTable td:nth-child(3) {
+        min-width: 220px;
+    }
+
+    #registrationTable td:nth-child(4) {
+        min-width: 150px;
+    }
+
+    #registrationTable td:nth-child(5) {
+        min-width: 180px;
+    }
+
+    #registrationTable td:nth-child(6) {
+        min-width: 120px;
+    }
+
+    #registrationTable td:nth-child(7) {
+        min-width: 130px;
+    }
+
+    #registrationTable td:nth-child(8) {
+        min-width: 130px;
+    }
+
+    /* DataTable Controls - EXACT same */
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .dataTables_wrapper .dataTables_filter {
+        margin-top: 15px;
+        text-align: left;
+    }
+
+    .dataTables_wrapper .dataTables_length label,
+    .dataTables_wrapper .dataTables_filter label {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100%;
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .dataTables_wrapper .dataTables_length select,
+    .dataTables_wrapper .dataTables_filter input {
+        border: 2px solid var(--border-color);
+        border-radius: 6px;
+        padding: 10px 12px;
+        transition: all 0.3s ease;
+        flex-grow: 1;
+        min-width: 120px;
+        font-size: 14px;
+    }
+
+    .dataTables_wrapper .dataTables_length select:focus,
+    .dataTables_wrapper .dataTables_filter input:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate {
+        color: var(--text-color);
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 20px;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        border: 1px solid var(--border-color) !important;
+        border-radius: 6px !important;
+        padding: 8px 12px !important;
+        margin: 2px !important;
+        color: var(--text-color) !important;
+        transition: all 0.3s ease !important;
+        font-size: 12px !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background-color: var(--primary-color) !important;
+        color: var(--white) !important;
+        border-color: var(--primary-color) !important;
+    }
+
+    /* Empty State - EXACT same */
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: var(--text-light);
+    }
+
+    .empty-state i {
+        font-size: 48px;
+        color: var(--border-color);
+        margin-bottom: 15px;
+        opacity: 0.5;
+    }
+
+    .empty-state h4 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: var(--text-color);
+    }
+
+    /* MOBILE VIEW FIXES - EXACT same */
+    @media (max-width: 768px) {
+        .stats-cards {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .dataTables_wrapper .dataTables_length label,
+        .dataTables_wrapper .dataTables_filter label {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .dataTables_wrapper .dataTables_length select,
+        .dataTables_wrapper .dataTables_filter input {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .dataTables_wrapper .row {
+            margin: 0;
+        }
+
+        .dataTables_wrapper .col-sm-12 {
+            padding: 0;
+            margin-bottom: 15px;
+        }
+
+        /* Reset centering for tablet */
+        #registrationTable td:nth-child(5),
+        #registrationTable td:nth-child(6),
+        #registrationTable td:nth-child(7),
+        #registrationTable td:nth-child(8) {
+            text-align: left !important;
+        }
+    }
+
+    @media (max-width: 576px) {
+        body {
+            padding: 10px;
+        }
+
+        .container {
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .page-header h2 {
+            font-size: 18px;
+        }
+
+        .page-header p {
+            font-size: 14px;
+        }
+
+        .stats-cards {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        /* Fix mobile table layout - EXACT same */
+        #registrationTable {
+            border: 0;
+        }
+
+        #registrationTable thead {
+            display: none;
+        }
+
+        #registrationTable tbody tr {
+            display: block;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+        }
+
+        #registrationTable tbody td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 8px;
+            text-align: right !important;
+            position: relative;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            min-width: auto !important;
+        }
+
+        #registrationTable tbody td:last-child {
+            border-bottom: none;
+        }
+
+        #registrationTable tbody td:before {
+            content: attr(data-label);
+            position: relative;
+            left: 0;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-align: left;
+            flex: 0 0 100px;
+            padding-right: 10px;
+            font-size: 13px;
+        }
+
+        /* Mobile adjustments for content */
+        .staff-name, .staff-email, .staff-phone {
+            justify-content: flex-end;
+            width: 100%;
+            white-space: normal;
+            word-break: break-word;
+            text-align: right;
+        }
+
+        .course-badge, .semester-badge, .payment-date, .amount {
+            margin-left: auto;
+            min-width: auto;
+            white-space: normal;
+            text-align: right;
+        }
+
+        /* Fix DataTable controls on mobile */
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter {
+            margin-bottom: 10px;
+        }
+
+        .dataTables_wrapper .dataTables_length label,
+        .dataTables_wrapper .dataTables_filter label {
+            font-size: 13px;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            width: 100% !important;
+            font-size: 13px;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            justify-content: center;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 6px 10px !important;
+            font-size: 11px !important;
+            margin: 2px !important;
+        }
+    }
+</style>
+</head>
+
+<body>
+<div class="container">
+    <div class="page-header">
+        <h2>
+            <i class="fas fa-users"></i>
+            Verified Payment Staff
+        </h2>
+        <p>View all staff members with verified payment records</p>
+    </div>
+
+    {% if data %}
+    <!-- Stats Cards - Same style -->
+    <div class="stats-cards">
+        <div class="stat-card">
+            <div class="stat-value">{{ data|length }}</div>
+            <div class="stat-label">Total Verified Staff</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value" id="uniqueCourses">Loading...</div>
+            <div class="stat-label">Unique Courses</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value" id="totalAmount">Loading...</div>
+            <div class="stat-label">Total Amount</div>
+        </div>
+    </div>
+
+    <!-- Table - EXACT same structure -->
+    <table id="registrationTable" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Course</th>
+                <th>Semester</th>
+                <th>Date</th>
+                <th>Paid Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+            <tr>
+                <td data-label="#">#{{ forloop.counter }}</td>
+                <td data-label="Name">
+                    <span class="staff-name">
+                        <i class="fas fa-user-circle"></i>
+                        {{ i.STUDENT.name }}
+                    </span>
+                </td>
+                <td data-label="Email">
+                    <span class="staff-email">
+                        <i class="far fa-envelope"></i>
+                        {{ i.STUDENT.email }}
+                    </span>
+                </td>
+                <td data-label="Phone">
+                    <span class="staff-phone">
+                        <i class="fas fa-phone-alt"></i>
+                        {{ i.STUDENT.phone|default:"Not provided" }}
+                    </span>
+                </td>
+                <td data-label="Course">
+                    <span class="course-badge">
+                        <i class="fas fa-graduation-cap"></i>
+                        {{ i.STUDENT.COURSE.course }}
+                    </span>
+                </td>
+                <td data-label="Semester">
+                    <span class="semester-badge" data-raw="{{ i.STUDENT.semester }}">
+                        <i class="fas fa-layer-group"></i>
+                        <span class="semester-text">
+                            {% if i.STUDENT.semester %}
+                                {% with semester_value=i.STUDENT.semester|stringformat:"s" %}
+                                    {% if "semester" in semester_value|lower %}
+                                        {{ semester_value }}
+                                    {% elif "sem" in semester_value|lower %}
+                                        {{ semester_value }}
+                                    {% else %}
+                                        Semester {{ semester_value }}
+                                    {% endif %}
+                                {% endwith %}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </span>
+                    </span>
+                </td>
+                <td data-label="Date">
+                    <span class="payment-date">
+                        <i class="far fa-calendar-check"></i>
+                        {{ i.date }}
+                    </span>
+                </td>
+                <td data-label="Amount">
+                    <span class="amount">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span class="currency">₹</span> {{ i.totalamount }}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <!-- Empty State -->
+    <div class="empty-state">
+        <i class="fas fa-users"></i>
+        <h4>No Verified Staff Found</h4>
+        <p>There are no staff members with verified payment records at the moment.</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        {% if data %}
+        // Process semester data to ensure consistent format
+        $('.semester-badge').each(function() {
+            var $this = $(this);
+            var semesterText = $this.find('.semester-text').text().trim();
+
+            // If semester is just a number (1-8), format it properly
+            if (/^\d+$/.test(semesterText)) {
+                var semNum = parseInt(semesterText);
+                if (semNum >= 1 && semNum <= 8) {
+                    $this.find('.semester-text').text('Semester ' + semNum);
+                }
+            }
+            // If it's already formatted but missing space (Semester1, Semester2, etc.)
+            else if (/semester\d+/i.test(semesterText)) {
+                var match = semesterText.match(/semester(\d+)/i);
+                if (match) {
+                    var semNum = match[1];
+                    $this.find('.semester-text').text('Semester ' + semNum);
+                }
+            }
+            // If it's "Sem1", "Sem2", etc.
+            else if (/sem\d+/i.test(semesterText)) {
+                var match = semesterText.match(/sem(\d+)/i);
+                if (match) {
+                    var semNum = match[1];
+                    $this.find('.semester-text').text('Semester ' + semNum);
+                }
+            }
+            // If it's "S1", "S2", etc.
+            else if (/^s\d+$/i.test(semesterText)) {
+                var match = semesterText.match(/s(\d+)/i);
+                if (match) {
+                    var semNum = match[1];
+                    $this.find('.semester-text').text('Semester ' + semNum);
+                }
+            }
+        });
+
+        // Initialize DataTable - Same options
+        var table = $('#registrationTable').DataTable({
+            "language": {
+                "search": "Search staff:",
+                "lengthMenu": "Show _MENU_ entries",
+                "info": "Showing _START_ to _END_ of _TOTAL_ staff",
+                "paginate": {
+                    "first": "First",
+                    "last": "Last",
+                    "next": "Next",
+                    "previous": "Previous"
+                }
+            },
+            "pageLength": 10,
+            "responsive": true,
+            "order": [[0, 'asc']],
+            "dom": '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            "drawCallback": function(settings) {
+                // Re-process semester data after table redraw
+                $('.semester-badge').each(function() {
+                    var $this = $(this);
+                    var semesterText = $this.find('.semester-text').text().trim();
+
+                    if (/^\d+$/.test(semesterText)) {
+                        var semNum = parseInt(semesterText);
+                        if (semNum >= 1 && semNum <= 8) {
+                            $this.find('.semester-text').text('Semester ' + semNum);
+                        }
+                    }
+                    else if (/semester\d+/i.test(semesterText)) {
+                        var match = semesterText.match(/semester(\d+)/i);
+                        if (match) {
+                            var semNum = match[1];
+                            $this.find('.semester-text').text('Semester ' + semNum);
+                        }
+                    }
+                    else if (/sem\d+/i.test(semesterText)) {
+                        var match = semesterText.match(/sem(\d+)/i);
+                        if (match) {
+                            var semNum = match[1];
+                            $this.find('.semester-text').text('Semester ' + semNum);
+                        }
+                    }
+                    else if (/^s\d+$/i.test(semesterText)) {
+                        var match = semesterText.match(/s(\d+)/i);
+                        if (match) {
+                            var semNum = match[1];
+                            $this.find('.semester-text').text('Semester ' + semNum);
+                        }
+                    }
+                });
+
+                // Fix for mobile view after DataTable redraw
+                if ($(window).width() <= 576) {
+                    $('table tr').each(function() {
+                        $(this).find('td').each(function(index) {
+                            var headers = ['#', 'Name', 'Email', 'Phone', 'Course', 'Semester', 'Date', 'Paid Amount'];
+                            $(this).attr('data-label', headers[index]);
+                        });
+                    });
+                }
+            }
+        });
+
+        // Calculate and update stats
+        function updateStats() {
+            var totalRows = $('tbody tr').length;
+
+            if (totalRows === 0) return;
+
+            // Unique courses
+            var courses = new Set();
+            var totalAmount = 0;
+
+            $('tbody tr').each(function() {
+                var course = $(this).find('td:nth-child(5)').text().trim();
+                if (course) {
+                    courses.add(course);
+                }
+
+                // Parse and sum amounts
+                var amountText = $(this).find('td:nth-child(8)').text().trim().replace('₹', '');
+                var amount = parseFloat(amountText) || 0;
+                totalAmount += amount;
+            });
+
+            $('#uniqueCourses').text(courses.size);
+            $('#totalAmount').text('₹' + totalAmount.toLocaleString('en-IN'));
+        }
+
+        // Update stats on page load
+        updateStats();
+
+        // Update stats when table changes
+        table.on('draw', function() {
+            updateStats();
+        });
+
+        // Format amounts with Indian numbering
+        $('.amount').each(function() {
+            var amountText = $(this).text().trim().replace('₹', '');
+            var amount = parseFloat(amountText);
+            if (!isNaN(amount)) {
+                var formattedAmount = amount.toLocaleString('en-IN');
+                $(this).html('<i class="fas fa-money-bill-wave"></i> <span class="currency">₹</span> ' + formattedAmount);
+            }
+        });
+
+        // Window resize handler for mobile
+        $(window).on('resize', function() {
+            if ($(window).width() <= 576) {
+                $('table tr').each(function() {
+                    $(this).find('td').each(function(index) {
+                        var headers = ['#', 'Name', 'Email', 'Phone', 'Course', 'Semester', 'Date', 'Paid Amount'];
+                        $(this).attr('data-label', headers[index]);
+                    });
+                });
+            }
+        });
+
+        // Initial mobile layout
+        if ($(window).width() <= 576) {
+            $('table tr').each(function() {
+                $(this).find('td').each(function(index) {
+                    var headers = ['#', 'Name', 'Email', 'Phone', 'Course', 'Semester', 'Date', 'Paid Amount'];
+                    $(this).attr('data-label', headers[index]);
+                });
+            });
+        }
+        {% endif %}
+    });
+</script>
+
+<script>
+// Prevent going back to this page after form submission
+if (window.history && window.history.pushState) {
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function(event) {
+        window.location.href = '/StaffHome';
+    };
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form action="" method="get">#}
+{#<table width="200" border="1">#}
+{#  <tr>#}
+{#    <td>Email:</td>#}
+{#    <td><label for="textfield"></label>#}
+{#      <input type="text" name="textfield" id="textfield" /></td>#}
+{#  </tr>#}
+{#  <tr align="center">#}
+{#    <td colspan="2"><input type="submit" name="button" id="button" value="Search" /></td>#}
+{#    </tr>#}
+{#</table>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Staff - Student Search</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa, #e4f1f5);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .search-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(6, 187, 204, 0.2);
+        width: 100%;
+        max-width: 500px;
+        overflow: hidden;
+    }
+
+    .header {
+        background: #06bbcc;
+        color: white;
+        padding: 25px;
+        text-align: center;
+    }
+
+    .header i {
+        font-size: 40px;
+        margin-bottom: 10px;
+        background: rgba(255,255,255,0.2);
+        padding: 15px;
+        border-radius: 50%;
+    }
+
+    .header h2 {
+        font-size: 24px;
+        margin-bottom: 5px;
+    }
+
+    .header p {
+        font-size: 14px;
+        opacity: 0.9;
+    }
+
+    .content {
+        padding: 30px;
+    }
+
+    .info-box {
+        background: #e8f7f9;
+        border-left: 4px solid #06bbcc;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .info-box i {
+        color: #06bbcc;
+        margin-right: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #444;
+        font-size: 15px;
+    }
+
+    label i {
+        color: #06bbcc;
+        margin-right: 5px;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .input-wrapper i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #06bbcc;
+    }
+
+    input {
+        width: 100%;
+        padding: 14px 14px 14px 45px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+
+    input:focus {
+        border-color: #06bbcc;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.1);
+    }
+
+    input.error {
+        border-color: #e74c3c;
+    }
+
+    .error-msg {
+        color: #e74c3c;
+        font-size: 13px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .error-msg.show {
+        display: block;
+    }
+
+    button {
+        background: #06bbcc;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 15px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #0499a8;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(6, 187, 204, 0.3);
+    }
+
+    button i {
+        font-size: 16px;
+    }
+
+    .tips {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .tips p {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .tips span {
+        display: inline-block;
+        background: #f5f5f5;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+    }
+
+    .tips i {
+        color: #06bbcc;
+        margin-right: 5px;
+    }
+
+    /* Original table hidden */
+    table {
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+    <div class="search-card">
+        <div class="header">
+            <i class="fas fa-search"></i>
+            <h2>Student Search</h2>
+            <p>Staff Module</p>
+        </div>
+
+        <div class="content">
+            <!-- Simple Info -->
+            <div class="info-box">
+                <i class="fas fa-info-circle"></i>
+                Search for students by their email address
+            </div>
+
+            <!-- Search Form - Original names preserved -->
+            <form action="/searchedstudent" method="post" id="searchForm">
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-envelope"></i> Email Address
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text"
+                               name="textfield"
+                               id="textfield"
+                               placeholder="Enter student email" />
+                    </div>
+                    <div class="error-msg" id="emailError">Please enter a valid email</div>
+                </div>
+
+                <!-- Original table kept hidden -->
+                <table>
+                    <tr>
+                        <td>Email:</td>
+                        <td><input type="text" name="textfield_old" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" value="Search" /></td>
+                    </tr>
+                </table>
+
+                <!-- Search Button -->
+                <button type="submit" name="button" id="button">
+                    <i class="fas fa-search"></i> Search Student
+                </button>
+            </form>
+
+            <!-- Simple Tips -->
+            <div class="tips">
+                <p><i class="fas fa-lightbulb"></i> Quick tips:</p>
+                <span><i class="fas fa-check"></i> Use full email</span>
+                <span><i class="fas fa-check"></i> e.g., name@college.edu</span>
+                <span><i class="fas fa-check"></i> Check for typos</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            const email = document.getElementById('textfield').value.trim();
+            const errorMsg = document.getElementById('emailError');
+            const input = document.getElementById('textfield');
+
+            // Simple email validation
+            if (!email) {
+                e.preventDefault();
+                input.classList.add('error');
+                errorMsg.textContent = 'Email is required';
+                errorMsg.classList.add('show');
+            }
+            else if (!email.includes('@') || !email.includes('.')) {
+                e.preventDefault();
+                input.classList.add('error');
+                errorMsg.textContent = 'Enter a valid email (e.g., name@domain.com)';
+                errorMsg.classList.add('show');
+            }
+        });
+
+        // Remove error on input
+        document.getElementById('textfield').addEventListener('input', function() {
+            this.classList.remove('error');
+            document.getElementById('emailError').classList.remove('show');
+        });
+    </script>
+</body>
+</html>

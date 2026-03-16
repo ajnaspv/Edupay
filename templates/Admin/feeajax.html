@@ -1,0 +1,14 @@
+
+{% if data2 %}
+ <select name="select3" id="select3" class="select-field" required>
+     <option value="" disabled selected>Select fee amount</option>
+      {% for i in data2 %}
+     <option value="{{ i.id }}">₹ {{ i.fee }}({{ i.batch }})</option>
+      {% endfor %}
+ </select>
+    {% else %}
+     <select name="select3" id="select3" class="select-field" required>
+     <option value="" disabled selected>No fee found</option>
+
+ </select>
+{% endif %}

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Complaints</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #06bbcc;
+            --primary-dark: #0499a8;
+            --primary-light: #e8f7f9;
+            --warning-color: #f39c12;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .page-header {
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* Desktop Table Styling */
+        #complaintTable thead th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+            border: none;
+            text-align: center;
+        }
+
+        .td-clip {
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Status & Buttons */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: rgba(6, 187, 204, 0.1);
+            color: var(--primary-dark);
+            border: 1px solid rgba(6, 187, 204, 0.2);
+        }
+
+        .btn-view-img {
+            background: #fff;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-view-img:hover {
+            background: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(6, 187, 204, 0.3);
+        }
+
+        .update-btn {
+            background: rgba(243, 156, 18, 0.1);
+            color: var(--warning-color);
+            border: 1px solid var(--warning-color);
+            padding: 6px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .update-btn:hover {
+            background: var(--warning-color);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Image Gallery inside Modal */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .gallery-card {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .gallery-card:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        /* Responsive Mobile Cards */
+        @media (max-width: 992px) {
+            #complaintTable thead { display: none; }
+            #complaintTable, #complaintTable tbody, #complaintTable tr, #complaintTable td {
+                display: block; width: 100%;
+            }
+            #complaintTable tr {
+                margin-bottom: 25px;
+                border: 1px solid var(--border-color);
+                border-radius: 12px;
+                background: #fff;
+                padding: 15px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            }
+            #complaintTable td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 5px;
+                border-bottom: 1px solid #f5f5f5;
+                text-align: right;
+            }
+            #complaintTable td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: var(--primary-color);
+                font-size: 12px;
+                flex: 1;
+                text-align: left;
+            }
+            .td-clip { max-width: 200px; white-space: normal; word-break: break-all; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="page-header">
+        <h2><i class="fas fa-exclamation-circle"></i> View Student Complaints</h2>
+        <p>Manage grievances, view evidence, and provide resolutions</p>
+    </div>
+
+    <div class="table-responsive">
+        <table id="complaintTable" class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Student Info</th>
+                    <th>Course</th>
+                    <th>Title & Category</th>
+                    <th>Description</th>
+                    <th>Evidence</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <td data-label="#">{{ forloop.counter }}</td>
+                    <td data-label="Student Info">
+                        <strong>{{ i.STUDENT.name }}</strong><br>
+                        <small class="text-muted">Batch: {{ i.STUDENT.batch }}</small>
+                    </td>
+                    <td data-label="Course">
+                        {{ i.STUDENT.COURSE.course }}<br>
+                        <small class="text-muted">Sem: {{ i.STUDENT.semester }}</small>
+                    </td>
+                    <td data-label="Title & Category">
+                        <span class="fw-bold">{{ i.title }}</span><br>
+                        <span class="badge bg-secondary" style="font-size: 10px;">{{ i.category }}</span>
+                    </td>
+                    <td data-label="Description" class="td-clip" title="{{ i.description }}">
+                        {{ i.description }}
+                    </td>
+                    <td data-label="Evidence">
+                        <button class="btn-view-img" onclick="openGallery('{{ i.id }}')">
+                            <i class="fas fa-camera"></i> Photos
+                        </button>
+
+                        <div id="data-imgs-{{ i.id }}" style="display:none;">
+                            {% for sub in i.complaintsub_set.all %}
+                                <span>/media/{{ sub.image }}</span>
+                            {% endfor %}
+                        </div>
+                    </td>
+                    <td data-label="Status">
+                        <span class="status-badge">{{ i.status }}</span>
+                    </td>
+                    <td data-label="Action">
+                        <a href="/updatecomplaint/{{ i.id }}" class="update-btn">
+                            <i class="fas fa-reply"></i> Update
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if not data %}
+    <div class="text-center py-5">
+        <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+        <h4 class="text-muted">No complaints found.</h4>
+    </div>
+    {% endif %}
+</div>
+
+<div class="modal fade" id="galleryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold"><i class="fas fa-images text-primary me-2"></i>Attached Evidence</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="galleryContainer" class="gallery-grid">
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#complaintTable').DataTable({
+            "responsive": true,
+            "pageLength": 10,
+            "dom": '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            "language": {
+                "search": "Quick Search:",
+                "lengthMenu": "_MENU_ per page"
+            }
+        });
+    });
+
+    // Gallery Logic
+    function openGallery(id) {
+        const container = document.getElementById('galleryContainer');
+        const dataDiv = document.getElementById('data-imgs-' + id);
+        const images = dataDiv.getElementsByTagName('span');
+
+        container.innerHTML = ''; // Reset
+
+        if (images.length === 0) {
+            container.innerHTML = `
+                <div class="text-center w-100 p-5">
+                    <i class="fas fa-image-slash fa-3x text-muted mb-2"></i>
+                    <p class="text-muted">No images attached to this complaint.</p>
+                </div>`;
+        } else {
+            for (let imgSpan of images) {
+                const url = imgSpan.innerText;
+                const card = document.createElement('div');
+                card.className = 'gallery-card';
+                card.innerHTML = `
+                    <a href="${url}" target="_blank">
+                        <img src="${url}" alt="Complaint Image" onerror="this.src='https://placehold.co/400x300?text=Error+Loading+Image'">
+                    </a>
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        var myModal = new bootstrap.Modal(document.getElementById('galleryModal'));
+        myModal.show();
+    }
+
+    // Navigation Guard
+    if (window.history && window.history.pushState) {
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function() {
+            window.location.href = '/StaffHome';
+        };
+    }
+</script>
+
+</body>
+</html>

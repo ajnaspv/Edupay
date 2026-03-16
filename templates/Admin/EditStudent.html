@@ -1,0 +1,1789 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form action="/editstudent_submit" method="post">#}
+{#<table width="278" border="1">#}
+{#  <tr>#}
+{#    <td width="76">Name:</td>#}
+{#    <td width="186"><label for="textfield"></label>#}
+{#      <input type="text" name="textfield" id="textfield" value="{{ data.name }}" /></td>#}
+{#  </tr>#}
+{#<tr>#}
+{#    <td width="76">Admission No:</td>#}
+{#    <td width="186"><label for="textfield4"></label>#}
+{#      <input type="text" name="textfield4" id="textfield4"  value="{{ data.adm_no }}"/></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Email:</td>#}
+{#    <td><label for="textfield2"></label>#}
+{#      <input type="text" name="textfield2" id="textfield2" value="{{ data.email }}"/></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Phone:</td>#}
+{#    <td><label for="textfield3"></label>#}
+{#      <input type="text" name="textfield3" id="textfield3" value="{{ data.phone }}"/></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Batch:</td>#}
+{#    <td><label for="select"></label>#}
+{#      <select name="select" id="select">#}
+{#           <option value="2055">2025</option>#}
+{#      </select></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Semester:</td>#}
+{#    <td><label for="select2"></label>#}
+{#      <select name="select2" id="select2">#}
+{#          <option value=" Semester1">Semester 1</option>#}
+{#          <option value=" Semester2">Semester 2</option>#}
+{#          <option value=" Semester3">Semester 3</option>#}
+{#          <option value=" Semester4">Semester 4</option>#}
+{#          <option value=" Semester5">Semester 5</option>#}
+{#          <option value=" Semester6">Semester 6</option>#}
+{#          <option value=" Semester7">Semester 7</option>#}
+{#          <option value=" Semester8">Semester 8</option>#}
+{#      </select></td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td>Course:</td>#}
+{#    <td><label for="select3"></label>#}
+{#      <select name="select3" id="select3">#}
+{#           {% for i in data2 %}#}
+{#          <option value="{{ i.id }}">{{ i.course }}</option>#}
+{#          {% endfor %}#}
+{#      </select></td>#}
+{#  </tr>#}
+{#  <tr align="center">#}
+{#    <td colspan="2"><input type="submit" name="button" id="button" value="Update" /></td>#}
+{#    </tr>#}
+{#</table>#}
+{#</form>#}
+{#</body>#}
+{#</html>#}
+
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Edit Student Details</title>#}
+{#<!-- Bootstrap CSS -->#}
+{#<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">#}
+{#<!-- Font Awesome -->#}
+{#<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">#}
+{#<meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#<style>#}
+{#    /* Color Theme */#}
+{#    :root {#}
+{#        --primary-color: #06bbcc;#}
+{#        --primary-dark: #0499a8;#}
+{#        --primary-light: #e8f7f9;#}
+{#        --white: #ffffff;#}
+{#        --light-bg: #f8f9fa;#}
+{#        --border-color: #e0e0e0;#}
+{#        --text-color: #333333;#}
+{#        --text-light: #666666;#}
+{#        --success-color: #27ae60;#}
+{#        --warning-color: #f39c12;#}
+{#        --danger-color: #e74c3c;#}
+{#        --active-color: #27ae60;#}
+{#        --inactive-color: #95a5a6;#}
+{#    }#}
+{##}
+{#    /* Base Styles */#}
+{#    * {#}
+{#        margin: 0;#}
+{#        padding: 0;#}
+{#        box-sizing: border-box;#}
+{#    }#}
+{##}
+{#    body {#}
+{#        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;#}
+{#        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);#}
+{#        min-height: 100vh;#}
+{#        display: flex;#}
+{#        align-items: center;#}
+{#        justify-content: center;#}
+{#        padding: 20px;#}
+{#        color: var(--text-color);#}
+{#    }#}
+{##}
+{#    /* Form Container */#}
+{#    .form-container {#}
+{#        max-width: 800px;#}
+{#        width: 100%;#}
+{#        background-color: var(--white);#}
+{#        border-radius: 12px;#}
+{#        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.1);#}
+{#        overflow: hidden;#}
+{#    }#}
+{##}
+{#    /* Form Header */#}
+{#    .form-header {#}
+{#        background-color: var(--primary-color);#}
+{#        color: var(--white);#}
+{#        padding: 25px 30px;#}
+{#        text-align: center;#}
+{#        box-shadow: 0 5px 15px rgba(6, 187, 204, 0.2);#}
+{#    }#}
+{##}
+{#    .form-header h2 {#}
+{#        font-size: 26px;#}
+{#        font-weight: 600;#}
+{#        margin-bottom: 8px;#}
+{#        display: flex;#}
+{#        align-items: center;#}
+{#        justify-content: center;#}
+{#        gap: 12px;#}
+{#    }#}
+{##}
+{#    .form-header p {#}
+{#        font-size: 15px;#}
+{#        opacity: 0.9;#}
+{#        margin: 0;#}
+{#    }#}
+{##}
+{#    /* Form Body */#}
+{#    .form-body {#}
+{#        padding: 30px;#}
+{#    }#}
+{##}
+{#    /* Form Groups */#}
+{#    .form-group {#}
+{#        margin-bottom: 25px;#}
+{#    }#}
+{##}
+{#    .form-group label {#}
+{#        display: block;#}
+{#        margin-bottom: 8px;#}
+{#        font-weight: 600;#}
+{#        color: var(--primary-dark);#}
+{#        font-size: 15px;#}
+{#        padding-left: 5px;#}
+{#    }#}
+{##}
+{#    .form-group .input-wrapper {#}
+{#        position: relative;#}
+{#    }#}
+{##}
+{#    /* Icon styling for all inputs */#}
+{#    .form-group .input-wrapper i {#}
+{#        position: absolute;#}
+{#        left: 15px;#}
+{#        top: 50%;#}
+{#        transform: translateY(-50%);#}
+{#        color: var(--primary-color);#}
+{#        font-size: 16px;#}
+{#        z-index: 1;#}
+{#    }#}
+{##}
+{#    .form-control {#}
+{#        width: 100%;#}
+{#        padding: 14px 14px 14px 45px;#}
+{#        border: 2px solid var(--border-color);#}
+{#        border-radius: 8px;#}
+{#        font-size: 15px;#}
+{#        transition: all 0.3s ease;#}
+{#        background-color: var(--white);#}
+{#        color: var(--text-color);#}
+{#    }#}
+{##}
+{#    .form-control:focus {#}
+{#        outline: none;#}
+{#        border-color: var(--primary-color);#}
+{#        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);#}
+{#    }#}
+{##}
+{#    /* Select Styling */#}
+{#    select.form-control {#}
+{#        appearance: none;#}
+{#        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2306bbcc' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");#}
+{#        background-repeat: no-repeat;#}
+{#        background-position: right 15px center;#}
+{#        background-size: 16px;#}
+{#        padding-right: 45px;#}
+{#    }#}
+{##}
+{#    /* Status specific styling */#}
+{#    select[name="textfield5"].form-control {#}
+{#        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/1999/xhtml' width='16' height='16' fill='%2306bbcc' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");#}
+{#    }#}
+{##}
+{#    /* Form Row for 2-column layout */#}
+{#    .form-row {#}
+{#        display: grid;#}
+{#        grid-template-columns: 1fr 1fr;#}
+{#        gap: 20px;#}
+{#    }#}
+{##}
+{#    /* Status badge for preview */#}
+{#    .status-badge {#}
+{#        display: inline-block;#}
+{#        padding: 4px 12px;#}
+{#        border-radius: 20px;#}
+{#        font-size: 13px;#}
+{#        font-weight: 600;#}
+{#        margin-left: 10px;#}
+{#    }#}
+{##}
+{#    .status-active {#}
+{#        background-color: rgba(39, 174, 96, 0.1);#}
+{#        color: var(--active-color);#}
+{#        border: 1px solid rgba(39, 174, 96, 0.3);#}
+{#    }#}
+{##}
+{#    .status-inactive {#}
+{#        background-color: rgba(149, 165, 166, 0.1);#}
+{#        color: var(--inactive-color);#}
+{#        border: 1px solid rgba(149, 165, 166, 0.3);#}
+{#    }#}
+{##}
+{#    /* Submit Button */#}
+{#    .submit-btn {#}
+{#        display: inline-flex;#}
+{#        align-items: center;#}
+{#        justify-content: center;#}
+{#        gap: 10px;#}
+{#        background-color: var(--primary-color);#}
+{#        color: var(--white);#}
+{#        border: none;#}
+{#        border-radius: 8px;#}
+{#        padding: 16px 30px;#}
+{#        font-size: 16px;#}
+{#        font-weight: 600;#}
+{#        cursor: pointer;#}
+{#        transition: all 0.3s ease;#}
+{#        width: 100%;#}
+{#        margin-top: 10px;#}
+{#        box-shadow: 0 4px 12px rgba(6, 187, 204, 0.2);#}
+{#    }#}
+{##}
+{#    .submit-btn:hover {#}
+{#        background-color: var(--primary-dark);#}
+{#        transform: translateY(-2px);#}
+{#        box-shadow: 0 6px 15px rgba(6, 187, 204, 0.3);#}
+{#    }#}
+{##}
+{#    /* Back Button */#}
+{#    .back-btn {#}
+{#        display: inline-flex;#}
+{#        align-items: center;#}
+{#        justify-content: center;#}
+{#        gap: 8px;#}
+{#        background-color: #f8f9fa;#}
+{#        color: var(--text-light);#}
+{#        border: 2px solid var(--border-color);#}
+{#        border-radius: 8px;#}
+{#        padding: 12px 25px;#}
+{#        font-size: 15px;#}
+{#        font-weight: 500;#}
+{#        cursor: pointer;#}
+{#        transition: all 0.3s ease;#}
+{#        text-decoration: none;#}
+{#        margin-top: 15px;#}
+{#        width: 100%;#}
+{#    }#}
+{##}
+{#    .back-btn:hover {#}
+{#        background-color: #e9ecef;#}
+{#        color: var(--text-color);#}
+{#        text-decoration: none;#}
+{#        border-color: #ced4da;#}
+{#    }#}
+{##}
+{#    /* Info Card */#}
+{#    .info-card {#}
+{#        background-color: var(--primary-light);#}
+{#        border-left: 4px solid var(--primary-color);#}
+{#        border-radius: 6px;#}
+{#        padding: 15px 20px;#}
+{#        margin-bottom: 30px;#}
+{#        display: flex;#}
+{#        align-items: center;#}
+{#        gap: 12px;#}
+{#    }#}
+{##}
+{#    .info-card i {#}
+{#        color: var(--primary-color);#}
+{#        font-size: 18px;#}
+{#        flex-shrink: 0;#}
+{#    }#}
+{##}
+{#    .info-card p {#}
+{#        margin: 0;#}
+{#        font-size: 14px;#}
+{#        color: var(--text-color);#}
+{#        line-height: 1.5;#}
+{#    }#}
+{##}
+{#    /* Required Field Indicator */#}
+{#    .required::after {#}
+{#        content: " *";#}
+{#        color: var(--danger-color);#}
+{#    }#}
+{##}
+{#    /* Mobile Responsive */#}
+{#    @media (max-width: 768px) {#}
+{#        .form-row {#}
+{#            grid-template-columns: 1fr;#}
+{#            gap: 15px;#}
+{#        }#}
+{##}
+{#        .form-body {#}
+{#            padding: 20px;#}
+{#        }#}
+{##}
+{#        .form-header {#}
+{#            padding: 20px;#}
+{#        }#}
+{##}
+{#        .form-header h2 {#}
+{#            font-size: 22px;#}
+{#        }#}
+{#    }#}
+{##}
+{#    @media (max-width: 576px) {#}
+{#        body {#}
+{#            padding: 10px;#}
+{#        }#}
+{##}
+{#        .form-container {#}
+{#            border-radius: 8px;#}
+{#        }#}
+{##}
+{#        .form-header {#}
+{#            padding: 20px 15px;#}
+{#        }#}
+{##}
+{#        .form-header h2 {#}
+{#            font-size: 18px;#}
+{#        }#}
+{##}
+{#        .form-header p {#}
+{#            font-size: 14px;#}
+{#        }#}
+{##}
+{#        .form-body {#}
+{#            padding: 15px;#}
+{#        }#}
+{##}
+{#        .form-group {#}
+{#            margin-bottom: 20px;#}
+{#        }#}
+{##}
+{#        .form-control {#}
+{#            padding: 12px 12px 12px 40px;#}
+{#            font-size: 14px;#}
+{#        }#}
+{##}
+{#        .form-group .input-wrapper i {#}
+{#            left: 12px;#}
+{#            font-size: 15px;#}
+{#        }#}
+{##}
+{#        select.form-control {#}
+{#            background-position: right 12px center;#}
+{#        }#}
+{##}
+{#        .submit-btn {#}
+{#            padding: 14px 20px;#}
+{#            font-size: 15px;#}
+{#        }#}
+{##}
+{#        .back-btn {#}
+{#            padding: 12px 20px;#}
+{#            font-size: 14px;#}
+{#        }#}
+{#    }#}
+{##}
+{#    /* Animation */#}
+{#    @keyframes fadeIn {#}
+{#        from {#}
+{#            opacity: 0;#}
+{#            transform: translateY(20px);#}
+{#        }#}
+{#        to {#}
+{#            opacity: 1;#}
+{#            transform: translateY(0);#}
+{#        }#}
+{#    }#}
+{##}
+{#    .form-container {#}
+{#        animation: fadeIn 0.5s ease-out;#}
+{#    }#}
+{#</style>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#    <div class="form-container">#}
+{#        <div class="form-header">#}
+{#            <h2><i class="fas fa-user-edit"></i> Edit Student Details</h2>#}
+{#            <p>Update student information in the system</p>#}
+{#        </div>#}
+{##}
+{#        <form action="/editstudent_submit" method="post" class="form-body">#}
+{#            <!-- Info Card -->#}
+{#            <div class="info-card">#}
+{#                <i class="fas fa-info-circle"></i>#}
+{#                <p>Please update the student information below. All fields are required for proper student management.</p>#}
+{#            </div>#}
+{##}
+{#            <!-- Personal Information Row -->#}
+{#            <div class="form-row">#}
+{#                <!-- Name Field -->#}
+{#                <div class="form-group">#}
+{#                    <label for="textfield" class="required">#}
+{#                        <i class="fas fa-user me-1"></i> Name#}
+{#                    </label>#}
+{#                    <div class="input-wrapper">#}
+{#                        <i class="fas fa-user"></i>#}
+{#                        <input type="text"#}
+{#                               name="textfield"#}
+{#                               id="textfield"#}
+{#                               class="form-control"#}
+{#                               value="{{ data.name }}"#}
+{#                               placeholder="Enter full name"#}
+{#                               required>#}
+{#                    </div>#}
+{#                    <small class="text-muted mt-1 d-block">Student's full name</small>#}
+{#                </div>#}
+{##}
+{#                <!-- Admission No Field -->#}
+{#                <div class="form-group">#}
+{#                    <label for="textfield4" class="required">#}
+{#                        <i class="fas fa-id-card me-1"></i> Admission No#}
+{#                    </label>#}
+{#                    <div class="input-wrapper">#}
+{#                        <i class="fas fa-id-card"></i>#}
+{#                        <input type="text"#}
+{#                               name="textfield4"#}
+{#                               id="textfield4"#}
+{#                               class="form-control"#}
+{#                               value="{{ data.adm_no }}"#}
+{#                               placeholder="Enter admission number"#}
+{#                               required>#}
+{#                    </div>#}
+{#                    <small class="text-muted mt-1 d-block">University admission number</small>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <!-- Contact Information Row -->#}
+{#            <div class="form-row">#}
+{#                <!-- Email Field -->#}
+{#                <div class="form-group">#}
+{#                    <label for="textfield2" class="required">#}
+{#                        <i class="fas fa-envelope me-1"></i> Email#}
+{#                    </label>#}
+{#                    <div class="input-wrapper">#}
+{#                        <i class="fas fa-envelope"></i>#}
+{#                        <input type="text"#}
+{#                               name="textfield2"#}
+{#                               id="textfield2"#}
+{#                               class="form-control"#}
+{#                               value="{{ data.email }}"#}
+{#                               placeholder="Enter email address"#}
+{#                               required>#}
+{#                    </div>#}
+{#                    <small class="text-muted mt-1 d-block">Student's email address</small>#}
+{#                </div>#}
+{##}
+{#                <!-- Phone Field -->#}
+{#                <div class="form-group">#}
+{#                    <label for="textfield3" class="required">#}
+{#                        <i class="fas fa-phone me-1"></i> Phone#}
+{#                    </label>#}
+{#                    <div class="input-wrapper">#}
+{#                        <i class="fas fa-phone"></i>#}
+{#                        <input type="text"#}
+{#                               name="textfield3"#}
+{#                               id="textfield3"#}
+{#                               class="form-control"#}
+{#                               value="{{ data.phone }}"#}
+{#                               placeholder="Enter phone number"#}
+{#                               required>#}
+{#                    </div>#}
+{#                    <small class="text-muted mt-1 d-block">Contact phone number</small>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <!-- Academic Information Row -->#}
+{#            <div class="form-row">#}
+{#                <!-- Batch Field -->#}
+{#                <div class="form-group">#}
+{#                    <label for="select" class="required">#}
+{#                        <i class="fas fa-calendar-alt me-1"></i> Batch#}
+{#                    </label>#}
+{#                    <div class="input-wrapper">#}
+{#                        <i class="fas fa-calendar-alt"></i>#}
+{#                        <select name="select" id="select" class="form-control" required>#}
+{#                            {% for foo in data3 %}#}
+{#                            <option>{{ foo }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <small class="text-muted mt-1 d-block">Academic batch year</small>#}
+{#                </div>#}
+{##}
+{#                <!-- Semester Field - FIXED: Added selected attribute for current semester -->#}
+{#                <div class="form-group">#}
+{#                    <label for="select2" class="required">#}
+{#                        <i class="fas fa-graduation-cap me-1"></i> Semester#}
+{#                    </label>#}
+{#                    <div class="input-wrapper">#}
+{#                        <i class="fas fa-graduation-cap"></i>#}
+{#                        <select name="select2" id="select2" class="form-control" required>#}
+{#                            <option value=" Semester1" {% if data.semester == " Semester1" %}selected{% endif %}>Semester 1</option>#}
+{#                            <option value=" Semester2" {% if data.semester == " Semester2" %}selected{% endif %}>Semester 2</option>#}
+{#                            <option value=" Semester3" {% if data.semester == " Semester3" %}selected{% endif %}>Semester 3</option>#}
+{#                            <option value=" Semester4" {% if data.semester == " Semester4" %}selected{% endif %}>Semester 4</option>#}
+{#                            <option value=" Semester5" {% if data.semester == " Semester5" %}selected{% endif %}>Semester 5</option>#}
+{#                            <option value=" Semester6" {% if data.semester == " Semester6" %}selected{% endif %}>Semester 6</option>#}
+{#                            <option value=" Semester7" {% if data.semester == " Semester7" %}selected{% endif %}>Semester 7</option>#}
+{#                            <option value=" Semester8" {% if data.semester == " Semester8" %}selected{% endif %}>Semester 8</option>#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <small class="text-muted mt-1 d-block">Current academic semester</small>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <!-- Academic Information Row 2 -->#}
+{#            <div class="form-row">#}
+{#                <!-- Course Field - FIXED: Added selected attribute for current course -->#}
+{#                <div class="form-group">#}
+{#                    <label for="select3" class="required">#}
+{#                        <i class="fas fa-book me-1"></i> Course#}
+{#                    </label>#}
+{#                    <div class="input-wrapper">#}
+{#                        <i class="fas fa-book"></i>#}
+{#                        <select name="select3" id="select3" class="form-control" required>#}
+{#                            {% for i in data2 %}#}
+{#                            <option value="{{ i.id }}" {% if data.course_id == i.id %}selected{% endif %}>{{ i.course }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <small class="text-muted mt-1 d-block">Select enrolled course</small>#}
+{#                </div>#}
+{##}
+{#                <!-- NEW: Status Field -->#}
+{#                <div class="form-group">#}
+{#                    <label for="textfield5" class="required">#}
+{#                        <i class="fas fa-user-check me-1"></i> Status#}
+{#                        <span id="status-preview" class="status-badge"></span>#}
+{#                    </label>#}
+{#                    <div class="input-wrapper">#}
+{#                        <i class="fas fa-user-check"></i>#}
+{#                        <select name="textfield5" id="textfield5" class="form-control" required>#}
+{#                            <option value="Active" {% if data.status == "Active" %}selected{% endif %}>Active</option>#}
+{#                            <option value="Inactive" {% if data.status == "Inactive" %}selected{% endif %}>Inactive</option>#}
+{#                        </select>#}
+{#                    </div>#}
+{#                    <small class="text-muted mt-1 d-block">Student's current enrollment status</small>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#            <!-- Submit Button -->#}
+{#            <button type="submit" name="button" id="button" class="submit-btn">#}
+{#                <i class="fas fa-save"></i> Update Student#}
+{#            </button>#}
+{##}
+{#            <!-- Back Button -->#}
+{#            <a href="javascript:history.back()" class="back-btn">#}
+{#                <i class="fas fa-arrow-left"></i> Back to Students List#}
+{#            </a>#}
+{##}
+{#            <!-- Hidden Fields (if needed) -->#}
+{#            <input type="hidden" name="student_id" value="{{ data.id }}">#}
+{#        </form>#}
+{#    </div>#}
+{##}
+{#    <!-- Bootstrap JS -->#}
+{#    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>#}
+{##}
+{#    <script>#}
+{#        // Form validation#}
+{#        document.querySelector('form').addEventListener('submit', function(e) {#}
+{#            const name = document.getElementById('textfield').value.trim();#}
+{#            const admNo = document.getElementById('textfield4').value.trim();#}
+{#            const email = document.getElementById('textfield2').value.trim();#}
+{#            const phone = document.getElementById('textfield3').value.trim();#}
+{#            const batch = document.getElementById('select').value;#}
+{#            const semester = document.getElementById('select2').value;#}
+{#            const course = document.getElementById('select3').value;#}
+{#            const status = document.getElementById('textfield5').value;#}
+{##}
+{#            let isValid = true;#}
+{##}
+{#            // Clear previous error states#}
+{#            document.querySelectorAll('.form-control').forEach(input => {#}
+{#                input.classList.remove('error');#}
+{#            });#}
+{##}
+{#            // Validate Name#}
+{#            if (!name || name.length < 2) {#}
+{#                document.getElementById('textfield').classList.add('error');#}
+{#                isValid = false;#}
+{#            }#}
+{##}
+{#            // Validate Admission No#}
+{#            if (!admNo) {#}
+{#                document.getElementById('textfield4').classList.add('error');#}
+{#                isValid = false;#}
+{#            }#}
+{##}
+{#            // Validate Email#}
+{#            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;#}
+{#            if (!email || !emailRegex.test(email)) {#}
+{#                document.getElementById('textfield2').classList.add('error');#}
+{#                isValid = false;#}
+{#            }#}
+{##}
+{#            // Validate Phone#}
+{#            const phoneRegex = /^[\d\s\-\+\(\)]{10,}$/;#}
+{#            if (!phone || !phoneRegex.test(phone)) {#}
+{#                document.getElementById('textfield3').classList.add('error');#}
+{#                isValid = false;#}
+{#            }#}
+{##}
+{#            // Validate Batch#}
+{#            if (!batch) {#}
+{#                document.getElementById('select').classList.add('error');#}
+{#                isValid = false;#}
+{#            }#}
+{##}
+{#            // Validate Semester#}
+{#            if (!semester) {#}
+{#                document.getElementById('select2').classList.add('error');#}
+{#                isValid = false;#}
+{#            }#}
+{##}
+{#            // Validate Course#}
+{#            if (!course) {#}
+{#                document.getElementById('select3').classList.add('error');#}
+{#                isValid = false;#}
+{#            }#}
+{##}
+{#            // Validate Status#}
+{#            if (!status) {#}
+{#                document.getElementById('textfield5').classList.add('error');#}
+{#                isValid = false;#}
+{#            }#}
+{##}
+{#            if (!isValid) {#}
+{#                e.preventDefault();#}
+{#                alert('Please fill in all fields correctly. Check email format and phone number.');#}
+{#                return false;#}
+{#            }#}
+{##}
+{#            // Get course name for confirmation#}
+{#            const courseSelect = document.getElementById('select3');#}
+{#            const courseName = courseSelect.options[courseSelect.selectedIndex].text;#}
+{##}
+{#            // Get semester name for confirmation#}
+{#            const semesterSelect = document.getElementById('select2');#}
+{#            const semesterName = semesterSelect.options[semesterSelect.selectedIndex].text;#}
+{##}
+{#            // Get status for confirmation#}
+{#            const statusSelect = document.getElementById('textfield5');#}
+{#            const statusName = statusSelect.options[statusSelect.selectedIndex].text;#}
+{##}
+{#            // Confirm before submitting#}
+{#            const confirmationMessage = `Are you sure you want to update this student?\n\n` +#}
+{#                                      `• Name: ${name}\n` +#}
+{#                                      `• Admission No: ${admNo}\n` +#}
+{#                                      `• Email: ${email}\n` +#}
+{#                                      `• Phone: ${phone}\n` +#}
+{#                                      `• Batch: ${batch}\n` +#}
+{#                                      `• Semester: ${semesterName}\n` +#}
+{#                                      `• Course: ${courseName}\n` +#}
+{#                                      `• Status: ${statusName}\n\n` +#}
+{#                                      `This will update the student's information in the system.`;#}
+{##}
+{#            if (!confirm(confirmationMessage)) {#}
+{#                e.preventDefault();#}
+{#                return false;#}
+{#            }#}
+{##}
+{#            // Show loading state#}
+{#            const submitBtn = document.getElementById('button');#}
+{#            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';#}
+{#            submitBtn.disabled = true;#}
+{#        });#}
+{##}
+{#        // Add error style#}
+{#        const style = document.createElement('style');#}
+{#        style.textContent = `#}
+{#            .form-control.error {#}
+{#                border-color: var(--danger-color) !important;#}
+{#                background-color: rgba(231, 76, 60, 0.05);#}
+{#            }#}
+{##}
+{#            .form-control.error:focus {#}
+{#                box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2) !important;#}
+{#            }#}
+{#        `;#}
+{#        document.head.appendChild(style);#}
+{##}
+{#        // Function to update status badge#}
+{#        function updateStatusBadge() {#}
+{#            const statusSelect = document.getElementById('textfield5');#}
+{#            const statusBadge = document.getElementById('status-preview');#}
+{#            const selectedValue = statusSelect.value;#}
+{#            const selectedText = statusSelect.options[statusSelect.selectedIndex].text;#}
+{##}
+{#            statusBadge.textContent = selectedText;#}
+{#            statusBadge.className = 'status-badge';#}
+{##}
+{#            if (selectedValue === 'Active') {#}
+{#                statusBadge.classList.add('status-active');#}
+{#            } else if (selectedValue === 'Inactive') {#}
+{#                statusBadge.classList.add('status-inactive');#}
+{#            }#}
+{#        }#}
+{##}
+{#        // Initialize on page load#}
+{#        document.addEventListener('DOMContentLoaded', function() {#}
+{#            // Focus on name field if it's empty#}
+{#            const nameField = document.getElementById('textfield');#}
+{#            if (!nameField.value.trim()) {#}
+{#                nameField.focus();#}
+{#            }#}
+{##}
+{#            // Set initial status badge#}
+{#            updateStatusBadge();#}
+{##}
+{#            // Add event listener to update status badge when changed#}
+{#            document.getElementById('textfield5').addEventListener('change', updateStatusBadge);#}
+{##}
+{#            // Debug: Log current semester value#}
+{#            console.log('Current semester from data:', "{{ data.semester }}");#}
+{#            console.log('Current course_id from data:', "{{ data.course_id }}");#}
+{#            console.log('Current status from data:', "{{ data.status }}");#}
+{#        });#}
+{#    </script>#}
+{##}
+{#<script>#}
+{#// Prevent going back to this page after form submission#}
+{#if (window.history && window.history.pushState) {#}
+{#    // Add current page to history#}
+{#    window.history.pushState(null, null, window.location.href);#}
+{##}
+{#    // Listen for back/forward navigation#}
+{#    window.onpopstate = function(event) {#}
+{#        // Redirect to /rtohome when back button is pressed#}
+{#        window.location.href = '/home';#}
+{#    };#}
+{#}#}
+{#</script>#}
+{#</body>#}
+{#</html>#}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Edit Student Details</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    /* Color Theme */
+    :root {
+        --primary-color: #06bbcc;
+        --primary-dark: #0499a8;
+        --primary-light: #e8f7f9;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #666666;
+        --success-color: #27ae60;
+        --warning-color: #f39c12;
+        --danger-color: #e74c3c;
+        --active-color: #27ae60;
+        --inactive-color: #95a5a6;
+    }
+
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        color: var(--text-color);
+    }
+
+    /* Form Container */
+    .form-container {
+        max-width: 800px;
+        width: 100%;
+        background-color: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.1);
+        overflow: hidden;
+    }
+
+    /* Form Header */
+    .form-header {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 25px 30px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(6, 187, 204, 0.2);
+    }
+
+    .form-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .form-header p {
+        font-size: 15px;
+        opacity: 0.9;
+        margin: 0;
+    }
+
+    /* Form Body */
+    .form-body {
+        padding: 30px;
+    }
+
+    /* Form Groups */
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--primary-dark);
+        font-size: 15px;
+        padding-left: 5px;
+    }
+
+    .form-group .input-wrapper {
+        position: relative;
+    }
+
+    /* Icon styling for all inputs */
+    .form-group .input-wrapper i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--primary-color);
+        font-size: 16px;
+        z-index: 1;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 14px 14px 14px 45px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        background-color: var(--white);
+        color: var(--text-color);
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    /* Error state */
+    .form-control.error {
+        border-color: var(--danger-color) !important;
+        background-color: rgba(231, 76, 60, 0.05);
+    }
+
+    .form-control.error:focus {
+        box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2) !important;
+    }
+
+    /* Valid state */
+    .form-control.valid {
+        border-color: var(--success-color) !important;
+    }
+
+    /* Select Styling */
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2306bbcc' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 16px;
+        padding-right: 45px;
+    }
+
+    /* Status specific styling */
+    select[name="textfield5"].form-control {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/1999/xhtml' width='16' height='16' fill='%2306bbcc' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    }
+
+    /* Form Row for 2-column layout */
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    /* Status badge for preview */
+    .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-left: 10px;
+    }
+
+    .status-active {
+        background-color: rgba(39, 174, 96, 0.1);
+        color: var(--active-color);
+        border: 1px solid rgba(39, 174, 96, 0.3);
+    }
+
+    .status-inactive {
+        background-color: rgba(149, 165, 166, 0.1);
+        color: var(--inactive-color);
+        border: 1px solid rgba(149, 165, 166, 0.3);
+    }
+
+    /* Error message */
+    .field-error {
+        color: var(--danger-color);
+        font-size: 13px;
+        margin-top: 5px;
+        padding-left: 5px;
+        display: none;
+    }
+
+    .field-error.show {
+        display: block;
+    }
+
+    /* Submit Button */
+    .submit-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        padding: 16px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        margin-top: 10px;
+        box-shadow: 0 4px 12px rgba(6, 187, 204, 0.2);
+    }
+
+    .submit-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(6, 187, 204, 0.3);
+    }
+
+    .submit-btn:disabled {
+        background-color: var(--border-color);
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* Back Button */
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background-color: #f8f9fa;
+        color: var(--text-light);
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        padding: 12px 25px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        margin-top: 15px;
+        width: 100%;
+    }
+
+    .back-btn:hover {
+        background-color: #e9ecef;
+        color: var(--text-color);
+        text-decoration: none;
+        border-color: #ced4da;
+    }
+
+    /* Info Card */
+    .info-card {
+        background-color: var(--primary-light);
+        border-left: 4px solid var(--primary-color);
+        border-radius: 6px;
+        padding: 15px 20px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .info-card i {
+        color: var(--primary-color);
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    .info-card p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-color);
+        line-height: 1.5;
+    }
+
+    /* Required Field Indicator */
+    .required::after {
+        content: " *";
+        color: var(--danger-color);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .form-body {
+            padding: 20px;
+        }
+
+        .form-header {
+            padding: 20px;
+        }
+
+        .form-header h2 {
+            font-size: 22px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        body {
+            padding: 10px;
+        }
+
+        .form-container {
+            border-radius: 8px;
+        }
+
+        .form-header {
+            padding: 20px 15px;
+        }
+
+        .form-header h2 {
+            font-size: 18px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+        }
+
+        .form-body {
+            padding: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            padding: 12px 12px 12px 40px;
+            font-size: 14px;
+        }
+
+        .form-group .input-wrapper i {
+            left: 12px;
+            font-size: 15px;
+        }
+
+        select.form-control {
+            background-position: right 12px center;
+        }
+
+        .submit-btn {
+            padding: 14px 20px;
+            font-size: 15px;
+        }
+
+        .back-btn {
+            padding: 12px 20px;
+            font-size: 14px;
+        }
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-container {
+        animation: fadeIn 0.5s ease-out;
+    }
+</style>
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2><i class="fas fa-user-edit"></i> Edit Student Details</h2>
+            <p>Update student information in the system</p>
+        </div>
+
+        <form action="/editstudent_submit" method="post" class="form-body" id="editStudentForm">
+            <!-- Info Card -->
+            <div class="info-card">
+                <i class="fas fa-info-circle"></i>
+                <p>Please update the student information below. All fields are required for proper student management.</p>
+            </div>
+
+            <!-- Personal Information Row -->
+            <div class="form-row">
+                <!-- Name Field -->
+                <div class="form-group">
+                    <label for="textfield" class="required">
+                        <i class="fas fa-user me-1"></i> Name
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text"
+                               name="textfield"
+                               id="textfield"
+                               class="form-control"
+                               value="{{ data.name }}"
+                               placeholder="Enter full name"
+                               required>
+                    </div>
+                    <div class="field-error" id="nameError"></div>
+                    <small class="text-muted mt-1 d-block">Student's full name (letters only, min 2 characters)</small>
+                </div>
+
+                <!-- Admission No Field -->
+                <div class="form-group">
+                    <label for="textfield4" class="required">
+                        <i class="fas fa-id-card me-1"></i> Admission No
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-id-card"></i>
+                        <input type="text"
+                               name="textfield4"
+                               id="textfield4"
+                               class="form-control"
+                               value="{{ data.adm_no }}"
+                               placeholder="Enter admission number"
+                               required>
+                    </div>
+                    <div class="field-error" id="admissionError"></div>
+                    <small class="text-muted mt-1 d-block">University admission number</small>
+                </div>
+            </div>
+
+            <!-- Contact Information Row -->
+            <div class="form-row">
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="textfield2" class="required">
+                        <i class="fas fa-envelope me-1"></i> Email
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="text"
+                               name="textfield2"
+                               id="textfield2"
+                               class="form-control"
+                               value="{{ data.email }}"
+                               placeholder="Enter email address"
+                               required readonly>
+                    </div>
+                    <div class="field-error" id="emailError"></div>
+                    <small class="text-muted mt-1 d-block">Student's email address</small>
+                </div>
+
+                <!-- Phone Field -->
+                <div class="form-group">
+                    <label for="textfield3" class="required">
+                        <i class="fas fa-phone me-1"></i> Phone
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-phone"></i>
+                        <input type="text"
+                               name="textfield3"
+                               id="textfield3"
+                               class="form-control"
+                               value="{{ data.phone }}"
+                               placeholder="Enter phone number"
+                               required readonly>
+                    </div>
+                    <div class="field-error" id="phoneError"></div>
+                    <small class="text-muted mt-1 d-block">Contact phone number (10 digits)</small>
+                </div>
+            </div>
+
+            <!-- Academic Information Row -->
+            <div class="form-row">
+                <!-- Batch Field -->
+                <div class="form-group">
+                    <label for="select" class="required">
+                        <i class="fas fa-calendar-alt me-1"></i> Batch
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-calendar-alt"></i>
+                        <select name="select" id="select" class="form-control" required>
+                            {% for foo in data3 %}
+                            <option value="{{ foo }}">{{ foo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="field-error" id="batchError"></div>
+                    <small class="text-muted mt-1 d-block">Academic batch year</small>
+                </div>
+
+                <!-- Semester Field -->
+                <div class="form-group">
+                    <label for="select2" class="required">
+                        <i class="fas fa-graduation-cap me-1"></i> Semester
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-graduation-cap"></i>
+                        <select name="select2" id="select2" class="form-control" required>
+                            <option value=" Semester1" {% if data.semester == " Semester1" %}selected{% endif %}>Semester 1</option>
+                            <option value=" Semester2" {% if data.semester == " Semester2" %}selected{% endif %}>Semester 2</option>
+                            <option value=" Semester3" {% if data.semester == " Semester3" %}selected{% endif %}>Semester 3</option>
+                            <option value=" Semester4" {% if data.semester == " Semester4" %}selected{% endif %}>Semester 4</option>
+                            <option value=" Semester5" {% if data.semester == " Semester5" %}selected{% endif %}>Semester 5</option>
+                            <option value=" Semester6" {% if data.semester == " Semester6" %}selected{% endif %}>Semester 6</option>
+                            <option value=" Semester7" {% if data.semester == " Semester7" %}selected{% endif %}>Semester 7</option>
+                            <option value=" Semester8" {% if data.semester == " Semester8" %}selected{% endif %}>Semester 8</option>
+                        </select>
+                    </div>
+                    <div class="field-error" id="semesterError"></div>
+                    <small class="text-muted mt-1 d-block">Current academic semester</small>
+                </div>
+            </div>
+
+            <!-- Academic Information Row 2 -->
+            <div class="form-row">
+                <!-- Course Field -->
+                <div class="form-group">
+                    <label for="select3" class="required">
+                        <i class="fas fa-book me-1"></i> Course
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-book"></i>
+                        <select name="select3" id="select3" class="form-control" required>
+                            {% for i in data2 %}
+                            <option value="{{ i.id }}" {% if data.course_id == i.id %}selected{% endif %}>{{ i.course }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="field-error" id="courseError"></div>
+                    <small class="text-muted mt-1 d-block">Select enrolled course</small>
+                </div>
+
+                <!-- Status Field -->
+                <div class="form-group">
+                    <label for="textfield5" class="required">
+                        <i class="fas fa-user-check me-1"></i> Status
+                        <span id="status-preview" class="status-badge"></span>
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-user-check"></i>
+                        <select name="textfield5" id="textfield5" class="form-control" required>
+                            <option value="Active" {% if data.status == "Active" %}selected{% endif %}>Active</option>
+                            <option value="Inactive" {% if data.status == "Inactive" %}selected{% endif %}>Inactive</option>
+                        </select>
+                    </div>
+                    <div class="field-error" id="statusError"></div>
+                    <small class="text-muted mt-1 d-block">Student's current enrollment status</small>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" name="button" id="button" class="submit-btn">
+                <i class="fas fa-save"></i> Update Student
+            </button>
+
+            <!-- Back Button -->
+            <a href="javascript:history.back()" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Students List
+            </a>
+
+            <!-- Hidden Fields (if needed) -->
+            <input type="hidden" name="student_id" value="{{ data.id }}">
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('editStudentForm');
+            const nameInput = document.getElementById('textfield');
+            const admissionInput = document.getElementById('textfield4');
+            const emailInput = document.getElementById('textfield2');
+            const phoneInput = document.getElementById('textfield3');
+            const batchSelect = document.getElementById('select');
+            const semesterSelect = document.getElementById('select2');
+            const courseSelect = document.getElementById('select3');
+            const statusSelect = document.getElementById('textfield5');
+            const submitBtn = document.getElementById('button');
+
+            // Error message elements
+            const nameError = document.getElementById('nameError');
+            const admissionError = document.getElementById('admissionError');
+            const emailError = document.getElementById('emailError');
+            const phoneError = document.getElementById('phoneError');
+            const batchError = document.getElementById('batchError');
+            const semesterError = document.getElementById('semesterError');
+            const courseError = document.getElementById('courseError');
+            const statusError = document.getElementById('statusError');
+
+            // Track touched fields
+            let nameTouched = false;
+            let admissionTouched = false;
+            let emailTouched = false;
+            let phoneTouched = false;
+            let batchTouched = false;
+            let semesterTouched = false;
+            let courseTouched = false;
+            let statusTouched = false;
+
+            // Enhanced name validation function
+            function validateName() {
+                const name = nameInput.value.trim();
+
+                if (!nameTouched && name.length === 0) return true;
+
+                // Check if name is empty
+                if (name.length === 0) {
+                    nameInput.classList.add('error');
+                    nameInput.classList.remove('valid');
+                    nameError.textContent = 'Name is required';
+                    nameError.classList.add('show');
+                    return false;
+                }
+
+                // Check minimum length
+                if (name.length < 2) {
+                    nameInput.classList.add('error');
+                    nameInput.classList.remove('valid');
+                    nameError.textContent = 'Name must be at least 2 characters';
+                    nameError.classList.add('show');
+                    return false;
+                }
+
+                // Check for numbers
+                if (/\d/.test(name)) {
+                    nameInput.classList.add('error');
+                    nameInput.classList.remove('valid');
+                    nameError.textContent = 'Name cannot contain numbers';
+                    nameError.classList.add('show');
+                    return false;
+                }
+
+                // Check for special characters (allow only letters, spaces, dots, hyphens, apostrophes)
+                if (!/^[a-zA-Z\s\.\'-]+$/.test(name)) {
+                    nameInput.classList.add('error');
+                    nameInput.classList.remove('valid');
+                    nameError.textContent = 'Name can only contain letters, spaces, dots, hyphens, and apostrophes';
+                    nameError.classList.add('show');
+                    return false;
+                }
+
+                // Check if name has at least one letter
+                if (!/[a-zA-Z]/.test(name)) {
+                    nameInput.classList.add('error');
+                    nameInput.classList.remove('valid');
+                    nameError.textContent = 'Name must contain at least one letter';
+                    nameError.classList.add('show');
+                    return false;
+                }
+
+                // All validations passed
+                nameInput.classList.remove('error');
+                nameInput.classList.add('valid');
+                nameError.classList.remove('show');
+                return true;
+            }
+
+            function validateAdmission() {
+                const admission = admissionInput.value.trim();
+
+                if (!admissionTouched && admission.length === 0) return true;
+
+                if (!admission) {
+                    admissionInput.classList.add('error');
+                    admissionInput.classList.remove('valid');
+                    admissionError.textContent = 'Admission number is required';
+                    admissionError.classList.add('show');
+                    return false;
+                }
+
+                admissionInput.classList.remove('error');
+                admissionInput.classList.add('valid');
+                admissionError.classList.remove('show');
+                return true;
+            }
+
+            function validateEmail() {
+                const email = emailInput.value.trim();
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (!emailTouched && email.length === 0) return true;
+
+                if (!email) {
+                    emailInput.classList.add('error');
+                    emailInput.classList.remove('valid');
+                    emailError.textContent = 'Email is required';
+                    emailError.classList.add('show');
+                    return false;
+                }
+
+                if (!emailRegex.test(email)) {
+                    emailInput.classList.add('error');
+                    emailInput.classList.remove('valid');
+                    emailError.textContent = 'Please enter a valid email address';
+                    emailError.classList.add('show');
+                    return false;
+                } else {
+                    emailInput.classList.remove('error');
+                    emailInput.classList.add('valid');
+                    emailError.classList.remove('show');
+                    return true;
+                }
+            }
+
+            function validatePhone() {
+                let phone = phoneInput.value.replace(/\D/g, '');
+
+                if (!phoneTouched && phone.length === 0) return true;
+
+                if (!phone) {
+                    phoneInput.classList.add('error');
+                    phoneInput.classList.remove('valid');
+                    phoneError.textContent = 'Phone number is required';
+                    phoneError.classList.add('show');
+                    return false;
+                }
+
+                if (phone.length !== 10) {
+                    phoneInput.classList.add('error');
+                    phoneInput.classList.remove('valid');
+                    phoneError.textContent = 'Please enter a valid 10-digit phone number';
+                    phoneError.classList.add('show');
+                    return false;
+                } else {
+                    phoneInput.classList.remove('error');
+                    phoneInput.classList.add('valid');
+                    phoneError.classList.remove('show');
+                    return true;
+                }
+            }
+
+            function validateBatch() {
+                const batch = batchSelect.value;
+
+                if (!batchTouched && !batch) return true;
+
+                if (!batch) {
+                    batchSelect.classList.add('error');
+                    batchSelect.classList.remove('valid');
+                    batchError.textContent = 'Please select a batch';
+                    batchError.classList.add('show');
+                    return false;
+                } else {
+                    batchSelect.classList.remove('error');
+                    batchSelect.classList.add('valid');
+                    batchError.classList.remove('show');
+                    return true;
+                }
+            }
+
+            function validateSemester() {
+                const semester = semesterSelect.value;
+
+                if (!semesterTouched && !semester) return true;
+
+                if (!semester) {
+                    semesterSelect.classList.add('error');
+                    semesterSelect.classList.remove('valid');
+                    semesterError.textContent = 'Please select a semester';
+                    semesterError.classList.add('show');
+                    return false;
+                } else {
+                    semesterSelect.classList.remove('error');
+                    semesterSelect.classList.add('valid');
+                    semesterError.classList.remove('show');
+                    return true;
+                }
+            }
+
+            function validateCourse() {
+                const course = courseSelect.value;
+
+                if (!courseTouched && !course) return true;
+
+                if (!course) {
+                    courseSelect.classList.add('error');
+                    courseSelect.classList.remove('valid');
+                    courseError.textContent = 'Please select a course';
+                    courseError.classList.add('show');
+                    return false;
+                } else {
+                    courseSelect.classList.remove('error');
+                    courseSelect.classList.add('valid');
+                    courseError.classList.remove('show');
+                    return true;
+                }
+            }
+
+            function validateStatus() {
+                const status = statusSelect.value;
+
+                if (!statusTouched && !status) return true;
+
+                if (!status) {
+                    statusSelect.classList.add('error');
+                    statusSelect.classList.remove('valid');
+                    statusError.textContent = 'Please select a status';
+                    statusError.classList.add('show');
+                    return false;
+                } else {
+                    statusSelect.classList.remove('error');
+                    statusSelect.classList.add('valid');
+                    statusError.classList.remove('show');
+                    return true;
+                }
+            }
+
+            // Real-time validation on blur
+            nameInput.addEventListener('blur', function() {
+                nameTouched = true;
+                validateName();
+            });
+
+            admissionInput.addEventListener('blur', function() {
+                admissionTouched = true;
+                validateAdmission();
+            });
+
+            emailInput.addEventListener('blur', function() {
+                emailTouched = true;
+                validateEmail();
+            });
+
+            phoneInput.addEventListener('blur', function() {
+                phoneTouched = true;
+                validatePhone();
+            });
+
+            batchSelect.addEventListener('blur', function() {
+                batchTouched = true;
+                validateBatch();
+            });
+
+            semesterSelect.addEventListener('blur', function() {
+                semesterTouched = true;
+                validateSemester();
+            });
+
+            courseSelect.addEventListener('blur', function() {
+                courseTouched = true;
+                validateCourse();
+            });
+
+            statusSelect.addEventListener('blur', function() {
+                statusTouched = true;
+                validateStatus();
+            });
+
+            // Remove error on input
+            nameInput.addEventListener('input', function() {
+                $(this).removeClass('error');
+                $('#nameError').removeClass('show');
+            });
+
+            admissionInput.addEventListener('input', function() {
+                $(this).removeClass('error');
+                $('#admissionError').removeClass('show');
+            });
+
+            emailInput.addEventListener('input', function() {
+                $(this).removeClass('error');
+                $('#emailError').removeClass('show');
+            });
+
+            phoneInput.addEventListener('input', function() {
+                $(this).removeClass('error');
+                $('#phoneError').removeClass('show');
+
+                // Format phone number
+                let phone = $(this).val().replace(/\D/g, '');
+                if (phone.length > 10) phone = phone.substring(0, 10);
+                $(this).val(phone);
+            });
+
+            batchSelect.addEventListener('change', function() {
+                $(this).removeClass('error');
+                $('#batchError').removeClass('show');
+            });
+
+            semesterSelect.addEventListener('change', function() {
+                $(this).removeClass('error');
+                $('#semesterError').removeClass('show');
+            });
+
+            courseSelect.addEventListener('change', function() {
+                $(this).removeClass('error');
+                $('#courseError').removeClass('show');
+            });
+
+            statusSelect.addEventListener('change', function() {
+                $(this).removeClass('error');
+                $('#statusError').removeClass('show');
+            });
+
+            // Function to update status badge
+            function updateStatusBadge() {
+                const statusBadge = document.getElementById('status-preview');
+                const selectedText = statusSelect.options[statusSelect.selectedIndex].text;
+
+                statusBadge.textContent = selectedText;
+                statusBadge.className = 'status-badge';
+
+                if (statusSelect.value === 'Active') {
+                    statusBadge.classList.add('status-active');
+                } else if (statusSelect.value === 'Inactive') {
+                    statusBadge.classList.add('status-inactive');
+                }
+            }
+
+            // Set initial status badge
+            updateStatusBadge();
+
+            // Add event listener to update status badge when changed
+            statusSelect.addEventListener('change', updateStatusBadge);
+
+            // Form submission validation
+            form.addEventListener('submit', function(e) {
+                // Mark all fields as touched
+                nameTouched = admissionTouched = emailTouched = phoneTouched = batchTouched = semesterTouched = courseTouched = statusTouched = true;
+
+                // Validate all fields
+                const isNameValid = validateName();
+                const isAdmissionValid = validateAdmission();
+                const isEmailValid = validateEmail();
+                const isPhoneValid = validatePhone();
+                const isBatchValid = validateBatch();
+                const isSemesterValid = validateSemester();
+                const isCourseValid = validateCourse();
+                const isStatusValid = validateStatus();
+
+                const isValid = isNameValid && isAdmissionValid && isEmailValid && isPhoneValid && isBatchValid && isSemesterValid && isCourseValid && isStatusValid;
+
+                if (!isValid) {
+                    e.preventDefault();
+
+                    // Scroll to first error
+                    const firstError = document.querySelector('.error');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        firstError.focus();
+                    }
+                } else {
+                    // Get values for confirmation
+                    const name = nameInput.value.trim();
+                    const admNo = admissionInput.value.trim();
+                    const email = emailInput.value.trim();
+                    const phone = phoneInput.value.trim();
+                    const batch = batchSelect.value;
+                    const semesterName = semesterSelect.options[semesterSelect.selectedIndex].text;
+                    const courseName = courseSelect.options[courseSelect.selectedIndex].text;
+                    const statusName = statusSelect.options[statusSelect.selectedIndex].text;
+
+                    // Confirm before submitting
+                    const confirmationMessage = `Are you sure you want to update this student?\n\n` +
+                                              `• Name: ${name}\n` +
+                                              `• Admission No: ${admNo}\n` +
+                                              `• Email: ${email}\n` +
+                                              `• Phone: ${phone}\n` +
+                                              `• Batch: ${batch}\n` +
+                                              `• Semester: ${semesterName}\n` +
+                                              `• Course: ${courseName}\n` +
+                                              `• Status: ${statusName}\n\n` +
+                                              `This will update the student's information in the system.`;
+
+                    if (!confirm(confirmationMessage)) {
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    // Visual feedback
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+                    submitBtn.disabled = true;
+                }
+            });
+        });
+    </script>
+
+<script>
+// Prevent going back to this page after form submission
+if (window.history && window.history.pushState) {
+    // Add current page to history
+    window.history.pushState(null, null, window.location.href);
+
+    // Listen for back/forward navigation
+    window.onpopstate = function(event) {
+        // Redirect to /home when back button is pressed
+        window.location.href = '/viewstudent';
+    };
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,562 @@
+{#<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">#}
+{#<html xmlns="http://www.w3.org/1999/xhtml">#}
+{#<head>#}
+{#<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />#}
+{#<title>Untitled Document</title>#}
+{#</head>#}
+{##}
+{#<body>#}
+{#<form id="form2" name="form2" method="post" action="/addconcession_submit">#}
+{#<table width="200" border="1">#}
+{#  <tr>#}
+{#    <td>Amount:</td>#}
+{#    <td>#}
+{#      <label for="textfield"></label>#}
+{#      <input type="text" name="textfield" id="textfield" />#}
+{#</td>#}
+{#  </tr>#}
+{#  <tr>#}
+{#    <td colspan="2">#}
+{#      <div align="center">#}
+{#        <input type="submit" name="button" id="button" value="ADD" />#}
+{#      </div>#}
+{#    </td>#}
+{#  </tr>#}
+{#</table>#}
+{#    </form>#}
+{#</body>#}
+{#</html>#}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Add Concession</title>
+<!-- Add Font Awesome for better icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    /* Color Theme */
+    :root {
+        --primary-color: #06bbcc;
+        --primary-dark: #0499a8;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --border-color: #e0e0e0;
+        --text-color: #333333;
+        --text-light: #666666;
+        --error-color: #e74c3c;
+        --success-color: #27ae60;
+    }
+
+    /* Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e4f1f5 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        color: var(--text-color);
+    }
+
+    /* Form Container */
+    .form-container {
+        width: 100%;
+        max-width: 550px;
+        background-color: var(--white);
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(6, 187, 204, 0.15);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .form-container:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Form Header */
+    .form-header {
+        background-color: var(--primary-color);
+        color: var(--white);
+        padding: 25px 30px;
+        text-align: center;
+    }
+
+    .form-header h2 {
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .form-header h2 i {
+        font-size: 28px;
+    }
+
+    .form-header p {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-top: 8px;
+    }
+
+    /* Form Body */
+    .form-body {
+        padding: 35px 40px;
+    }
+
+    /* Form Layout */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    /* Form Group */
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: var(--text-color);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .form-group label i {
+        color: var(--primary-color);
+        font-size: 16px;
+    }
+
+    .form-group label .required {
+        color: var(--error-color);
+        margin-left: 2px;
+    }
+
+    /* Input Field */
+    .input-field {
+        width: 100%;
+        padding: 14px 18px;
+        font-size: 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        background-color: var(--white);
+        transition: all 0.3s ease;
+        color: var(--text-color);
+    }
+
+    .input-field:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.2);
+    }
+
+    .input-field::placeholder {
+        color: #aaa;
+        opacity: 0.8;
+    }
+
+    .input-field.error {
+        border-color: var(--error-color);
+    }
+
+    /* Error Message */
+    .error-message {
+        color: var(--error-color);
+        font-size: 13px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    /* Icon Wrapper */
+    .input-with-icon {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-light);
+        font-size: 18px;
+        z-index: 1;
+    }
+
+    .icon-input {
+        padding-left: 50px;
+    }
+
+    /* Select Specific */
+    select.input-field {
+        cursor: pointer;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 14px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        padding-right: 40px;
+    }
+
+    select.input-field:focus {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2306bbcc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    }
+
+    /* Hint Text */
+    .hint-text {
+        font-size: 12px;
+        color: var(--text-light);
+        margin-top: 6px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .hint-text i {
+        color: var(--primary-color);
+        font-size: 12px;
+    }
+
+    /* Submit Button */
+    .submit-container {
+        text-align: center;
+        margin-top: 35px;
+        padding-top: 25px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    #button {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        padding: 16px 50px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        letter-spacing: 0.5px;
+        min-width: 200px;
+        box-shadow: 0 4px 12px rgba(6, 187, 204, 0.3);
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    #button:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(6, 187, 204, 0.4);
+    }
+
+    #button:active {
+        transform: translateY(0);
+    }
+
+    #button:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(6, 187, 204, 0.4);
+    }
+
+    #button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    #button i {
+        font-size: 16px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+        .form-container {
+            max-width: 100%;
+        }
+
+        .form-body {
+            padding: 25px 20px;
+        }
+
+        .form-header {
+            padding: 20px 15px;
+        }
+
+        .form-header h2 {
+            font-size: 22px;
+        }
+
+        #button {
+            width: 100%;
+            padding: 16px 20px;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .form-body {
+            padding: 20px 15px;
+        }
+
+        .input-field {
+            padding: 12px 15px;
+            font-size: 15px;
+        }
+
+        .icon-input {
+            padding-left: 45px;
+        }
+
+        .input-icon {
+            left: 15px;
+            font-size: 16px;
+        }
+    }
+
+    /* Loading State */
+    #button.loading {
+        opacity: 0.8;
+    }
+
+    #button.loading i {
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+</style>
+</head>
+
+<body>
+<div class="form-container">
+    <div class="form-header">
+        <h2>
+            <i class="fas fa-hand-holding-usd"></i> Add Concession
+        </h2>
+        <p>Enter the concession amount details below</p>
+    </div>
+
+    <div class="form-body">
+        <form action="/addconcession_submit" method="post" id="concessionForm">
+            <div class="form-grid">
+                <!-- Amount Field -->
+                <div class="form-group">
+                    <label for="textfield">
+                        <i class="fas fa-tag"></i> Amount: <span class="required">*</span>
+                    </label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-money-bill-wave input-icon"></i>
+                        <input type="text" name="textfield" id="textfield" class="input-field icon-input" placeholder="Enter concession amount" />
+                    </div>
+                    <div class="hint-text">
+                        <i class="fas fa-info-circle"></i>
+                        Enter the concession amount (numbers only)
+                    </div>
+                    <div class="error-message" id="amountError">Please enter a valid concession amount</div>
+                </div>
+
+                <!-- Semester Field -->
+                <div class="form-group">
+                    <label for="select">
+                        <i class="fas fa-calendar-alt"></i> Semester: <span class="required">*</span>
+                    </label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-graduation-cap input-icon"></i>
+                        <select name="select" id="select" class="input-field icon-input" required>
+                            <option value="" disabled selected>Select a semester</option>
+                            <option value="Semester1" {% if data.semester == 'Semester1' %}selected{% endif %}>Semester 1</option>
+                            <option value="Semester2" {% if data.semester == 'Semester2' %}selected{% endif %}>Semester 2</option>
+                            <option value="Semester3" {% if data.semester == 'Semester3' %}selected{% endif %}>Semester 3</option>
+                            <option value="Semester4" {% if data.semester == 'Semester4' %}selected{% endif %}>Semester 4</option>
+                            <option value="Semester5" {% if data.semester == 'Semester5' %}selected{% endif %}>Semester 5</option>
+                            <option value="Semester6" {% if data.semester == 'Semester6' %}selected{% endif %}>Semester 6</option>
+                            <option value="Semester7" {% if data.semester == 'Semester7' %}selected{% endif %}>Semester 7</option>
+                            <option value="Semester8" {% if data.semester == 'Semester8' %}selected{% endif %}>Semester 8</option>
+                        </select>
+                    </div>
+                    <div class="hint-text">
+                        <i class="fas fa-info-circle"></i>
+                        Select the academic semester for this concession
+                    </div>
+                    <div class="error-message" id="semesterError">Please select a semester</div>
+                </div>
+            </div>
+
+            <div class="submit-container">
+                <button type="submit" name="button" id="button">
+                    <i class="fas fa-plus-circle"></i> ADD CONCESSION
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Form validation and enhancement
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('concessionForm');
+        const amountInput = document.getElementById('textfield');
+        const semesterSelect = document.getElementById('select');
+        const submitButton = document.getElementById('button');
+
+        // Validation functions
+        function validateAmount() {
+            const amount = amountInput.value.replace(/,/g, '').trim();
+            const amountError = document.getElementById('amountError');
+            const amountNum = parseFloat(amount);
+
+            if (!amount || amount === '' || isNaN(amountNum) || amountNum <= 0) {
+                amountInput.classList.add('error');
+                amountError.style.display = 'block';
+                return false;
+            } else {
+                amountInput.classList.remove('error');
+                amountError.style.display = 'none';
+                return true;
+            }
+        }
+
+        function validateSemester() {
+            const semester = semesterSelect.value;
+            const semesterError = document.getElementById('semesterError');
+
+            if (!semester || semester === '') {
+                semesterSelect.classList.add('error');
+                semesterError.style.display = 'block';
+                return false;
+            } else {
+                semesterSelect.classList.remove('error');
+                semesterError.style.display = 'none';
+                return true;
+            }
+        }
+
+        // Input validation for numeric values - NO COMMAS WHILE TYPING
+        amountInput.addEventListener('input', function(e) {
+            // Remove any existing commas
+            let value = this.value.replace(/,/g, '');
+
+            // Allow only numbers and one decimal point
+            value = value.replace(/[^0-9.]/g, '');
+
+            // Ensure only one decimal point
+            const decimalCount = (value.match(/\./g) || []).length;
+            if (decimalCount > 1) {
+                const lastIndex = value.lastIndexOf('.');
+                value = value.substring(0, lastIndex) + value.substring(lastIndex + 1);
+            }
+
+            // Update the input value WITHOUT commas
+            this.value = value;
+
+            // Remove error class while typing
+            this.classList.remove('error');
+            document.getElementById('amountError').style.display = 'none';
+        });
+
+        // Format with commas when user leaves the field (for display only)
+        amountInput.addEventListener('blur', function() {
+            let value = this.value.replace(/,/g, '');
+
+            // Only format if there's a value
+            if (value && value !== '' && !isNaN(parseFloat(value))) {
+                // If there's a decimal part, split it
+                let parts = value.split('.');
+                // Format the integer part with commas
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                // Join back with decimal if exists
+                this.value = parts.join('.');
+            }
+
+            // Validate on blur
+            validateAmount();
+        });
+
+        // Remove commas when user focuses on the field for editing
+        amountInput.addEventListener('focus', function() {
+            // Remove commas when user focuses on the field
+            this.value = this.value.replace(/,/g, '');
+        });
+
+        // Semester validation events
+        semesterSelect.addEventListener('change', function() {
+            this.classList.remove('error');
+            document.getElementById('semesterError').style.display = 'none';
+        });
+
+        semesterSelect.addEventListener('blur', validateSemester);
+
+        // Form submission validation
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Ensure no commas in the value before submitting
+            const originalAmount = amountInput.value;
+            amountInput.value = amountInput.value.replace(/,/g, '');
+
+            const isAmountValid = validateAmount();
+            const isSemesterValid = validateSemester();
+
+            if (isAmountValid && isSemesterValid) {
+                // Show loading state
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ADDING...';
+                submitButton.disabled = true;
+                submitButton.classList.add('loading');
+
+                // Submit form after a short delay to show loading state
+                setTimeout(() => {
+                    form.submit();
+                }, 500);
+            } else {
+                // Restore original amount with commas
+                amountInput.value = originalAmount;
+
+                // Scroll to first error
+                const firstError = document.querySelector('.error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.focus();
+                }
+            }
+        });
+
+        // Auto-focus first input
+        amountInput.focus();
+    });
+</script>
+
+<script>
+// Prevent going back to this page after form submission
+if (window.history && window.history.pushState) {
+    // Add current page to history
+    window.history.pushState(null, null, window.location.href);
+
+    // Listen for back/forward navigation
+    window.onpopstate = function(event) {
+        // Redirect to /home when back button is pressed
+        window.location.href = '/viewstudent';
+    };
+}
+</script>
+</body>
+</html>
